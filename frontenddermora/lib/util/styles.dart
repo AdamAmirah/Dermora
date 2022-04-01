@@ -20,6 +20,7 @@ final kLightRed = HexColor('ff719a');
 final kLighOrange2 = HexColor('fbab66');
 final kPurple = HexColor('f7418c');
 final kwhite = HexColor('ffffff');
+final kBlack = HexColor('000000');
 
 final TextStyle captionStyle = TextStyle(color: Colors.grey[400]);
 final TextStyle whiteBody = TextStyle(color: Colors.white);

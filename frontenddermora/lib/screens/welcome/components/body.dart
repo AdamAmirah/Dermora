@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/welcome/components/intro_widget.dart';
 import 'package:frontenddermora/util/styles.dart';
@@ -37,7 +39,8 @@ class _BodyState extends State<Body> {
         _moveBar = _moveBar - 0.14;
       }
     }
-
+    print(currentPageValue);
+    print(previousPageValue);
     setState(() {});
   }
 
@@ -48,23 +51,38 @@ class _BodyState extends State<Body> {
 
     final List<Widget> introWidgetsList = <Widget>[
       IntroWidget(
-          screenWidth: screenWidth,
-          screenheight: screenheight,
-          image: 'assets/images/illustration-1.png',
-          secImage: 'assets/images/logo.png',
-          type: 'Welcome To Dermora',
-          startGradientColor: kBlue,
-          endGradientColor: kPruple,
-          subText: 'Your personal assistant for all of your skin care needs'),
+        screenWidth: screenWidth,
+        screenheight: screenheight,
+        image: 'assets/images/illustration-1.png',
+        secImage: 'assets/images/logoo.png',
+        type: 'Welcome To Dermora',
+        startGradientColor: kBlue,
+        endGradientColor: kPruple,
+        subText: 'Your personal assistant for all of your skin care needs',
+        fontSize: 26.0,
+      ),
       IntroWidget(
-          screenWidth: screenWidth,
-          screenheight: screenheight,
-          image: 'assets/images/yellow.png',
-          secImage: 'assets/images/logo.png',
-          type: 'Spa',
-          startGradientColor: kOrange,
-          endGradientColor: kYellow,
-          subText: 'FEEL THE MAGIC OF WELLNESS'),
+        screenWidth: screenWidth,
+        screenheight: screenheight,
+        image: 'assets/images/illustration-2.png',
+        secImage: "false",
+        type: 'Monitor and follow your routine steps',
+        startGradientColor: kBlue,
+        endGradientColor: kPruple,
+        subText: 'Never miss any step in your daily routine',
+        fontSize: 26.0,
+      ),
+      IntroWidget(
+        screenWidth: screenWidth,
+        screenheight: screenheight,
+        image: 'assets/images/illustration-3.png',
+        secImage: "false",
+        type: 'Chat with dermatologist',
+        startGradientColor: kBlue,
+        endGradientColor: kPruple,
+        subText: 'Ask skincare questions and get answers in real time',
+        fontSize: 26.0,
+      ),
     ];
 
     return Scaffold(
@@ -93,7 +111,27 @@ class _BodyState extends State<Body> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    FlatButton(
+                      color: Colors.transparent,
+                      splashColor: Colors.black26,
+                      onPressed: () {},
+                      child: const Text(
+                        'Skip',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
                     for (var i in introWidgetsList) slidingBar(),
+                    FlatButton(
+                      color: Colors.transparent,
+                      splashColor: Colors.black26,
+                      onPressed: () {
+                        onAddButtonTappedNext();
+                      },
+                      child: const Text(
+                        'Next',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -114,9 +152,9 @@ class _BodyState extends State<Body> {
   Container movingBar() {
     return Container(
       height: 5,
-      margin: EdgeInsets.symmetric(horizontal: 8),
+      margin: EdgeInsets.symmetric(horizontal: 95, vertical: 20),
       width: screenWidth * 0.1,
-      decoration: BoxDecoration(color: kwhiteGrey),
+      decoration: BoxDecoration(color: klightGrey),
     );
   }
 
@@ -125,7 +163,14 @@ class _BodyState extends State<Body> {
       margin: EdgeInsets.symmetric(horizontal: 8),
       height: 5,
       width: screenWidth * 0.1,
-      decoration: BoxDecoration(color: klightGrey),
+      decoration: BoxDecoration(color: kwhiteGrey),
+    );
+  }
+
+  void onAddButtonTappedNext() {
+    controller.nextPage(
+      duration: const Duration(milliseconds: 100),
+      curve: Curves.fastOutSlowIn,
     );
   }
 }

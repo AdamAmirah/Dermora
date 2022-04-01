@@ -11,6 +11,7 @@ class IntroWidget extends StatelessWidget {
   final Color startGradientColor;
   final Color endGradientColor;
   final String subText;
+  final double fontSize;
 
   IntroWidget({
     required this.screenWidth,
@@ -21,6 +22,7 @@ class IntroWidget extends StatelessWidget {
     required this.startGradientColor,
     required this.endGradientColor,
     required this.subText,
+    required this.fontSize,
   });
 
   @override
@@ -35,12 +37,13 @@ class IntroWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Image.asset(
-            secImage,
-            width: screenWidth * 0.6,
-            height: screenheight * 0.1,
-            fit: BoxFit.contain,
-          ),
+          if (secImage != "false")
+            Image.asset(
+              secImage,
+              width: screenWidth * 0.6,
+              height: screenheight * 0.1,
+              fit: BoxFit.contain,
+            ),
           Image.asset(
             image,
             width: screenWidth * 0.9,
@@ -50,12 +53,18 @@ class IntroWidget extends StatelessWidget {
           Stack(
             alignment: AlignmentDirectional.bottomStart,
             children: <Widget>[
-              Text(
-                type.toString().toUpperCase(),
-                style: TextStyle(
-                    fontSize: 26.0,
+              Container(
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: Text(
+                  type.toString(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: fontSize,
                     fontWeight: FontWeight.w900,
-                    foreground: Paint()..shader = linearGradient),
+                    color: Colors.black,
+                    // foreground: Paint()..shader = linearGradient
+                  ),
+                ),
               ),
             ],
           ),
@@ -67,7 +76,7 @@ class IntroWidget extends StatelessWidget {
               style: GoogleFonts.dmSans(
                 textStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
-                  color: Colors.black,
+                  color: Colors.grey,
                   fontSize: 16.0,
                 ),
               ),
