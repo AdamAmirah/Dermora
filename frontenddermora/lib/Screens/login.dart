@@ -4,6 +4,8 @@ import 'package:frontenddermora/Screens/register.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -160,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
       children: <Widget>[
         Row(children: <Widget>[
           Expanded(
-            child: new Container(
+            child: Container(
                 margin: const EdgeInsets.only(left: 10.0, right: 20.0),
                 child: Divider(
                   color: Colors.black,
@@ -175,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Expanded(
-            child: new Container(
+            child: Container(
                 margin: const EdgeInsets.only(left: 20.0, right: 10.0),
                 child: Divider(
                   color: Colors.black,

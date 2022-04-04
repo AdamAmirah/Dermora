@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:frontenddermora/Screens/login.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -207,7 +209,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       children: <Widget>[
         Row(children: <Widget>[
           Expanded(
-            child: new Container(
+            child: Container(
                 margin: const EdgeInsets.only(left: 10.0, right: 20.0),
                 child: Divider(
                   color: Colors.black,
@@ -222,7 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ),
           Expanded(
-            child: new Container(
+            child: Container(
                 margin: const EdgeInsets.only(left: 20.0, right: 10.0),
                 child: Divider(
                   color: Colors.black,
@@ -317,6 +319,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
