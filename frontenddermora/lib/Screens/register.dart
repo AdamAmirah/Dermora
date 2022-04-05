@@ -12,6 +12,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   bool passwordVisible = false;
+  bool checkedValue = false;
   void togglePassword() {
     setState(() {
       passwordVisible = !passwordVisible;
@@ -179,6 +180,75 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildCondtionPrivacyCheckbox() {
+    return Container(
+      width: double.infinity,
+      child: CheckboxListTile(
+        title: RichText(
+          textAlign: TextAlign.left,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: "By creating an account, you agree to our ",
+                style: TextStyle(
+                  color: const Color(0xffADA4A5),
+                  fontSize: 12,
+                ),
+              ),
+              WidgetSpan(
+                child: InkWell(
+                  onTap: () {
+                    // ignore: avoid_print
+                    print('Conditions of Use');
+                  },
+                  child: Text(
+                    "Conditions of Use",
+                    style: TextStyle(
+                      color: const Color(0xffADA4A5),
+                      decoration: TextDecoration.underline,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+              TextSpan(
+                text: " and ",
+                style: TextStyle(
+                  color: const Color(0xffADA4A5),
+                  fontSize: 12,
+                ),
+              ),
+              WidgetSpan(
+                child: InkWell(
+                  onTap: () {
+                    // ignore: avoid_print
+                    print('Privacy Notice');
+                  },
+                  child: Text(
+                    "Privacy Notice",
+                    style: TextStyle(
+                      color: const Color(0xffADA4A5),
+                      decoration: TextDecoration.underline,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        activeColor: const Color(0xff7B6F72),
+        value: checkedValue,
+        onChanged: (newValue) {
+          setState(() {
+            checkedValue = newValue!;
+          });
+        },
+        controlAffinity: ListTileControlAffinity.leading,
+      ),
     );
   }
 
@@ -378,6 +448,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 15.0,
                       ),
                       _buildconfirmPasswordTF(),
+                      SizedBox(
+                        height: 15.0,
+                      ),
+                      _buildCondtionPrivacyCheckbox(),
                       SizedBox(
                         height: 15.0,
                       ),

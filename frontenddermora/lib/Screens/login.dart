@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
               activeColor: const Color(0xff7B6F72),
               side: MaterialStateBorderSide.resolveWith(
                 (states) =>
-                    BorderSide(width: 1.5, color: const Color(0xff7B6F72)),
+                    BorderSide(width: 1, color: const Color(0xff7B6F72)),
               ),
               onChanged: (value) {
                 setState(() {
