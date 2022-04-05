@@ -5,6 +5,8 @@ Color primary = const Color(0xFF2C2B33);
 Color primaryDark = const Color(0xFF222128);
 Color colorAccent = const Color(0xFF65BFA6);
 Color salmon = const Color(0xFFF47663);
+const kSecBlue =
+    Color(0xFF5974FF); // Second `const` is optional in assignments.
 
 final kPrimaryColor = HexColor('29323c');
 final kBlue = HexColor('21d4fd');
@@ -24,3 +26,4 @@ final kBlack = HexColor('000000');
 
 final TextStyle captionStyle = TextStyle(color: Colors.grey[400]);
 final TextStyle whiteBody = TextStyle(color: Colors.white);
+final TextStyle normalStyle = TextStyle(color: Color(0xFF5974FF), fontSize: 18);

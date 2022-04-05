@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/welcome/welcome_screen.dart';
 import 'package:frontenddermora/util/styles.dart';
+import 'package:frontenddermora/screens/quiz/quiz_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         accentColor: salmon,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: WelcomeScreen(),
+      home: QuizScreen(),
     );
   }
 }
