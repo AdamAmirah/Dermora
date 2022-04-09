@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontenddermora/screens/primary_questions/intro.dart';
 import './register.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -141,7 +142,13 @@ class _LoginScreenState extends State<LoginScreen> {
       width: double.infinity,
       child: RaisedButton(
         elevation: 4.0,
-        onPressed: () => print('Login Button Pressed'),
+        onPressed: () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const PrimaryQuestionsScreen()),
+          )
+        },
         padding: EdgeInsets.all(20.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
