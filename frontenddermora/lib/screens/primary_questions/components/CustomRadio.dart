@@ -15,7 +15,7 @@ class CustomRadio extends StatelessWidget {
         color: _gender.isSelected ? kSecBlue.withOpacity(0.8) : Colors.white,
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: kSecBlue, width: 1),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(99),
         ),
         child: Container(
           width: screenWidth * 0.3,

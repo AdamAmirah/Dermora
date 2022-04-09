@@ -1,19 +1,20 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:frontenddermora/screens/quiz/components/GenderSelector.dart';
+import 'package:frontenddermora/screens/primary_questions/components/GenderSelector.dart';
+import 'package:frontenddermora/screens/primary_questions/skin_concerns.dart';
 import 'package:frontenddermora/util/styles.dart';
-import 'components/GenderSelector.dart';
+import '../primary_questions/components/GenderSelector.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class QuizScreen extends StatefulWidget {
-  const QuizScreen({Key? key}) : super(key: key);
+class PrimaryQuestionsScreen extends StatefulWidget {
+  const PrimaryQuestionsScreen({Key? key}) : super(key: key);
 
   @override
-  State<QuizScreen> createState() => _QuizScreenState();
+  State<PrimaryQuestionsScreen> createState() => _PrimaryQuestionsScreen();
 }
 
-class _QuizScreenState extends State<QuizScreen> {
+class _PrimaryQuestionsScreen extends State<PrimaryQuestionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -94,7 +95,13 @@ class _QuizScreenState extends State<QuizScreen> {
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SkinConcerns()),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.only(
                           top: 10,
