@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:frontenddermora/Screens/login.dart';
+import 'package:frontenddermora/screens/welcome/welcome_screen.dart';
+import 'package:frontenddermora/util/styles.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dermora',
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      title: 'Flutter Auth',
+      theme: ThemeData(
+        primaryColor: primary,
+        // ignore: deprecated_member_use
+        accentColor: salmon,
+        scaffoldBackgroundColor: Colors.white,
+      ),
+      home: WelcomeScreen(),
     );
   }
 }

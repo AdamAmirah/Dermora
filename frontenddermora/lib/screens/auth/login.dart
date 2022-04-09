@@ -1,80 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import './register.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:frontenddermora/Screens/login.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _LoginScreenState extends State<LoginScreen> {
+  bool _rememberMe = false;
   bool passwordVisible = false;
-  bool checkedValue = false;
   void togglePassword() {
     setState(() {
       passwordVisible = !passwordVisible;
     });
-  }
-
-  Widget _buildFirstNameTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: const Color(0xffF7F8F8),
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-          ),
-          height: 50.0,
-          child: TextField(
-            style: GoogleFonts.poppins(color: Color(0xFF000000)),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.person_outlined,
-                color: const Color(0xff7B6F72),
-              ),
-              hintText: 'First Name',
-              hintStyle: GoogleFonts.poppins(color: const Color(0xff7B6F72)),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLastNameTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: const Color(0xffF7F8F8),
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-          ),
-          height: 50.0,
-          child: TextField(
-            style: GoogleFonts.poppins(color: Color(0xFF000000)),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.person_outlined,
-                color: const Color(0xff7B6F72),
-              ),
-              hintText: 'Last Name',
-              hintStyle: GoogleFonts.poppins(color: const Color(0xff7B6F72)),
-            ),
-          ),
-        ),
-      ],
-    );
   }
 
   Widget _buildEmailTF() {
@@ -145,126 +87,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildconfirmPasswordTF() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Container(
-          alignment: Alignment.centerLeft,
-          decoration: BoxDecoration(
-            color: const Color(0xffF7F8F8),
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-          ),
-          height: 50.0,
-          child: TextField(
-            obscureText: !passwordVisible,
-            style: GoogleFonts.poppins(color: Color(0xFF000000)),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.only(top: 14.0),
-              prefixIcon: Icon(
-                Icons.lock_outline,
-                color: const Color(0xff7B6F72),
-              ),
-              hintText: 'Confirm Password',
-              hintStyle: GoogleFonts.poppins(color: const Color(0xff7B6F72)),
-              suffixIcon: IconButton(
-                color: const Color(0xff7B6F72),
-                splashRadius: 1,
-                icon: Icon(passwordVisible
-                    ? Icons.visibility_outlined
-                    : Icons.visibility_off_outlined),
-                onPressed: togglePassword,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildCondtionPrivacyCheckbox() {
+  Widget _buildForgotPasswordBtn() {
     return Container(
-      width: double.infinity,
-      child: CheckboxListTile(
-        title: RichText(
-          textAlign: TextAlign.left,
-          text: TextSpan(
-            children: [
-              TextSpan(
-                text: "By creating an account, you agree to our ",
-                style: TextStyle(
-                  color: const Color(0xffADA4A5),
-                  fontSize: 12,
-                ),
-              ),
-              WidgetSpan(
-                child: InkWell(
-                  onTap: () {
-                    // ignore: avoid_print
-                    print('Conditions of Use');
-                  },
-                  child: Text(
-                    "Conditions of Use",
-                    style: TextStyle(
-                      color: const Color(0xffADA4A5),
-                      decoration: TextDecoration.underline,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-              TextSpan(
-                text: " and ",
-                style: TextStyle(
-                  color: const Color(0xffADA4A5),
-                  fontSize: 12,
-                ),
-              ),
-              WidgetSpan(
-                child: InkWell(
-                  onTap: () {
-                    // ignore: avoid_print
-                    print('Privacy Notice');
-                  },
-                  child: Text(
-                    "Privacy Notice",
-                    style: TextStyle(
-                      color: const Color(0xffADA4A5),
-                      decoration: TextDecoration.underline,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        activeColor: const Color(0xff7B6F72),
-        value: checkedValue,
-        onChanged: (newValue) {
-          setState(() {
-            checkedValue = newValue!;
-          });
-        },
-        controlAffinity: ListTileControlAffinity.leading,
+      alignment: Alignment.centerRight,
+      child: FlatButton(
+        onPressed: () => print('Forgot Password Button Pressed'),
+        padding: EdgeInsets.only(right: 0.0),
+        child: Text('Forgot Password?',
+            style: GoogleFonts.poppins(
+              color: const Color(0xffADA4A5),
+              decoration: TextDecoration.underline,
+            )),
       ),
     );
   }
 
-  Widget _buildRegisterBtn() {
+  Widget _buildRememberMeCheckbox() {
+    return Container(
+      height: 20.0,
+      child: Row(
+        children: <Widget>[
+          Theme(
+            data: ThemeData(unselectedWidgetColor: Colors.white),
+            child: Checkbox(
+              value: _rememberMe,
+              //checkColor: Color.fromARGB(255, 100, 191, 233),
+              activeColor: const Color(0xff7B6F72),
+              side: MaterialStateBorderSide.resolveWith(
+                (states) =>
+                    BorderSide(width: 1, color: const Color(0xff7B6F72)),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _rememberMe = value!;
+                });
+              },
+            ),
+          ),
+          Text(
+            'Remember me',
+            style: GoogleFonts.poppins(
+              color: const Color(0xffADA4A5),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25.0),
       width: double.infinity,
       child: RaisedButton(
         elevation: 4.0,
-        onPressed: () => print('Register Button Pressed'),
+        onPressed: () => print('Login Button Pressed'),
         padding: EdgeInsets.all(20.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
         color: Color(0xff92A3FD),
-        child: Text('Register',
+        child: Text('Login',
             style: GoogleFonts.poppins(
               color: Color(0xFFFFFFFF),
               fontSize: 18.0,
@@ -274,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildSignUpWithText() {
+  Widget _buildSignInWithText() {
     return Column(
       children: <Widget>[
         Row(children: <Widget>[
@@ -347,24 +230,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildSigninBtn() {
+  Widget _buildSignupBtn() {
     return GestureDetector(
       onTap: () {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+            context, MaterialPageRoute(builder: (context) => RegisterScreen()));
       },
       child: RichText(
         text: TextSpan(
           children: [
             TextSpan(
-              text: 'Already have an account? ',
+              text: 'Don\'t have an Account yet? ',
               style: GoogleFonts.poppins(
                 color: Color(0xff1D1617),
                 fontSize: 16.0,
               ),
             ),
             TextSpan(
-              text: 'Login',
+              text: 'Register',
               style: GoogleFonts.poppins(
                 foreground: Paint()
                   ..shader = const LinearGradient(
@@ -389,7 +272,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -416,29 +298,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Hey There!',
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xff1D1617),
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      Text(
-                        "Create an Account",
+                        'Welcome Back',
                         style: GoogleFonts.poppins(
                           color: const Color(0xff1D1617),
                           fontSize: 28.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      Text(
+                        "You've been missed!",
+                        style: GoogleFonts.poppins(
+                          color: const Color(0xff1D1617),
+                          fontSize: 14.0,
+                        ),
+                      ),
                       SizedBox(height: 35.0),
-                      _buildFirstNameTF(),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      _buildLastNameTF(),
-                      SizedBox(
-                        height: 15.0,
-                      ),
                       _buildEmailTF(),
                       SizedBox(
                         height: 15.0,
@@ -447,24 +321,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(
                         height: 15.0,
                       ),
-                      _buildconfirmPasswordTF(),
+                      _buildForgotPasswordBtn(),
+                      _buildRememberMeCheckbox(),
                       SizedBox(
-                        height: 15.0,
+                        height: 50.0,
                       ),
-                      _buildCondtionPrivacyCheckbox(),
-                      SizedBox(
-                        height: 15.0,
-                      ),
-                      _buildRegisterBtn(),
+                      _buildLoginBtn(),
                       SizedBox(
                         height: 20.0,
                       ),
-                      _buildSignUpWithText(),
+                      _buildSignInWithText(),
                       _buildSocialBtnRow(),
                       SizedBox(
-                        height: 25.0,
+                        height: 40.0,
                       ),
-                      _buildSigninBtn(),
+                      _buildSignupBtn(),
                     ],
                   ),
                 ),
