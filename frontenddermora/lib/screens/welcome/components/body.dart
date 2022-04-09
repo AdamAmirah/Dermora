@@ -1,6 +1,8 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:frontenddermora/screens/auth/login.dart';
+import 'package:frontenddermora/screens/auth/register.dart';
 import 'package:frontenddermora/screens/welcome/components/intro_widget.dart';
 import 'package:frontenddermora/util/styles.dart';
 
@@ -114,7 +116,13 @@ class _BodyState extends State<Body> {
                     FlatButton(
                       color: Colors.transparent,
                       splashColor: Colors.black26,
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const RegisterScreen()),
+                        );
+                      },
                       child: const Text(
                         'Skip',
                         style: TextStyle(color: Colors.black),
@@ -125,6 +133,13 @@ class _BodyState extends State<Body> {
                       color: Colors.transparent,
                       splashColor: Colors.black26,
                       onPressed: () {
+                        if (controller.page == 2) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterScreen()),
+                          );
+                        }
                         onAddButtonTappedNext();
                       },
                       child: const Text(
