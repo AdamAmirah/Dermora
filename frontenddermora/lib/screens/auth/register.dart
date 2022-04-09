@@ -306,25 +306,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
-    /*return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 4.0,
-        onPressed: () => print('Register Button Pressed'),
-        padding: EdgeInsets.all(20.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        color: Color(0xff92A3FD),
-        child: Text('Register',
-            style: GoogleFonts.poppins(
-              color: Color(0xFFFFFFFF),
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
-            )),
-      ),
-    );*/
   }
 
   Widget _buildSignUpWithText() {
