@@ -138,28 +138,54 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildLoginBtn() {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 25.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 4.0,
-        onPressed: () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const PrimaryQuestionsScreen()),
-          )
-        },
-        padding: EdgeInsets.all(20.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 25.0),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0.0, 1.0],
+              colors: [
+                Color(0xFF9DCEFF),
+                Color(0XFF92A3FD),
+              ],
+            ),
+            color: Colors.deepPurple.shade300,
+            borderRadius: BorderRadius.circular(99),
+          ),
+          child: ElevatedButton(
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(99.0),
+                ),
+              ),
+              minimumSize: MaterialStateProperty.all(Size(315, 60)),
+              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+              // elevation: MaterialStateProperty.all(3),
+              shadowColor: MaterialStateProperty.all(Colors.transparent),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PrimaryQuestionsScreen()),
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+              ),
+              child: Text('Login',
+                  style: GoogleFonts.poppins(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 18.0,
+                  )),
+            ),
+          ),
         ),
-        color: Color(0xff92A3FD),
-        child: Text('Login',
-            style: GoogleFonts.poppins(
-              color: Color(0xFFFFFFFF),
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
-            )),
       ),
     );
   }
