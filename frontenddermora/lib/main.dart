@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         accentColor: salmon,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const ChatScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }
