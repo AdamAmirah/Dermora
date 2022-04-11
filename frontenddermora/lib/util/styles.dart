@@ -8,7 +8,8 @@ Color salmon = const Color(0xFFF47663);
 const kSecBlue =
     Color(0xFF5974FF); // Second `const` is optional in assignments.
 
-final kPrimaryColor = HexColor('29323c');
+const kPrimaryColor = Color(0xFF00BF6D);
+// final kPrimaryColor = HexColor('29323c');
 final kBlue = HexColor('21d4fd');
 final kPruple = HexColor('b721ff');
 final klightGrey = HexColor('313543');
