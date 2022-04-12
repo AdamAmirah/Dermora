@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/chat/chat_screen.dart';
+import 'package:frontenddermora/screens/profile/profile_screen.dart';
 import 'package:frontenddermora/screens/welcome/welcome_screen.dart';
 import 'package:frontenddermora/util/styles.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         accentColor: salmon,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const WelcomeScreen(),
+      home: ProfileScreen(),
     );
   }
 }
