@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'DoctorsDetails.dart';
-import 'cardDetails.dart';
+import './components/DoctorsDetails.dart';
+import './components/cardDetails.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -75,7 +75,7 @@ class _HomePageScreen extends State<HomePageScreen> {
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
                   padding: EdgeInsets.symmetric(
-                    horizontal: 40.0,
+                    horizontal: 30.0,
                     vertical: 15.0,
                   ),
                   child: Column(
@@ -110,7 +110,7 @@ class _HomePageScreen extends State<HomePageScreen> {
                       SizedBox(height: 40.0),
                       _buildTextBeforeBanner(),
                       SizedBox(height: 20.0),
-                      RecomendsPlants(),
+                      // RecomendsPlants(),
                       //_category(),
                       SizedBox(height: 20.0),
                       _buildTextTodaysPlan(),
@@ -192,38 +192,41 @@ class _HomePageScreen extends State<HomePageScreen> {
       ),
       child: ListTile(
         leading: Image.asset('assets/images/sun.png'),
-        title: Column(children: [
-          Text("Morning Routine ",
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Morning Routine ",
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: kSecBlue,
+                ),
+                softWrap: true,
+                maxLines: 3,
+                textAlign: TextAlign.center),
+            SizedBox(height: 5.0),
+            Text(
+              "9:00 AM ",
               style: const TextStyle(
                 fontSize: 14,
                 color: kSecBlue,
               ),
               softWrap: true,
               maxLines: 3,
-              textAlign: TextAlign.center),
-          SizedBox(height: 5.0),
-          Text(
-            "9:00 AM ",
-            style: const TextStyle(
-              fontSize: 14,
-              color: kSecBlue,
+              textAlign: TextAlign.center,
             ),
-            softWrap: true,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 5.0),
-          Text(
-            "Everyday ",
-            style: const TextStyle(
-              fontSize: 14,
-              color: kSecBlue,
+            SizedBox(height: 5.0),
+            Text(
+              "Everyday ",
+              style: const TextStyle(
+                fontSize: 14,
+                color: kSecBlue,
+              ),
+              softWrap: true,
+              maxLines: 3,
+              textAlign: TextAlign.center,
             ),
-            softWrap: true,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-          ),
-        ]),
+          ],
+        ),
         trailing: Icon(
           Icons.keyboard_arrow_right,
           size: 30,
@@ -252,40 +255,43 @@ class _HomePageScreen extends State<HomePageScreen> {
       ),
       child: ListTile(
         leading: Image.asset('assets/images/moon.png'),
-        title: Column(children: [
-          Text(
-            "Night Routine ",
-            style: const TextStyle(
-              fontSize: 14,
-              color: kSecBlue,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Night Routine ",
+              style: const TextStyle(
+                fontSize: 14,
+                color: kSecBlue,
+              ),
+              softWrap: true,
+              maxLines: 3,
+              textAlign: TextAlign.center,
             ),
-            softWrap: true,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 5.0),
-          Text(
-            "10:00 PM ",
-            style: const TextStyle(
-              fontSize: 14,
-              color: kSecBlue,
+            SizedBox(height: 5.0),
+            Text(
+              "10:00 PM ",
+              style: const TextStyle(
+                fontSize: 14,
+                color: kSecBlue,
+              ),
+              softWrap: true,
+              maxLines: 3,
+              textAlign: TextAlign.center,
             ),
-            softWrap: true,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 5.0),
-          Text(
-            "Everyday ",
-            style: const TextStyle(
-              fontSize: 14,
-              color: kSecBlue,
+            SizedBox(height: 5.0),
+            Text(
+              "Everyday ",
+              style: const TextStyle(
+                fontSize: 14,
+                color: kSecBlue,
+              ),
+              softWrap: true,
+              maxLines: 3,
+              textAlign: TextAlign.center,
             ),
-            softWrap: true,
-            maxLines: 3,
-            textAlign: TextAlign.center,
-          ),
-        ]),
+          ],
+        ),
         trailing: Icon(
           Icons.keyboard_arrow_right,
           size: 30,
