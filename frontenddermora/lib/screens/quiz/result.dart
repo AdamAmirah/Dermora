@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:frontenddermora/screens/home/homepage_screen.dart';
 import 'package:frontenddermora/util/styles.dart';
 
 class Result extends StatelessWidget {
@@ -105,7 +106,13 @@ class Result extends StatelessWidget {
                     elevation: MaterialStateProperty.all(3),
                     shadowColor: MaterialStateProperty.all(Colors.transparent),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePageScreen()),
+                    );
+                  },
                   child: Padding(
                     padding: const EdgeInsets.only(
                       top: 10,
