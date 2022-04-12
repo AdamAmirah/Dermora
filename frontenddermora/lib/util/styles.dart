@@ -27,4 +27,5 @@ final kBlack = HexColor('000000');
 
 final TextStyle captionStyle = TextStyle(color: Colors.grey[400]);
 final TextStyle whiteBody = TextStyle(color: Colors.white);
-final TextStyle normalStyle = TextStyle(color: Color(0xFF5974FF), fontSize: 18);
+final TextStyle normalStyle = TextStyle(color: Color(0xFF5974FF), fontSize: 16);
+final TextStyle normalStyleBlack = TextStyle(color: Colors.black, fontSize: 18);
