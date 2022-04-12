@@ -16,7 +16,7 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreen extends State<HomePageScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   List<Map> list2 = [
     {
@@ -36,6 +36,7 @@ class _HomePageScreen extends State<HomePageScreen> {
     },
   ];
   get screenWidth => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,20 +116,20 @@ class _HomePageScreen extends State<HomePageScreen> {
     );
   }
 
-  AppBar buildAppBar() {
-    return AppBar(
-      backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
-      elevation: 0,
-      /*actions: <Widget>[
-        Icon(
-          Icons.notifications_none,
-          size: 30,
-          color: Colors.black,
-        ),
-      ],*/
-    );
-  }
+  // AppBar buildAppBar() {
+  //   return AppBar(
+  //     backgroundColor: Colors.white,
+  //     automaticallyImplyLeading: false,
+  //     elevation: 0,
+  //     /*actions: <Widget>[
+  //       Icon(
+  //         Icons.notifications_none,
+  //         size: 30,
+  //         color: Colors.black,
+  //       ),
+  //     ],*/
+  //   );
+  // }
 
   Widget _buildTextBeforeBanner() {
     return Container(
@@ -349,6 +350,21 @@ class _HomePageScreen extends State<HomePageScreen> {
           ),
           label: "Profile",
         ),
+      ],
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
+      elevation: 0.0,
+      title: Text("Chats"),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: Icon(Icons.search),
+        )
       ],
     );
   }

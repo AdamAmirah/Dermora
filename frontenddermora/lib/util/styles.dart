@@ -8,7 +8,8 @@ Color salmon = const Color(0xFFF47663);
 const kSecBlue =
     Color(0xFF5974FF); // Second `const` is optional in assignments.
 
-final kPrimaryColor = HexColor('29323c');
+const kPrimaryColor = Color(0xFF00BF6D);
+// final kPrimaryColor = HexColor('29323c');
 final kBlue = HexColor('21d4fd');
 final kPruple = HexColor('b721ff');
 final klightGrey = HexColor('313543');
@@ -26,4 +27,5 @@ final kBlack = HexColor('000000');
 
 final TextStyle captionStyle = TextStyle(color: Colors.grey[400]);
 final TextStyle whiteBody = TextStyle(color: Colors.white);
-final TextStyle normalStyle = TextStyle(color: Color(0xFF5974FF), fontSize: 18);
+final TextStyle normalStyle = TextStyle(color: Color(0xFF5974FF), fontSize: 16);
+final TextStyle normalStyleBlack = TextStyle(color: Colors.black, fontSize: 18);
