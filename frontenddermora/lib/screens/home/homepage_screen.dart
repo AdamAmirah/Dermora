@@ -17,25 +17,7 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 0;
-  int _index = 0;
 
-  List<Map> list = [
-    {
-      "image": "assets/images/moon.png",
-      "amount": "0",
-      "label": "Dr. Mohamed Ahmed "
-    },
-    {
-      "image": "assets/images/sun.png",
-      "amount": "0",
-      "label": "Dr. Amirah Egeh "
-    },
-    {
-      "image": "assets/images/cream.png",
-      "amount": "hhhhh",
-      "label": "Dr. Ali Dale Morse"
-    },
-  ];
   List<Map> list2 = [
     {
       "image": "assets/images/doctor_1.png",
@@ -110,8 +92,7 @@ class _HomePageScreen extends State<HomePageScreen> {
                       SizedBox(height: 40.0),
                       _buildTextBeforeBanner(),
                       SizedBox(height: 20.0),
-                      // RecomendsPlants(),
-                      //_category(),
+                      BannerCard(),
                       SizedBox(height: 20.0),
                       _buildTextTodaysPlan(),
                       SizedBox(height: 20.0),
