@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,69 +51,81 @@ class CardDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.centerLeft,
-        height: 150,
-        width: 270,
-        margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
-        padding: EdgeInsets.symmetric(
-          horizontal: 10.0,
-          vertical: 10.0,
-        ),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            stops: [0.0, 1.0],
-            colors: [
-              Color(0xFF9DCEFF),
-              Color(0XFF92A3FD),
-            ],
-          ),
-          color: Colors.deepPurple.shade300,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              offset: Offset(4, 4),
-              blurRadius: 10,
-              color: klightGrey.withOpacity(.8),
-            )
+      alignment: Alignment.centerLeft,
+      height: 160,
+      width: 270,
+      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10.0,
+        vertical: 10.0,
+      ),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          stops: [0.0, 1.0],
+          colors: [
+            Color(0XFFa594f9),
+            Color(0xFFa1bafe),
           ],
         ),
-        child: Column(
-          children: [
-            Flexible(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Flexible(
+        color: Colors.deepPurple.shade300,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            offset: const Offset(4, 4),
+            blurRadius: 5,
+            color: klightGrey.withOpacity(.3),
+          )
+        ],
+      ),
+      child: Row(
+        children: [
+          Flexible(
+            child: Column(
+              children: [
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 8.0),
+                    child: Flexible(
                       child: Text(
                         "$title\n",
-                        textAlign: TextAlign.left,
+                        overflow: TextOverflow.visible,
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
-                            fontSize: 14),
+                            fontSize: 12),
                       ),
                     ),
-                    Flexible(child: Image.asset(image)),
-                  ],
+                  ),
                 ),
+                FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  color: Colors.white,
+                  onPressed: () {},
+                  child: const Text(
+                    "Read More",
+                    style: TextStyle(color: kSecBlue),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 120,
+            height: 120,
+            child: Flexible(
+              child: Image.asset(
+                image,
               ),
             ),
-          ],
-          /*FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            color: kBlue,
-            onPressed: (){},
-            child: Text(
-              "Read More",
-              style: TextStyle(color: Colors.white),
-            ),
-          ),*/
-        ));
+          ),
+        ],
+      ),
+    );
   }
 }

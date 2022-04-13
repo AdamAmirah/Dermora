@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import './components/DoctorsDetails.dart';
 import './components/cardDetails.dart';
+import 'components/body.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -40,330 +41,72 @@ class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: GestureDetector(
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                ),
-              ),
-              Container(
-                height: double.infinity,
-                child: SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 30.0,
-                    vertical: 15.0,
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(children: [
-                            Text(
-                              'Hello, Furqan',
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              "Welcome!",
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 12.0,
-                              ),
-                            ),
-                          ]),
-                          Icon(
-                            Icons.notifications_none,
-                            size: 30,
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 40.0),
-                      _buildTextBeforeBanner(),
-                      SizedBox(height: 20.0),
-                      BannerCard(),
-                      SizedBox(height: 20.0),
-                      _buildTextTodaysPlan(),
-                      SizedBox(height: 20.0),
-                      _buildMorningRoutine(),
-                      SizedBox(height: 20.0),
-                      _buildNightRoutine(),
-                      SizedBox(height: 30.0),
-                      _buildTextDoctors(),
-                      SizedBox(height: 10.0),
-                      DoctorsDetails(list: list2),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: buildNavigationBar(),
-    );
-  }
-
-  // AppBar buildAppBar() {
-  //   return AppBar(
-  //     backgroundColor: Colors.white,
-  //     automaticallyImplyLeading: false,
-  //     elevation: 0,
-  //     /*actions: <Widget>[
-  //       Icon(
-  //         Icons.notifications_none,
-  //         size: 30,
-  //         color: Colors.black,
-  //       ),
-  //     ],*/
-  //   );
-  // }
-
-  Widget _buildTextBeforeBanner() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        "Tips for a better Skin",
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-      ),
-    );
-  }
-
-  Widget _buildTextTodaysPlan() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        "Today’s plan",
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-      ),
-    );
-  }
-
-  Widget _buildMorningRoutine() {
-    return Container(
-      padding: const EdgeInsets.all(0),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 1, color: kSecBlue),
-        borderRadius: BorderRadius.circular(10.25),
-        boxShadow: [
-          BoxShadow(
-            color: klightGrey.withOpacity(.8),
-            offset: Offset(2, 4),
-            blurRadius: 1,
-            spreadRadius: 0,
-          )
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          buildAppBar(),
         ],
-      ),
-      child: ListTile(
-        leading: Image.asset('assets/images/sun.png'),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Morning Routine ",
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: kSecBlue,
-                ),
-                softWrap: true,
-                maxLines: 3,
-                textAlign: TextAlign.center),
-            SizedBox(height: 5.0),
-            Text(
-              "9:00 AM ",
-              style: const TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
-              ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5.0),
-            Text(
-              "Everyday ",
-              style: const TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
-              ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        trailing: Icon(
-          Icons.keyboard_arrow_right,
-          size: 30,
-          color: kSecBlue,
-        ),
+        body: Body(list2),
       ),
     );
   }
 
-  Widget _buildNightRoutine() {
-    return Container(
-      padding: const EdgeInsets.all(0),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(width: 1, color: kSecBlue),
-        borderRadius: BorderRadius.circular(10.25),
-        boxShadow: [
-          BoxShadow(
-            color: klightGrey.withOpacity(.8),
-            offset: Offset(2, 4),
-            blurRadius: 1,
-            spreadRadius: 0,
-          )
-        ],
-      ),
-      child: ListTile(
-        leading: Image.asset('assets/images/moon.png'),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Night Routine ",
-              style: const TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
-              ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5.0),
-            Text(
-              "10:00 PM ",
-              style: const TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
-              ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5.0),
-            Text(
-              "Everyday ",
-              style: const TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
-              ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-        trailing: Icon(
-          Icons.keyboard_arrow_right,
-          size: 30,
-          color: kSecBlue,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextDoctors() {
-    return Container(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        "Dermatologists for you ",
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-      ),
-    );
-  }
-
-  BottomNavigationBar buildNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: (value) => {
-        setState(() {
-          _selectedIndex = value;
-        })
-      },
-      type: BottomNavigationBarType.fixed,
-      fixedColor: kSecBlue,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home_outlined,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.home,
-            color: kSecBlue,
-          ),
-          label: "Home",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.camera_alt_outlined,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.camera_alt,
-            color: kSecBlue,
-          ),
-          label: "Camera",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.messenger_outline_rounded,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.messenger,
-            color: kSecBlue,
-          ),
-          label: "Chats",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person_outline,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.person,
-            color: kSecBlue,
-          ),
-          label: "Profile",
-        ),
-      ],
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
+  SliverAppBar buildAppBar() {
+    return SliverAppBar(
       backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
-      elevation: 0.0,
-      title: Text("Chats"),
+      // Color(0xFFCCD9FD),
+      toolbarHeight: 90,
+      forceElevated: true,
+      elevation: 4,
+      shadowColor: kSecBlue,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        bottomRight: Radius.circular(70),
+        bottomLeft: Radius.circular(70),
+      )),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Column(children: [
+              Text(
+                'Hello, Furqan',
+                style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Welcome!",
+                style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 12.0,
+                ),
+              ),
+            ]),
+          ),
+        ],
+      ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.search),
+        Row(
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(blurRadius: 7, spreadRadius: 3, color: kSecBlue)
+              ], shape: BoxShape.circle, color: kSecBlue.withOpacity(0.1)),
+              child: Image.asset(
+                "assets/images/avatar.png",
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(
+              width: 40,
+            )
+          ],
         )
       ],
     );

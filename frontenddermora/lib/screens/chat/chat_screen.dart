@@ -21,7 +21,6 @@ class _ChatScreenState extends State<ChatScreen> {
     return Scaffold(
       appBar: buildAppBar(),
       body: Body(),
-      bottomNavigationBar: buildNavigationBar(),
     );
   }
 
@@ -47,65 +46,6 @@ class _ChatScreenState extends State<ChatScreen> {
           onPressed: () {},
           icon: Icon(Icons.search),
         )
-      ],
-    );
-  }
-
-  BottomNavigationBar buildNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: (value) => {
-        setState(() {
-          _selectedIndex = value;
-        })
-      },
-      type: BottomNavigationBarType.fixed,
-      fixedColor: kSecBlue,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home_outlined,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.home,
-            color: kSecBlue,
-          ),
-          label: "Home",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.camera_alt_outlined,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.camera_alt,
-            color: kSecBlue,
-          ),
-          label: "Camera",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.messenger_outline_rounded,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.messenger,
-            color: kSecBlue,
-          ),
-          label: "Chats",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person_outline,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.person,
-            color: kSecBlue,
-          ),
-          label: "Profile",
-        ),
       ],
     );
   }
