@@ -1,7 +1,13 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_string_escapes
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:frontenddermora/util/styles.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import './components/DoctorsDetails.dart';
+import './components/cardDetails.dart';
+import 'components/body.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -13,83 +19,94 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 1;
 
+  List<Map> list2 = [
+    {
+      "image": "assets/images/doctor_1.png",
+      "label": "Dr. Mohamed Ahmed ",
+      "Key": "Dermatologist   4 Years Experience"
+    },
+    {
+      "image": "assets/images/doctor_2.png",
+      "label": "Dr. Amirah Egeh ",
+      "Key": "Dermatologist   6 Years Experience"
+    },
+    {
+      "image": "assets/images/doctor_3.png",
+      "label": "Dr. Ali Dale Morse",
+      "Key": "Dermatologist   9 Years Experience",
+    },
+  ];
+  get screenWidth => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
-      bottomNavigationBar: buildNavigationBar(),
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+          buildAppBar(),
+        ],
+        body: Body(list2),
+      ),
     );
   }
 
-  BottomNavigationBar buildNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: _selectedIndex,
-      onTap: (value) => {
-        setState(() {
-          _selectedIndex = value;
-        })
-      },
-      type: BottomNavigationBarType.fixed,
-      fixedColor: kSecBlue,
-      items: [
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home_outlined,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.home,
-            color: kSecBlue,
-          ),
-          label: "Home",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.camera_alt_outlined,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.camera_alt,
-            color: kSecBlue,
-          ),
-          label: "Camera",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.messenger_outline_rounded,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.messenger,
-            color: kSecBlue,
-          ),
-          label: "Chats",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.person_outline,
-            color: kSecBlue,
-          ),
-          activeIcon: Icon(
-            Icons.person,
-            color: kSecBlue,
-          ),
-          label: "Profile",
-        ),
-      ],
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
+  SliverAppBar buildAppBar() {
+    return SliverAppBar(
       backgroundColor: Colors.white,
-      automaticallyImplyLeading: false,
-      elevation: 0.0,
-      title: Text("Chats"),
+      // Color(0xFFCCD9FD),
+      toolbarHeight: 90,
+      forceElevated: true,
+      elevation: 4,
+      shadowColor: kSecBlue,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+        bottomRight: Radius.circular(70),
+        bottomLeft: Radius.circular(70),
+      )),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Column(children: [
+              Text(
+                'Hello, Furqan',
+                style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Welcome!",
+                style: GoogleFonts.poppins(
+                  color: Colors.black,
+                  fontSize: 12.0,
+                ),
+              ),
+            ]),
+          ),
+        ],
+      ),
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.search),
+        Row(
+          children: [
+            Container(
+              height: 40,
+              width: 40,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(blurRadius: 7, spreadRadius: 3, color: kSecBlue)
+              ], shape: BoxShape.circle, color: kSecBlue.withOpacity(0.1)),
+              child: Image.asset(
+                "assets/images/avatar.png",
+                fit: BoxFit.contain,
+              ),
+            ),
+            SizedBox(
+              width: 40,
+            )
+          ],
         )
       ],
     );
