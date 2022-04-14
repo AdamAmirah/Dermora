@@ -2,16 +2,38 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontenddermora/screens/routine/skincare_routine.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import './DoctorsDetails.dart';
 import './cardDetails.dart';
 
-class Body extends StatelessWidget {
-  final List<Map> list2;
+class Body extends StatefulWidget {
+  const Body({Key? key}) : super(key: key);
 
-  const Body(this.list2, {Key? key}) : super(key: key);
+  @override
+  State<Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  List<Map> list = [
+    {
+      "image": "assets/images/doctor_1.png",
+      "label": "Dr. Mohamed Ahmed ",
+      "Key": "Dermatologist   4 Years Experience"
+    },
+    {
+      "image": "assets/images/doctor_2.png",
+      "label": "Dr. Amirah Egeh ",
+      "Key": "Dermatologist   6 Years Experience"
+    },
+    {
+      "image": "assets/images/doctor_3.png",
+      "label": "Dr. Ali Dale Morse",
+      "Key": "Dermatologist   9 Years Experience",
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +103,9 @@ class Body extends StatelessWidget {
                         padding: EdgeInsets.symmetric(
                           horizontal: 30.0,
                         ),
-                        child: DoctorsDetails(list: list2),
+                        child: DoctorsDetails(
+                          list: list,
+                        ),
                       ),
                     ],
                   ),
@@ -136,48 +160,55 @@ class Body extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        leading: Image.asset('assets/images/sun.png'),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text("Morning Routine ",
+          leading: Image.asset('assets/images/sun.png'),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text("Morning Routine ",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: kSecBlue,
+                  ),
+                  softWrap: true,
+                  maxLines: 3,
+                  textAlign: TextAlign.center),
+              SizedBox(height: 5.0),
+              Text(
+                "9:00 AM ",
                 style: TextStyle(
                   fontSize: 14,
                   color: kSecBlue,
                 ),
                 softWrap: true,
                 maxLines: 3,
-                textAlign: TextAlign.center),
-            SizedBox(height: 5.0),
-            Text(
-              "9:00 AM ",
-              style: TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
+                textAlign: TextAlign.center,
               ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5.0),
-            Text(
-              "Everyday ",
-              style: TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
+              SizedBox(height: 5.0),
+              Text(
+                "Everyday ",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: kSecBlue,
+                ),
+                softWrap: true,
+                maxLines: 3,
+                textAlign: TextAlign.center,
               ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
+            ],
+          ),
+          trailing: IconButton(
+            icon: Icon(
+              Icons.keyboard_arrow_right,
+              size: 30,
+              color: kSecBlue,
             ),
-          ],
-        ),
-        trailing: Icon(
-          Icons.keyboard_arrow_right,
-          size: 30,
-          color: kSecBlue,
-        ),
-      ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RoutineScreen()),
+              );
+            },
+          )),
     );
   }
 
@@ -199,50 +230,57 @@ class Body extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        leading: Image.asset('assets/images/moon.png'),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
-            Text(
-              "Night Routine ",
-              style: TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
+          leading: Image.asset('assets/images/moon.png'),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                "Night Routine ",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: kSecBlue,
+                ),
+                softWrap: true,
+                maxLines: 3,
+                textAlign: TextAlign.center,
               ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5.0),
-            Text(
-              "10:00 PM ",
-              style: TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
+              SizedBox(height: 5.0),
+              Text(
+                "10:00 PM ",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: kSecBlue,
+                ),
+                softWrap: true,
+                maxLines: 3,
+                textAlign: TextAlign.center,
               ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 5.0),
-            Text(
-              "Everyday ",
-              style: TextStyle(
-                fontSize: 14,
-                color: kSecBlue,
+              SizedBox(height: 5.0),
+              Text(
+                "Everyday ",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: kSecBlue,
+                ),
+                softWrap: true,
+                maxLines: 3,
+                textAlign: TextAlign.center,
               ),
-              softWrap: true,
-              maxLines: 3,
-              textAlign: TextAlign.center,
+            ],
+          ),
+          trailing: IconButton(
+            icon: Icon(
+              Icons.keyboard_arrow_right,
+              size: 30,
+              color: kSecBlue,
             ),
-          ],
-        ),
-        trailing: Icon(
-          Icons.keyboard_arrow_right,
-          size: 30,
-          color: kSecBlue,
-        ),
-      ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const RoutineScreen()),
+              );
+            },
+          )),
     );
   }
 
