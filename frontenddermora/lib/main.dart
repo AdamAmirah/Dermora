@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/chat/chat_screen.dart';
 import 'package:frontenddermora/screens/home/homepage_screen.dart';
 import 'package:frontenddermora/screens/profile/profile_screen.dart';
+import 'package:frontenddermora/screens/routine/skincare_routine.dart';
 import 'package:frontenddermora/screens/welcome/welcome_screen.dart';
 import 'package:frontenddermora/util/styles.dart';
 

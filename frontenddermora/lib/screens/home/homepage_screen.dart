@@ -45,7 +45,7 @@ class _HomePageScreen extends State<HomePageScreen> {
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           buildAppBar(),
         ],
-        body: Body(list2),
+        body: Body(),
       ),
     );
   }
