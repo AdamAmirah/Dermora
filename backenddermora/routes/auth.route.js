@@ -19,15 +19,17 @@ router.post(
     .withMessage(
       "Password length must be at least 6 contain At least one uppercase and lowercase. "
     ),
-  check("confirmPassword")
-    .not()
-    .isEmpty()
-    .withMessage("Please confirm email")
-    .custom((value, { req }) => {
-      if (value === req.body.password) return true;
-      else throw "Passwords are not the same";
-    }),
-  check("name").not().isEmpty(),
+  // check("confirmPassword")
+  //   .not()
+  //   .isEmpty()
+  //   .withMessage("Please confirm email")
+  //   .custom((value, { req }) => {
+  //     if (value === req.body.password) return true;
+  //     else throw "Passwords are not the same";
+  //   }),
+  check("firstName").not().isEmpty(),
+  check("lastName").not().isEmpty(),
+
   authController.signUp
 ); //create the user in the db
 
@@ -46,6 +48,7 @@ router.post(
   authController.login
 ); // just reading and checking if it exists in the db
 
-router.get("/home", authController.home);
+router.get("/availableDoctors", authController.getDoctors);
+router.get("/articles", authController.getArticles);
 
 module.exports = router;

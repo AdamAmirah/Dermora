@@ -89,24 +89,29 @@ exports.login = (email, password) => {
       .connect(DB_URL, { useUnifiedTopology: true, useNewUrlParser: true })
       .then(() => User.findOne({ email: email }))
       .then((user) => {
+        console.log(user);
         if (!user) {
           mongoose.disconnect();
+          console.log("this email does not exist");
           reject("this email does not exist");
         } else {
           bcrypt.compare(password, user.password).then((same) => {
             if (!same) {
               mongoose.disconnect();
+              console.log("password is incorrect");
               reject("password is incorrect");
             } else {
               mongoose.disconnect();
               const token = auth.generateAccessToken(email);
-              resolve({ ...user, token });
+              console.log(user);
+              resolve({ user, token });
             }
           });
         }
       })
       .catch((err) => {
         mongoose.disconnect();
+        console.log(err);
         reject(err);
       });
   });

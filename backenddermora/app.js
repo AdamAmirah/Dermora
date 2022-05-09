@@ -6,6 +6,7 @@ const auth = require("./helpers/auth");
 const unless = require("express-unless");
 
 const app = express();
+app.use(express.json());
 
 const authRouter = require("./routes/auth.route");
 

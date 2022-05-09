@@ -2,9 +2,14 @@ const userModel = require("../models/user.model");
 const validationResult = require("express-validator").validationResult;
 
 exports.signUp = (req, res, next) => {
+  console.log(req.body);
   if (validationResult(req).isEmpty()) {
     userModel
-      .createUser(req.body.email, req.body.password, req.body.name)
+      .createUser(
+        req.body.email,
+        req.body.password,
+        req.body.firstName + " " + req.body.lastName
+      )
       .then((result) =>
         res.status(200).send({
           message: "Success",
@@ -15,11 +20,12 @@ exports.signUp = (req, res, next) => {
         next(err);
       });
   } else {
-    return res.send(validationResult(req).array());
+    return res.status(500).send(validationResult(req).array());
   }
 };
 
 exports.login = (req, res, next) => {
+  console.log(req.body);
   if (validationResult(req).isEmpty()) {
     userModel
       .login(req.body.email, req.body.password)
@@ -33,10 +39,16 @@ exports.login = (req, res, next) => {
         next(err);
       });
   } else {
-    return res.send(validationResult(req).array());
+    console.log(validationResult(req).array());
+    return res.status(500).send(validationResult(req).array());
   }
 };
 
-exports.home = (req, res, next) => {
-  return res.send("Authorized");
+exports.getDoctors = (req, res, next) => {
+  return res.send("Authorized and doctors");
+};
+
+exports.getArticles = (req, res, next) => {
+  console.log("hi");
+  return res.send("Authorized and articles");
 };
