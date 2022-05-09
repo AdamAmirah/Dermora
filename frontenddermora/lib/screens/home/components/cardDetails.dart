@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../services/api_service.dart';
+
 class BannerCard extends StatelessWidget {
   const BannerCard({
     Key? key,
@@ -11,6 +13,9 @@ class BannerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return FutureBuilder(
+    //   builder: (BuildContext context, AsyncSnapshot<String> model) {
+    //     if (model.hasData) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -33,6 +38,13 @@ class BannerCard extends StatelessWidget {
         ],
       ),
     );
+    // }
+    //     return const Center(
+    //       child: CircularProgressIndicator(),
+    //     );
+    //   },
+    //   future: APIService.getArticles(),
+    // );
   }
 }
 
