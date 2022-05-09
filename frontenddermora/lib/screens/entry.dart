@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/chat/chat_screen.dart';
 import 'package:frontenddermora/screens/home/homepage_screen.dart';
 import 'package:frontenddermora/screens/profile/profile_screen.dart';
+import 'package:frontenddermora/services/shared_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../util/styles.dart';
 
-class EnteryWidget extends StatefulWidget {
-  const EnteryWidget({Key? key}) : super(key: key);
+class EntryWidget extends StatefulWidget {
+  const EntryWidget({Key? key}) : super(key: key);
 
   @override
-  State<EnteryWidget> createState() => _EnteryWidgetState();
+  State<EntryWidget> createState() => _EntryWidgetState();
 }
 
-class _EnteryWidgetState extends State<EnteryWidget> {
+class _EntryWidgetState extends State<EntryWidget> {
   int _selectedIndex = 0;
   final screens = [
     HomePageScreen(),
@@ -101,9 +102,14 @@ class _EnteryWidgetState extends State<EnteryWidget> {
     return BottomNavigationBar(
       currentIndex: _selectedIndex,
       onTap: (value) => {
-        setState(() {
-          _selectedIndex = value;
-        })
+        if (value == 4)
+          {SharedService.logout(context)}
+        else
+          {
+            setState(() {
+              _selectedIndex = value;
+            })
+          }
       },
       type: BottomNavigationBarType.fixed,
       fixedColor: kSecBlue,
@@ -148,6 +154,17 @@ class _EnteryWidgetState extends State<EnteryWidget> {
           ),
           activeIcon: Icon(
             Icons.person,
+            color: kSecBlue,
+          ),
+          label: "Profile",
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(
+            Icons.logout_outlined,
+            color: kSecBlue,
+          ),
+          activeIcon: Icon(
+            Icons.logout,
             color: kSecBlue,
           ),
           label: "Profile",
