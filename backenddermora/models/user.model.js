@@ -4,51 +4,145 @@ const DB_URL = dbConfig.db;
 const bcrypt = require("bcrypt");
 const auth = require("../helpers/auth");
 
-const userSchema = mongoose.Schema({
-  email: String,
-  fullName: String,
-  password: String,
-  age: Number,
-  sex: String,
-  image: { type: String, default: "" },
-  address: {
-    type: [
-      {
-        country: { type: String, default: "" },
-        city: { type: String, default: "" },
-        street: { type: String, default: "" },
-        postCode: { type: Number },
+const userSchema = mongoose.Schema(
+  {
+    email: String,
+    fullName: String,
+    password: String,
+    age: { type: Number, default: 0 },
+    sex: { type: String, default: "" },
+    image: { type: String, default: "" },
+    address: {
+      country: { type: String, default: "" },
+      city: { type: String, default: "" },
+      street: { type: String, default: "" },
+      postCode: { type: Number },
+    },
+    kind: { type: String, default: "user" },
+    doctorInfo: {
+      isAvailable: { type: Boolean, default: false },
+      noOfPatients: Number,
+      workDetails: {
+        clinicName: String,
+        address: String,
+        jobTitle: String,
       },
-    ],
-    default: [],
-  },
-  kind: { type: String, default: "user" },
-  doctorInfo: {
-    type: [
-      {
-        isAvailable: { type: Boolean, default: false },
-        noOfPatients: Number,
-        workDetails: Object,
-        patients: Array,
-        requests: {
-          type: [{ id: Number, status: { type: Boolean, default: false } }],
-        },
+      patients: Array,
+      requests: {
+        type: [{ id: Number, status: { type: Boolean, default: false } }],
       },
-    ],
-    default: [],
+    },
+    userInfo: {
+      skinType: String,
+      skinConcerns: Array,
+      doctors: Array,
+    },
+    friends: {
+      // users for doctors and vice versa
+      type: [{ name: String, image: String, friendId: String, chatId: String }],
+      default: [],
+    },
   },
-  userInfo: {
-    type: [{ skinType: String, skinConcerns: Array, doctors: Array }],
-    default: [],
-  },
-  friends: {
-    // users for doctors and vice versa
-    type: [{ name: String, image: String, id: String, chatId: String }],
-    default: [],
-  },
-});
+  { minimize: false }
+);
 
 const User = mongoose.model("user", userSchema);
+
+exports.getUser = (userId) => {
+  return new Promise((resolve, reject) => {
+    mongoose
+      .connect(DB_URL, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      })
+      .then(() => {
+        return User.findById(userId);
+      })
+      .then((res) => {
+        mongoose.disconnect();
+        resolve(res);
+      })
+      .catch((err) => {
+        mongoose.disconnect();
+        reject(err);
+      });
+  });
+};
+
+exports.updateProfile = (name, skinType, image, id) => {
+  return new Promise((resolve, reject) => {
+    mongoose
+      .connect(DB_URL, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      })
+      .then(() => {
+        return User.updateMany(
+          { _id: id },
+          {
+            $set: {
+              fullName: name,
+              "userInfo.skinType": skinType,
+              image: image,
+            },
+          },
+          { multi: true }
+        );
+      })
+      .then((res) => {
+        mongoose.disconnect();
+        resolve(res);
+      })
+      .catch((err) => {
+        mongoose.disconnect();
+        reject(err);
+      });
+  });
+};
+exports.updateAgeSex = (age, sex, id) => {
+  return new Promise((resolve, reject) => {
+    mongoose
+      .connect(DB_URL, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      })
+      .then(() => {
+        return User.findByIdAndUpdate(id, { age: age, sex: sex });
+      })
+      .then((res) => {
+        mongoose.disconnect();
+        resolve(res);
+      })
+      .catch((err) => {
+        mongoose.disconnect();
+        reject(err);
+      });
+  });
+};
+exports.updateConcerns = (concerns, id) => {
+  return new Promise((resolve, reject) => {
+    mongoose
+      .connect(DB_URL, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      })
+      .then(() => {
+        return User.update(
+          { _id: id },
+          { $set: { "userInfo.skinConcerns": concerns } }
+        );
+      })
+      .then((res) => {
+        mongoose.disconnect();
+        resolve(res);
+      })
+      .catch((err) => {
+        mongoose.disconnect();
+        reject(err);
+      });
+  });
+};
+////////////////////////////////////////////////////////
 
 exports.createUser = (email, password, name) => {
   return new Promise((resolve, reject) => {
@@ -68,6 +162,13 @@ exports.createUser = (email, password, name) => {
           email: email,
           password: hashedPassword,
           fullName: name,
+          address: {
+            country: "",
+            city: "",
+            street: "",
+            postCode: 0,
+          },
+          userInfo: { skinType: "", skinConcerns: [], doctors: [] },
         });
         return user.save();
       })

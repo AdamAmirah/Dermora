@@ -48,7 +48,4 @@ router.post(
   authController.login
 ); // just reading and checking if it exists in the db
 
-router.get("/availableDoctors", authController.getDoctors);
-router.get("/articles", authController.getArticles);
-
 module.exports = router;

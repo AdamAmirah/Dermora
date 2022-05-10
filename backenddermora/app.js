@@ -9,6 +9,7 @@ const app = express();
 app.use(express.json());
 
 const authRouter = require("./routes/auth.route");
+const userRouter = require("./routes/user.route");
 
 auth.authenticateToken.unless = unless;
 
@@ -23,6 +24,7 @@ app.use(
 
 app.use(errors.errorHandler);
 app.use("/", authRouter);
+app.use("/", userRouter);
 
 const port = process.env.PORT || 3000;
 

@@ -43,12 +43,3 @@ exports.login = (req, res, next) => {
     return res.status(500).send(validationResult(req).array());
   }
 };
-
-exports.getDoctors = (req, res, next) => {
-  return res.send("Authorized and doctors");
-};
-
-exports.getArticles = (req, res, next) => {
-  console.log("hi");
-  return res.send("Authorized and articles");
-};
