@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 

@@ -6,6 +6,7 @@ import 'package:frontenddermora/screens/home/homepage_screen.dart';
 import 'package:frontenddermora/screens/profile/profile_screen.dart';
 import 'package:frontenddermora/screens/routine/skincare_routine.dart';
 import 'package:frontenddermora/screens/welcome/welcome_screen.dart';
+import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/services/shared_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 
@@ -22,7 +23,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,

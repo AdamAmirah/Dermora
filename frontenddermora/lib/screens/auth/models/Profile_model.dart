@@ -1,18 +1,16 @@
 import 'dart:convert';
-// import 'package:mongo_dart/mongo_dart.dart';
 
-LoginResponseModel loginResponseModel(String str) =>
-    LoginResponseModel.fromJson(json.decode(str));
+Profile convertProfileModel(String str) => Profile.fromJson(json.decode(str));
 
-class LoginResponseModel {
-  LoginResponseModel({
+class Profile {
+  Profile({
     required this.message,
     required this.data,
   });
   late final String message;
   late final Data data;
 
-  LoginResponseModel.fromJson(Map<String, dynamic> json) {
+  Profile.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     data = Data.fromJson(json['data']);
   }
@@ -27,42 +25,24 @@ class LoginResponseModel {
 
 class Data {
   Data({
-    required this.user,
-    required this.token,
-  });
-  late final User user;
-  late final String token;
-
-  Data.fromJson(Map<String, dynamic> json) {
-    user = User.fromJson(json['user']);
-    token = json['token'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['user'] = user.toJson();
-    _data['token'] = token;
-    return _data;
-  }
-}
-
-class User {
-  User({
+    required this.address,
+    required this.doctorInfo,
+    required this.userInfo,
     required this.id,
     required this.email,
     required this.fullName,
     required this.password,
-    required this.image,
     required this.age,
     required this.sex,
-    required this.phone,
+    required this.image,
     required this.kind,
-    required this.address,
-    required this.doctorInfo,
-    required this.userInfo,
     required this.friends,
     required this.v,
+    required this.phone,
   });
+  late final Address address;
+  late final DoctorInfo doctorInfo;
+  late final UserInfo userInfo;
   late final String id;
   late final String email;
   late final String fullName;
@@ -70,50 +50,44 @@ class User {
   late final int age;
   late final String sex;
   late final String image;
-  late final Address address;
   late final String kind;
-  late final UserInfo userInfo;
   late final List<dynamic> friends;
-  late final String phone;
-  late final DoctorInfo doctorInfo;
   late final int v;
+  late final String phone;
 
-  User.fromJson(Map<String, dynamic> json) {
-    // print(json);
-    // print("from here");
-    email = json['email'];
+  Data.fromJson(Map<String, dynamic> json) {
+    address = Address.fromJson(json['address']);
+    doctorInfo = DoctorInfo.fromJson(json['doctorInfo']);
+    userInfo = UserInfo.fromJson(json['userInfo']);
     id = json['_id'];
+    email = json['email'];
     fullName = json['fullName'];
     password = json['password'];
     age = json['age'];
     sex = json['sex'];
     image = json['image'];
-    address = Address.fromJson(json['address']);
     kind = json['kind'];
-    userInfo = UserInfo.fromJson(json['userInfo']);
     friends = List.castFrom<dynamic, dynamic>(json['friends']);
-    phone = json['phone'];
-    doctorInfo = DoctorInfo.fromJson(json['doctorInfo']);
     v = json['__v'];
+    phone = json['phone'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['email'] = email;
+    _data['address'] = address.toJson();
+    _data['doctorInfo'] = doctorInfo.toJson();
+    _data['userInfo'] = userInfo.toJson();
     _data['_id'] = id;
+    _data['email'] = email;
     _data['fullName'] = fullName;
     _data['password'] = password;
     _data['age'] = age;
     _data['sex'] = sex;
     _data['image'] = image;
-    _data['address'] = address.toJson();
     _data['kind'] = kind;
-    _data['userInfo'] = userInfo.toJson();
     _data['friends'] = friends;
-    _data['phone'] = phone;
-    _data['doctorInfo'] = doctorInfo.toJson();
     _data['__v'] = v;
-
+    _data['phone'] = phone;
     return _data;
   }
 }
@@ -147,6 +121,46 @@ class Address {
   }
 }
 
+class DoctorInfo {
+  DoctorInfo({
+    required this.workDetails,
+    required this.isAvailable,
+    required this.patients,
+    required this.requests,
+  });
+  late final WorkDetails workDetails;
+  late final bool isAvailable;
+  late final List<dynamic> patients;
+  late final List<dynamic> requests;
+
+  DoctorInfo.fromJson(Map<String, dynamic> json) {
+    workDetails = WorkDetails.fromJson(json['workDetails']);
+    isAvailable = json['isAvailable'];
+    patients = List.castFrom<dynamic, dynamic>(json['patients']);
+    requests = List.castFrom<dynamic, dynamic>(json['requests']);
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['workDetails'] = workDetails.toJson();
+    _data['isAvailable'] = isAvailable;
+    _data['patients'] = patients;
+    _data['requests'] = requests;
+    return _data;
+  }
+}
+
+class WorkDetails {
+  WorkDetails();
+
+  WorkDetails.fromJson(Map json);
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    return _data;
+  }
+}
+
 class UserInfo {
   UserInfo({
     required this.skinType,
@@ -168,17 +182,6 @@ class UserInfo {
     _data['skinType'] = skinType;
     _data['skinConcerns'] = skinConcerns;
     _data['doctors'] = doctors;
-    return _data;
-  }
-}
-
-class DoctorInfo {
-  DoctorInfo();
-
-  DoctorInfo.fromJson(Map json);
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
     return _data;
   }
 }
