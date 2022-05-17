@@ -25,7 +25,6 @@ exports.signUp = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  console.log(req.body);
   if (validationResult(req).isEmpty()) {
     userModel
       .login(req.body.email, req.body.password)

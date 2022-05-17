@@ -3,11 +3,13 @@ const validationResult = require("express-validator").validationResult;
 
 exports.getUser = (req, res, next) => {
   console.log("getting user");
-  console.log(req.params.id);
   userId = req.params.id;
   userModel.getUser(userId).then((result) => {
-    console.log(result);
-    res.send(result);
+    console.log("result");
+    res.status(200).send({
+      message: "Success",
+      data: result,
+    });
   });
 };
 
