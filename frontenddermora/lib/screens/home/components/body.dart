@@ -2,10 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontenddermora/doctor_screens/models/doctor_model.dart';
+import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
 import 'package:frontenddermora/screens/routine/skincare_routine.dart';
+import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../services/api_doctors.dart';
 import './DoctorsDetails.dart';
 import './cardDetails.dart';
 
@@ -17,23 +21,37 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Map> list = [
-    {
-      "image": "assets/images/doctor_1.png",
-      "label": "Dr. Mohamed Ahmed ",
-      "Key": "Dermatologist   4 Years Experience"
-    },
-    {
-      "image": "assets/images/doctor_2.png",
-      "label": "Dr. Amirah Egeh ",
-      "Key": "Dermatologist   6 Years Experience"
-    },
-    {
-      "image": "assets/images/doctor_3.png",
-      "label": "Dr. Ali Dale Morse",
-      "Key": "Dermatologist   9 Years Experience",
-    },
-  ];
+  List<Map> doctorsList = [];
+  late DoctorModel availableDoctors;
+
+  @override
+  void initState() {
+    super.initState();
+    _get();
+  }
+
+  _get() async {
+    DoctorModel? doctors = await APIDoctors.getAvailableDoctors();
+    Profile? userData = await APIService.getUserData();
+
+    setState(() {
+      availableDoctors = doctors!;
+
+      for (var element in availableDoctors.data) {
+        doctorsList.add({
+          "userId": userData!.data.id,
+          "userImage": userData.data.image,
+          "userName": userData.data.fullName,
+          "id": element.id,
+          "image": element.image,
+          "name": element.fullName,
+          "label": "Dr. ${element.fullName}",
+          "Key":
+              "Dermatologist   ${element.doctorInfo.workDetails.experience} Years Experience"
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +122,7 @@ class _BodyState extends State<Body> {
                           horizontal: 30.0,
                         ),
                         child: DoctorsDetails(
-                          list: list,
+                          list: doctorsList,
                         ),
                       ),
                     ],

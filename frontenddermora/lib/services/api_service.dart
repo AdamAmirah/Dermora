@@ -92,24 +92,4 @@ class APIService {
       return null;
     }
   }
-
-  static Future<String> getAvailableDoctors() async {
-    var loginDetails = await SharedService.loginDetails();
-
-    Map<String, String> requestHeaders = {
-      'Content-Type': 'application/json',
-      'Authorization': 'basic ${loginDetails!.data.token}',
-    };
-    var url = Uri.http(Config.apiURL, Config.availableDoctorsAPI);
-    var response = await client.get(
-      url,
-      headers: requestHeaders,
-    );
-    if (response.statusCode == 200) {
-      //shared
-      return response.body;
-    } else {
-      return "";
-    }
-  }
 }

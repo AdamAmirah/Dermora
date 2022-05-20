@@ -1,24 +1,25 @@
 import 'dart:convert';
 
-Profile convertProfileModel(String str) => Profile.fromJson(json.decode(str));
+DoctorModel convertDoctorModel(String str) =>
+    DoctorModel.fromJson(json.decode(str));
 
-class Profile {
-  Profile({
+class DoctorModel {
+  DoctorModel({
     required this.message,
     required this.data,
   });
   late final String message;
-  late final Data data;
+  late final List<Data> data;
 
-  Profile.fromJson(Map<String, dynamic> json) {
+  DoctorModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = Data.fromJson(json['data']);
+    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['message'] = message;
-    _data['data'] = data.toJson();
+    _data['data'] = data.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -38,7 +39,6 @@ class Data {
     required this.kind,
     required this.friends,
     required this.v,
-    required this.phone,
   });
   late final Address address;
   late final DoctorInfo doctorInfo;
@@ -51,11 +51,11 @@ class Data {
   late final String sex;
   late final String image;
   late final String kind;
-  late final List<Friends> friends;
+  late final List<dynamic> friends;
   late final int v;
-  late final String phone;
 
   Data.fromJson(Map<String, dynamic> json) {
+    print(json);
     address = Address.fromJson(json['address']);
     doctorInfo = DoctorInfo.fromJson(json['doctorInfo']);
     userInfo = UserInfo.fromJson(json['userInfo']);
@@ -67,10 +67,8 @@ class Data {
     sex = json['sex'];
     image = json['image'];
     kind = json['kind'];
-    friends =
-        List.from(json['friends']).map((e) => Friends.fromJson(e)).toList();
+    friends = List.castFrom<dynamic, dynamic>(json['friends']);
     v = json['__v'];
-    phone = json['phone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -86,38 +84,8 @@ class Data {
     _data['sex'] = sex;
     _data['image'] = image;
     _data['kind'] = kind;
-    _data['friends'] = friends.map((e) => e.toJson()).toList();
+    _data['friends'] = friends;
     _data['__v'] = v;
-    _data['phone'] = phone;
-    return _data;
-  }
-}
-
-class Friends {
-  Friends({
-    required this.name,
-    required this.id,
-    required this.chatId,
-    required this.image,
-  });
-  late final String name;
-  late final String id;
-  late final String chatId;
-  late final String image;
-
-  Friends.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    id = json['_id'];
-    chatId = json['chatId'];
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['name'] = name;
-    _data['_id'] = id;
-    _data['chatId'] = chatId;
-    _data['image'] = image;
     return _data;
   }
 }
@@ -155,17 +123,20 @@ class DoctorInfo {
   DoctorInfo({
     required this.workDetails,
     required this.isAvailable,
+    required this.noOfPatients,
     required this.patients,
     required this.requests,
   });
   late final WorkDetails workDetails;
   late final bool isAvailable;
+  late final int noOfPatients;
   late final List<dynamic> patients;
   late final List<dynamic> requests;
 
   DoctorInfo.fromJson(Map<String, dynamic> json) {
     workDetails = WorkDetails.fromJson(json['workDetails']);
     isAvailable = json['isAvailable'];
+    noOfPatients = json['noOfPatients'];
     patients = List.castFrom<dynamic, dynamic>(json['patients']);
     requests = List.castFrom<dynamic, dynamic>(json['requests']);
   }
@@ -174,6 +145,7 @@ class DoctorInfo {
     final _data = <String, dynamic>{};
     _data['workDetails'] = workDetails.toJson();
     _data['isAvailable'] = isAvailable;
+    _data['noOfPatients'] = noOfPatients;
     _data['patients'] = patients;
     _data['requests'] = requests;
     return _data;
@@ -181,35 +153,51 @@ class DoctorInfo {
 }
 
 class WorkDetails {
-  WorkDetails();
+  WorkDetails({
+    required this.clinicName,
+    required this.address,
+    required this.jobTitle,
+    required this.experience,
+  });
+  late final String clinicName;
+  late final String address;
+  late final String jobTitle;
+  late final String experience;
 
-  WorkDetails.fromJson(Map json);
+  WorkDetails.fromJson(Map<String, dynamic> json) {
+    print(json);
+    clinicName = json['clinicName'];
+    address = json['address'];
+    jobTitle = json['jobTitle'];
+    experience = json['experience'];
+  }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
+    _data['clinicName'] = clinicName;
+    _data['address'] = address;
+    _data['jobTitle'] = jobTitle;
+    _data['experience'] = experience;
+
     return _data;
   }
 }
 
 class UserInfo {
   UserInfo({
-    required this.skinType,
     required this.skinConcerns,
     required this.doctors,
   });
-  late final String skinType;
-  late final List<String> skinConcerns;
+  late final List<dynamic> skinConcerns;
   late final List<dynamic> doctors;
 
   UserInfo.fromJson(Map<String, dynamic> json) {
-    skinType = json['skinType'];
-    skinConcerns = List.castFrom<dynamic, String>(json['skinConcerns']);
+    skinConcerns = List.castFrom<dynamic, dynamic>(json['skinConcerns']);
     doctors = List.castFrom<dynamic, dynamic>(json['doctors']);
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['skinType'] = skinType;
     _data['skinConcerns'] = skinConcerns;
     _data['doctors'] = doctors;
     return _data;

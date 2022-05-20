@@ -3,10 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
-import '../../config.dart';
-import '../../services/chatting_service.dart';
 import 'components/body.dart';
 
 class ChatScreen extends StatefulWidget {

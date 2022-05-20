@@ -20,7 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.1",
     "passport": "^0.5.2",
-    "socket.io": "^4.4.1",
+    "socket.io": "^4.5.1",
     "unless": "^0.1.1"
   }
 }

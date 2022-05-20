@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/chat/model/chat.dart';
 import 'package:frontenddermora/screens/messages/message_screen.dart';
 import 'package:frontenddermora/util/styles.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../config.dart';
+import '../../../services/api_service.dart';
 import '../../../services/chatting_service.dart';
+import '../../auth/models/Profile_model.dart';
 import 'chat_card.dart';
 
 class Body extends StatefulWidget {
@@ -18,63 +19,33 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late Socket socket; //initalize the Socket.IO Client Object
-
+  List chatsData = [];
+  late Profile userData;
   @override
   void initState() {
     super.initState();
-    initializeSocket(); //--> call the initializeSocket method in the initState of our app.
+    _get();
   }
 
-  @override
-  void dispose() {
-    socket
-        .disconnect(); // --> disconnects the Socket.IO client once the screen is disposed
-    super.dispose();
-  }
+  _get() async {
+    Profile? user = await APIService.getUserData();
 
-  void initializeSocket() {
-    socket = io("http://10.0.2.2:3000", <String, dynamic>{
-      "transports": ["websocket"],
-      "autoConnect": false,
-    });
-    socket.connect(); //connect the Socket.IO Client to the Server
-
-    //SOCKET EVENTS
-    // --> listening for connection
-    socket.on('connect', (data) {
-      print(socket.connected);
-    });
-
-    //listen for incoming messages from the Server.
-    socket.on('message', (data) {
-      print(data); //
-    });
-
-    //listens when the client is disconnected from the Server
-    socket.on('disconnect', (data) {
-      print('disconnect');
+    setState(() {
+      userData = user!;
+      for (var element in user.data.friends) {
+        print("fsdffffffffffffffff");
+        print(element.id);
+        chatsData.add(Chat(
+            name: element.name,
+            lastMessage: "Hope you are doing well...",
+            image: element.image,
+            time: "3m ago",
+            isActive: false,
+            chatId: element.chatId,
+            friendId: element.id));
+      }
     });
   }
-
-  // Socket socket = io('http://localhost  :3000', <String, dynamic>{
-  //   "transports": ["websocket"],
-  //   "autoConnect": false,
-  // }); //initalize the Socket.IO Client Object
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   connectToServer(
-  //       socket); //--> call the initializeSocket method in the initState of our app.
-  // }
-
-  // @override
-  // void dispose() {
-  //   socket
-  //       .disconnect(); // --> disconnects the Socket.IO client once the screen is disposed
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +107,8 @@ class _BodyState extends State<Body> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MessagesScreen()),
+                        builder: (context) => MessagesScreen(
+                            chatsData: chatsData[index], userData: userData)),
                   );
                 }),
           ),

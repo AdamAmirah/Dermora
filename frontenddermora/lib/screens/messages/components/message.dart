@@ -17,15 +17,6 @@ class Message extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
 
-    Widget messageContaint(ChatMessage message) {
-      switch (message.messageType) {
-        case ChatMessageType.text:
-          return TextMessage(message: message);
-        default:
-          return SizedBox();
-      }
-    }
-
     return Padding(
       padding: const EdgeInsets.only(top: 25),
       child: Row(
@@ -39,8 +30,8 @@ class Message extends StatelessWidget {
             ),
             SizedBox(width: screenWidth * 0.05),
           ],
-          messageContaint(message),
-          if (message.isSender) MessageStatusDot(status: message.messageStatus)
+          TextMessage(message: message),
+          if (message.isSender) MessageStatusDot()
         ],
       ),
     );
@@ -55,28 +46,10 @@ class MessageStatusDot extends StatelessWidget {
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
 
-    Color dotColor(MessageStatus status) {
-      switch (status) {
-        case MessageStatus.not_sent:
-          return Colors.red.withOpacity(0.64);
-        case MessageStatus.not_view:
-          return kSecBlue.withOpacity(0.64);
-        case MessageStatus.viewed:
-          return kSecBlue;
-
-        default:
-          return Colors.transparent;
-      }
-    }
-
     return Container(
       margin: EdgeInsets.only(left: screenWidth * 0.03),
       height: 12,
       width: 12,
-      decoration: BoxDecoration(
-        color: dotColor(status!),
-        shape: BoxShape.circle,
-      ),
       child: Icon(
         status == MessageStatus.not_sent ? Icons.close : Icons.done,
         size: 8,

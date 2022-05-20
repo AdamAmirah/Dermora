@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:frontenddermora/services/chatting_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -85,10 +88,24 @@ class DoctorsDetails extends StatelessWidget {
                         style:
                             TextStyle(color: Color(0xFF8F8F8F), fontSize: 10),
                       ),
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 30,
+                      trailing: IconButton(
+                        icon: Icon(Icons.keyboard_arrow_right),
+                        iconSize: 30,
                         color: Theme.of(context).primaryColor,
+                        onPressed: () async {
+                          print("sdfasafsd");
+                          String message =
+                              await APIChatService.createChat(json.encode({
+                            "userId": ele["userId"],
+                            "userImage": ele["userImage"],
+                            "userName": ele["userName"],
+                            "id": ele["id"],
+                            "image": ele["image"],
+                            "name": ele["name"],
+                          }));
+
+                          print(message);
+                        },
                       ),
                     ),
                   )

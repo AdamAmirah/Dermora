@@ -1,22 +1,46 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
+import 'package:frontenddermora/screens/chat/model/chat.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socket_io_client/src/socket.dart';
 
-class ChatTextFiled extends StatelessWidget {
-  const ChatTextFiled({
+import '../../../services/chatting_service.dart';
+
+class ChatTextFiled extends StatefulWidget {
+  ChatTextFiled({
     Key? key,
     required this.screenWidth,
+    required this.socket,
+    required this.chatsData,
+    required this.userData,
   }) : super(key: key);
 
   final double screenWidth;
+  final Socket socket;
+  Chat chatsData;
+  Profile userData;
+
+  @override
+  State<ChatTextFiled> createState() => _ChatTextFiledState();
+}
+
+class _ChatTextFiledState extends State<ChatTextFiled> {
+  final TextController = TextEditingController();
+
+  @override
+  void dispose() {
+    TextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * 0.05,
+          horizontal: widget.screenWidth * 0.05,
           vertical: 20,
         ),
         decoration: BoxDecoration(
@@ -37,19 +61,19 @@ class ChatTextFiled extends StatelessWidget {
                 color: kSecBlue,
               ),
               SizedBox(
-                width: screenWidth * 0.01,
+                width: widget.screenWidth * 0.01,
               ),
               Icon(
                 Icons.attach_file,
                 color: kSecBlue,
               ),
               SizedBox(
-                width: screenWidth * 0.05,
+                width: widget.screenWidth * 0.05,
               ),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.05,
+                    horizontal: widget.screenWidth * 0.05,
                   ),
                   height: 50,
                   decoration: BoxDecoration(
@@ -63,10 +87,11 @@ class ChatTextFiled extends StatelessWidget {
                         color: kSecBlue,
                       ),
                       SizedBox(
-                        width: screenWidth * 0.05,
+                        width: widget.screenWidth * 0.05,
                       ),
                       Expanded(
                         child: TextField(
+                          controller: TextController,
                           decoration: InputDecoration(
                               hintText: "Type Your problems",
                               border: InputBorder.none,
@@ -76,6 +101,24 @@ class ChatTextFiled extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+              IconButton(
+                onPressed: () {
+                  print(TextController.text);
+                  String messageText = TextController.text;
+
+                  if (messageText != '') {
+                    var messagePost = {
+                      'content': messageText,
+                      'chatId': widget.chatsData.chatId,
+                      'sender': widget.userData.data.id,
+                      "senderImage": widget.chatsData.image,
+                      "friendId": widget.chatsData.friendId,
+                    };
+                    widget.socket.emit('sendMessage', messagePost);
+                  }
+                },
+                icon: Icon(Icons.send),
               )
             ],
           ),

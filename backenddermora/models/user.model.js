@@ -26,6 +26,7 @@ const userSchema = mongoose.Schema(
         clinicName: String,
         address: String,
         jobTitle: String,
+        experience: String,
       },
       patients: Array,
       requests: {
@@ -47,6 +48,7 @@ const userSchema = mongoose.Schema(
 );
 
 const User = mongoose.model("user", userSchema);
+exports.User = User;
 
 exports.getUser = (userId) => {
   return new Promise((resolve, reject) => {
@@ -59,7 +61,7 @@ exports.getUser = (userId) => {
         return User.findById(userId);
       })
       .then((res) => {
-        mongoose.disconnect();
+        // mongoose.disconnect();
         resolve(res);
       })
       .catch((err) => {

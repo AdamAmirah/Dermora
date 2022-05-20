@@ -1,49 +1,25 @@
+import 'package:frontenddermora/screens/chat/model/chat_response_model.dart';
+import 'package:mongo_dart/mongo_dart.dart';
+
 enum ChatMessageType { text, audio, image, video }
 enum MessageStatus { not_sent, not_view, viewed }
 
 class ChatMessage {
   final String text;
-  final ChatMessageType messageType;
-  final MessageStatus messageStatus;
+  final String chatId;
+  final String timeStamp;
+  final String sender;
   final bool isSender;
+  final String senderImage;
+  final String friendId;
 
   ChatMessage({
     this.text = '',
-    required this.messageType,
-    required this.messageStatus,
+    required this.chatId,
+    required this.timeStamp,
+    required this.sender,
     required this.isSender,
+    required this.senderImage,
+    required this.friendId,
   });
 }
-
-List demeChatMessages = [
-  ChatMessage(
-    text: "Hi Saj,",
-    messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.viewed,
-    isSender: false,
-  ),
-  ChatMessage(
-    text: "Hello, How are you?",
-    messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.viewed,
-    isSender: true,
-  ),
-  ChatMessage(
-    text: "Error happend",
-    messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.not_sent,
-    isSender: true,
-  ),
-  ChatMessage(
-    text: "This looks great man!!",
-    messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.viewed,
-    isSender: false,
-  ),
-  ChatMessage(
-    text: "Glad you like it",
-    messageType: ChatMessageType.text,
-    messageStatus: MessageStatus.not_view,
-    isSender: true,
-  ),
-];
