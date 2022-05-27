@@ -220,14 +220,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                       isAPIProcess = false;
                                     }),
                                     print("hi2"),
-                                    if (response)
+                                    if (response != null)
                                       {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EntryWidget()),
-                                            (route) => false)
+                                        if (response.data.user.kind == "doctor")
+                                          {
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EntryWidget()),
+                                                (route) => false)
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EntryWidget()),
+                                                (route) => false)
+                                          }
                                       }
                                     else
                                       {

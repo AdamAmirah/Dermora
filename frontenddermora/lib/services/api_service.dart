@@ -13,7 +13,7 @@ import '../screens/auth/models/register_request_model.dart';
 class APIService {
   static var client = http.Client();
 
-  static Future<bool> login(LoginRequestModel model) async {
+  static Future<LoginResponseModel?> login(LoginRequestModel model) async {
     print(jsonEncode(model.toJson()));
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
@@ -26,9 +26,9 @@ class APIService {
     );
     if (response.statusCode == 200) {
       await SharedService.setLoginDetails(loginResponseModel(response.body));
-      return true;
+      return loginResponseModel(response.body);
     } else {
-      return false;
+      return null;
     }
   }
 
