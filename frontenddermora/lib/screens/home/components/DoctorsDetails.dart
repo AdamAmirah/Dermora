@@ -7,8 +7,8 @@ import 'package:frontenddermora/services/chatting_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DoctorsDetails extends StatelessWidget {
-  const DoctorsDetails({
+class DoctorsDetails extends StatefulWidget {
+  DoctorsDetails({
     Key? key,
     required this.list,
   }) : super(key: key);
@@ -16,13 +16,19 @@ class DoctorsDetails extends StatelessWidget {
   final List<Map> list;
 
   @override
+  State<DoctorsDetails> createState() => _DoctorsDetailsState();
+}
+
+class _DoctorsDetailsState extends State<DoctorsDetails> {
+  bool isAnotherDoctorBooked = false;
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          for (var ele in list)
+          for (var ele in widget.list)
             Container(
               padding: const EdgeInsets.all(0),
               margin: EdgeInsets.symmetric(vertical: 8),
@@ -88,25 +94,64 @@ class DoctorsDetails extends StatelessWidget {
                         style:
                             TextStyle(color: Color(0xFF8F8F8F), fontSize: 10),
                       ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.keyboard_arrow_right),
-                        iconSize: 30,
-                        color: Theme.of(context).primaryColor,
-                        onPressed: () async {
-                          print("sdfasafsd");
-                          String message =
-                              await APIChatService.createChat(json.encode({
-                            "userId": ele["userId"],
-                            "userImage": ele["userImage"],
-                            "userName": ele["userName"],
-                            "id": ele["id"],
-                            "image": ele["image"],
-                            "name": ele["name"],
-                          }));
+                      trailing: ele["isRequestSent"]
+                          ? ElevatedButton(
+                              onPressed:
+                                  ele["isRequestAccepted"] ? () {} : null,
+                              style: ButtonStyle(
+                                backgroundColor: ele["isRequestAccepted"]
+                                    ? MaterialStateProperty.all(kSecBlue)
+                                    : ele["isRequestDenied"]
+                                        ? MaterialStateProperty.all(
+                                            Colors.transparent)
+                                        : MaterialStateProperty.all(
+                                            Colors.transparent),
+                              ),
+                              child: ele["isRequestAccepted"]
+                                  ? Text(
+                                      "Start Chatting",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 10),
+                                    )
+                                  : ele["isRequestDenied"]
+                                      ? Text(
+                                          "Request Denied",
+                                          style: TextStyle(
+                                              color: Colors.red, fontSize: 10),
+                                        )
+                                      : Text(
+                                          "Wait..",
+                                          style: TextStyle(
+                                            color: Colors.grey[400],
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                            )
+                          : isAnotherDoctorBooked
+                              ? Text("")
+                              : IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_right),
+                                  iconSize: 30,
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () async {
+                                    setState(() {
+                                      ele["isRequestSent"] = true;
+                                      isAnotherDoctorBooked = true;
+                                    });
+                                    // print("sdfasafsd");
+                                    // String message =
+                                    //     await APIChatService.createChat(json.encode({
+                                    //   "userId": ele["userId"],
+                                    //   "userImage": ele["userImage"],
+                                    //   "userName": ele["userName"],
+                                    //   "id": ele["id"],
+                                    //   "image": ele["image"],
+                                    //   "name": ele["name"],
+                                    // }));
 
-                          print(message);
-                        },
-                      ),
+                                    // print(message);
+                                  },
+                                ),
                     ),
                   )
                 ],

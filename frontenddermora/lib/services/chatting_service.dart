@@ -59,24 +59,3 @@ class APIChatService {
     return data;
   }
 }
-
-void initializeSocket(socket, cb) {
-  //SOCKET EVENTS
-  // --> listening for connection
-  socket.on('connect', (data) {
-    print("client is connected to the socket");
-    print(socket.connected);
-  });
-
-  //listen for incoming messages from the Server.
-  socket.on('newMessage', (ChatMessage data) {
-    print(" fffffffffffffffffffff4");
-    print(data);
-    cb(data);
-  });
-
-  //listens when the client is disconnected from the Server
-  socket.on('disconnect', (data) {
-    print('disconnect');
-  });
-}

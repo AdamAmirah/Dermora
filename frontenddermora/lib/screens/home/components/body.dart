@@ -47,7 +47,10 @@ class _BodyState extends State<Body> {
           "name": element.fullName,
           "label": "Dr. ${element.fullName}",
           "Key":
-              "Dermatologist   ${element.doctorInfo.workDetails.experience} Years Experience"
+              "Dermatologist   ${element.doctorInfo.workDetails.experience} Years Experience",
+          "isRequestSent": false,
+          "isRequestAccepted": false,
+          "isRequestDenied": false,
         });
       }
     });

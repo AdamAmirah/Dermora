@@ -10,6 +10,7 @@ import '../../../services/api_service.dart';
 import '../../../services/chatting_service.dart';
 import '../../auth/models/Profile_model.dart';
 import 'chat_card.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -21,6 +22,14 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   List chatsData = [];
   late Profile userData;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onRefresh() async {
+    _get();
+    _refreshController.refreshCompleted();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -29,20 +38,17 @@ class _BodyState extends State<Body> {
 
   _get() async {
     Profile? user = await APIService.getUserData();
-
+    chatsData.clear();
     setState(() {
       userData = user!;
       for (var element in user.data.friends) {
-        print("fsdffffffffffffffff");
-        print(element.id);
         chatsData.add(Chat(
-            name: element.name,
-            lastMessage: "Hope you are doing well...",
-            image: element.image,
-            time: "3m ago",
-            isActive: false,
-            chatId: element.chatId,
-            friendId: element.id));
+          name: element.name,
+          image: element.image,
+          status: element.status,
+          chatId: element.chatId,
+          friendId: element.id,
+        ));
       }
     });
   }
@@ -92,27 +98,42 @@ class _BodyState extends State<Body> {
                 width: screenWidth * 0.05,
               ),
               CircleAvatar(
-                backgroundImage: AssetImage("assets/images/avatar.png"),
+                backgroundImage: AssetImage(userData.data.image),
                 radius: 29,
               )
             ],
           ),
         ),
         Expanded(
-          child: ListView.builder(
-            itemCount: chatsData.length,
-            itemBuilder: (context, index) => ChatCard(
-                chat: chatsData[index],
-                press: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MessagesScreen(
-                            chatsData: chatsData[index], userData: userData)),
-                  );
-                }),
+          child: SmartRefresher(
+            enablePullDown: true,
+            enablePullUp: true,
+            controller: _refreshController,
+            onRefresh: _onRefresh,
+            child: ListView.builder(
+              itemCount: chatsData.length,
+              itemBuilder: (context, index) => Column(
+                children: [
+                  ChatCard(
+                      chat: chatsData[index],
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MessagesScreen(
+                                  chatsData: chatsData[index],
+                                  userData: userData)),
+                        );
+                      }),
+                  Opacity(
+                    opacity: 0.9,
+                    child: Divider(),
+                  )
+                ],
+              ),
+            ),
           ),
-        )
+        ),
       ],
     );
   }

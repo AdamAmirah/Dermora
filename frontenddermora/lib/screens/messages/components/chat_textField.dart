@@ -28,12 +28,15 @@ class ChatTextFiled extends StatefulWidget {
 }
 
 class _ChatTextFiledState extends State<ChatTextFiled> {
-  final TextController = TextEditingController();
+  late TextEditingController TextController;
+  void initState() {
+    TextController = TextEditingController();
+  }
 
   @override
   void dispose() {
-    TextController.dispose();
     super.dispose();
+    TextController.dispose();
   }
 
   @override
@@ -56,20 +59,6 @@ class _ChatTextFiledState extends State<ChatTextFiled> {
         child: SafeArea(
           child: Row(
             children: [
-              Icon(
-                Icons.mic,
-                color: kSecBlue,
-              ),
-              SizedBox(
-                width: widget.screenWidth * 0.01,
-              ),
-              Icon(
-                Icons.attach_file,
-                color: kSecBlue,
-              ),
-              SizedBox(
-                width: widget.screenWidth * 0.05,
-              ),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(
@@ -82,13 +71,13 @@ class _ChatTextFiledState extends State<ChatTextFiled> {
                   ),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.sentiment_satisfied_alt_outlined,
-                        color: kSecBlue,
-                      ),
-                      SizedBox(
-                        width: widget.screenWidth * 0.05,
-                      ),
+                      // Icon(
+                      //   Icons.sentiment_satisfied_alt_outlined,
+                      //   color: kSecBlue,
+                      // ),
+                      // SizedBox(
+                      //   width: widget.screenWidth * 0.05,
+                      // ),
                       Expanded(
                         child: TextField(
                           controller: TextController,
@@ -104,8 +93,8 @@ class _ChatTextFiledState extends State<ChatTextFiled> {
               ),
               IconButton(
                 onPressed: () {
-                  print(TextController.text);
-                  String messageText = TextController.text;
+                  String messageText = TextController.text.trim();
+                  TextController.text = '';
 
                   if (messageText != '') {
                     var messagePost = {
@@ -118,7 +107,10 @@ class _ChatTextFiledState extends State<ChatTextFiled> {
                     widget.socket.emit('sendMessage', messagePost);
                   }
                 },
-                icon: Icon(Icons.send),
+                icon: Icon(
+                  Icons.send,
+                  color: kSecBlue,
+                ),
               )
             ],
           ),

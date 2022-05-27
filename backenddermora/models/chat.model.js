@@ -50,6 +50,7 @@ exports.createChat = async (data) => {
             id: data.userId,
             image: data.userImage,
             chatId: chatDoc._id,
+            status: true,
           },
         },
       }
@@ -64,6 +65,7 @@ exports.createChat = async (data) => {
             id: data.id,
             image: data.image,
             chatId: chatDoc._id,
+            status: true,
           },
         },
       }

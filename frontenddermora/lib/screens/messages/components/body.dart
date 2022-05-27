@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
 import 'package:frontenddermora/screens/chat/model/chat.dart';
@@ -27,24 +29,62 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   late Socket socket; //initalize the Socket.IO Client Object
   List<ChatMessage> chatMessages = [];
+  final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
     _get();
-    socket = io("http://192.168.243.180:3000", <String, dynamic>{
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) => {
+          _controller.animateTo(
+            0.0,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeIn,
+          )
+        });
+    socket = io("http://192.168.43.143:3000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
 
     socket.connect(); //connect the Socket.IO Client to the Server
-    initializeSocket(socket, setMessages);
+    initializeSocket();
     socket.emit('joinChat', widget.chatsData.chatId);
+  }
+
+  void initializeSocket() {
+    //SOCKET EVENTS
+    // --> listening for connection
+    socket.on('connect', (data) {
+      print("client is connected to the socket");
+      print(socket.connected);
+    });
+
+    //listen for incoming messages from the Server.
+    socket.on('newMessage', (info) {
+      setState(() {
+        chatMessages.add(ChatMessage(
+          content: info["content"],
+          chatId: info["chatId"],
+          timeStamp: info["timestamp"],
+          sender: info["sender"],
+          isSender: info["sender"] == widget.userData.data.id,
+          senderImage: info["senderImage"],
+          friendId: info["friendId"],
+        ));
+      });
+    });
+
+    //listens when the client is disconnected from the Server
+    socket.on('disconnect', (data) {
+      print('disconnect');
+    });
   }
 
   _get() async {
     ChatResponseModel? chatData =
         await APIChatService.getChat(widget.chatsData.chatId);
-
     setState(() {
       for (var element in chatData!.messages) {
         Users senderImage =
@@ -52,7 +92,7 @@ class _BodyState extends State<Body> {
 
         chatMessages.add(
           ChatMessage(
-            text: element.content,
+            content: element.content,
             chatId: element.chat.id,
             timeStamp: element.timestamp,
             sender: element.sender,
@@ -61,8 +101,6 @@ class _BodyState extends State<Body> {
             friendId: chatData.friendData.id,
           ),
         );
-
-        print(chatMessages[0]);
       }
     });
   }
@@ -71,12 +109,14 @@ class _BodyState extends State<Body> {
   void dispose() {
     socket
         .disconnect(); // --> disconnects the Socket.IO client once the screen is disposed
+    socket.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    print(chatMessages[0]);
+    print(chatMessages.length);
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     return Column(
@@ -86,9 +126,15 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.symmetric(
                 horizontal: screenWidth * 0.08, vertical: 30),
             child: ListView.builder(
+              controller: _controller,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              reverse: true,
+              cacheExtent: 1000,
               itemCount: chatMessages.length,
-              itemBuilder: (context, index) =>
-                  Message(message: chatMessages[index]),
+              itemBuilder: (context, index) => Message(
+                  message: chatMessages[chatMessages.length - index - 1],
+                  image: widget.chatsData.image),
             ),
           ),
         ),
@@ -99,19 +145,5 @@ class _BodyState extends State<Body> {
             userData: widget.userData),
       ],
     );
-  }
-
-  void setMessages(data) {
-    setState(() {
-      chatMessages.add(ChatMessage(
-        text: data.content,
-        chatId: data.chatId,
-        timeStamp: data.timestamp,
-        sender: data.sender,
-        isSender: data.sender == widget.userData.data.id,
-        senderImage: data.senderImage,
-        friendId: data.friendId,
-      ));
-    });
   }
 }

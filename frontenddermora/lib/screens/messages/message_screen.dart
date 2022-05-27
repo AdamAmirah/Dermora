@@ -50,7 +50,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundImage: AssetImage(widget.userData.data.image),
+              backgroundImage: AssetImage(widget.chatsData.image),
               radius: 20,
             ),
             SizedBox(
@@ -60,7 +60,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Dr  ${widget.userData.data.fullName}",
+                  "Dr  ${widget.chatsData.name}",
                   style: GoogleFonts.abhayaLibre(
                       color: Colors.black, fontSize: 20),
                 ),

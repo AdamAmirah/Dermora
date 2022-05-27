@@ -1,13 +1,13 @@
 class Chat {
   final String name, lastMessage, image, time, chatId, friendId;
-  final bool isActive;
+  final bool status;
 
   Chat({
     this.name = '',
     this.lastMessage = '',
     this.image = '',
     this.time = '',
-    this.isActive = false,
+    this.status = false,
     this.chatId = '',
     this.friendId = '',
   });

@@ -99,17 +99,20 @@ class Friends {
     required this.id,
     required this.chatId,
     required this.image,
+    required this.status,
   });
   late final String name;
   late final String id;
   late final String chatId;
   late final String image;
+  late final bool status;
 
   Friends.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     id = json['_id'];
     chatId = json['chatId'];
     image = json['image'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -118,6 +121,8 @@ class Friends {
     _data['_id'] = id;
     _data['chatId'] = chatId;
     _data['image'] = image;
+    _data['status'] = status;
+
     return _data;
   }
 }

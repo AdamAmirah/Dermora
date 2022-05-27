@@ -40,7 +40,15 @@ const userSchema = mongoose.Schema(
     },
     friends: {
       // users for doctors and vice versa
-      type: [{ name: String, image: String, friendId: String, chatId: String }],
+      type: [
+        {
+          name: String,
+          image: String,
+          friendId: String,
+          chatId: String,
+          status: Boolean,
+        },
+      ],
       default: [],
     },
   },
