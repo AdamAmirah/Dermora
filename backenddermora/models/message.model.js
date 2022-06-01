@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const dbConfig = require("../config");
-const DB_URL = dbConfig.db;
+const DB_URL = "mongodb://localhost:27017/dermora";
 
 const messageSchema = mongoose.Schema({
   chat: { type: mongoose.Schema.Types.ObjectId, ref: "chat" },

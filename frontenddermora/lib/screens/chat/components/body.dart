@@ -21,7 +21,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List chatsData = [];
-  late Profile userData;
+  Profile? userData;
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -98,7 +98,7 @@ class _BodyState extends State<Body> {
                 width: screenWidth * 0.05,
               ),
               CircleAvatar(
-                backgroundImage: AssetImage(userData.data.image),
+                backgroundImage: AssetImage(userData!.data.image),
                 radius: 29,
               )
             ],
@@ -122,7 +122,7 @@ class _BodyState extends State<Body> {
                           MaterialPageRoute(
                               builder: (context) => MessagesScreen(
                                   chatsData: chatsData[index],
-                                  userData: userData)),
+                                  userData: userData!)),
                         );
                       }),
                   Opacity(

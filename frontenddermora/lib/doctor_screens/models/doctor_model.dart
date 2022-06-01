@@ -186,20 +186,16 @@ class WorkDetails {
 class UserInfo {
   UserInfo({
     required this.skinConcerns,
-    required this.doctors,
   });
   late final List<dynamic> skinConcerns;
-  late final List<dynamic> doctors;
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     skinConcerns = List.castFrom<dynamic, dynamic>(json['skinConcerns']);
-    doctors = List.castFrom<dynamic, dynamic>(json['doctors']);
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['skinConcerns'] = skinConcerns;
-    _data['doctors'] = doctors;
     return _data;
   }
 }

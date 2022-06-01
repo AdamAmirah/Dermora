@@ -10,25 +10,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../services/api_service.dart';
 import '../util/styles.dart';
 
-// class EntryInheritedWidget extends InheritedWidget {
-//   final List userData;
-//   const EntryInheritedWidget(
-//       {required Key key, required this.userData, required Widget child})
-//       : super(key: key, child: child);
-
-//   @override
-//   bool updateShouldNotify(EntryInheritedWidget old) {
-//     print('In updateShouldNotify');
-//     return userData != old.userData;
-//   }
-
-//   static EntryInheritedWidget? of(BuildContext context) {
-//     // You could also just directly return the name here
-//     // as there's only one field
-//     return context.dependOnInheritedWidgetOfExactType<EntryInheritedWidget>();
-//   }
-// }
-
 class EntryWidget extends StatefulWidget {
   const EntryWidget({Key? key}) : super(key: key);
 
@@ -48,8 +29,6 @@ class _EntryWidgetState extends State<EntryWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // final res = EntryInheritedWidget.of(context)!.userData;
-
     return Scaffold(
       body: IndexedStack(
         children: screens,

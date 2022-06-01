@@ -10,6 +10,7 @@ import 'package:frontenddermora/util/styles.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../../config.dart';
+import '../../doctor_screens/doctorEntery.dart';
 import '../entry.dart';
 import './register.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -228,7 +229,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        EntryWidget()),
+                                                        DoctorEntryWidget(
+                                                            selectedIndex: 0)),
                                                 (route) => false)
                                           }
                                         else

@@ -61,6 +61,8 @@ class User {
     required this.doctorInfo,
     required this.userInfo,
     required this.friends,
+    required this.friendRequests,
+    required this.sentRequests,
     required this.v,
   });
   late final String id;
@@ -74,6 +76,8 @@ class User {
   late final String kind;
   late final UserInfo userInfo;
   late final List<dynamic> friends;
+  late final List<dynamic> friendRequests;
+  late final List<dynamic> sentRequests;
   late final String phone;
   late final DoctorInfo doctorInfo;
   late final int v;
@@ -92,6 +96,8 @@ class User {
     kind = json['kind'];
     userInfo = UserInfo.fromJson(json['userInfo']);
     friends = List.castFrom<dynamic, dynamic>(json['friends']);
+    friendRequests = List.castFrom<dynamic, dynamic>(json['friendRequests']);
+    sentRequests = List.castFrom<dynamic, dynamic>(json['sentRequests']);
     phone = json['phone'];
     doctorInfo = DoctorInfo.fromJson(json['doctorInfo']);
     v = json['__v'];
@@ -110,6 +116,8 @@ class User {
     _data['kind'] = kind;
     _data['userInfo'] = userInfo.toJson();
     _data['friends'] = friends;
+    _data['friendRequests'] = friendRequests;
+    _data['sentRequests'] = sentRequests;
     _data['phone'] = phone;
     _data['doctorInfo'] = doctorInfo.toJson();
     _data['__v'] = v;
@@ -151,23 +159,19 @@ class UserInfo {
   UserInfo({
     required this.skinType,
     required this.skinConcerns,
-    required this.doctors,
   });
   late final String skinType;
   late final List<String> skinConcerns;
-  late final List<dynamic> doctors;
 
   UserInfo.fromJson(Map<String, dynamic> json) {
     skinType = json['skinType'];
     skinConcerns = List.castFrom<dynamic, String>(json['skinConcerns']);
-    doctors = List.castFrom<dynamic, dynamic>(json['doctors']);
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['skinType'] = skinType;
     _data['skinConcerns'] = skinConcerns;
-    _data['doctors'] = doctors;
     return _data;
   }
 }

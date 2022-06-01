@@ -31,6 +31,7 @@ app.use(
 );
 
 require("./sockets/chat.socket")(io);
+require("./sockets/friend.socket")(io);
 
 app.use(errors.errorHandler);
 app.use("/", authRouter);

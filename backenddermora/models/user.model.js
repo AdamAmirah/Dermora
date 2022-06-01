@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const dbConfig = require("../config");
-const DB_URL = dbConfig.db;
+const DB_URL = "mongodb://localhost:27017/dermora";
 const bcrypt = require("bcrypt");
 const auth = require("../helpers/auth");
 
@@ -36,17 +36,43 @@ const userSchema = mongoose.Schema(
     userInfo: {
       skinType: String,
       skinConcerns: Array,
-      doctors: Array,
     },
     friends: {
       // users for doctors and vice versa
       type: [
         {
           name: String,
+          id: String,
           image: String,
           friendId: String,
           chatId: String,
           status: Boolean,
+        },
+      ],
+      default: [],
+    },
+    friendRequests: {
+      type: [
+        {
+          name: String,
+          id: String,
+          time: String,
+          age: Number,
+          city: String,
+          image: String,
+        },
+      ],
+      default: [],
+    },
+    sentRequests: {
+      type: [
+        {
+          name: String,
+          id: String,
+          time: String,
+          age: Number,
+          city: String,
+          image: String,
         },
       ],
       default: [],
@@ -57,6 +83,8 @@ const userSchema = mongoose.Schema(
 
 const User = mongoose.model("user", userSchema);
 exports.User = User;
+
+//////////////////////////////////////////////////////
 
 exports.getUser = (userId) => {
   return new Promise((resolve, reject) => {
@@ -195,6 +223,8 @@ exports.createUser = (email, password, name) => {
 
 exports.login = (email, password) => {
   console.log("welcome");
+  console.log(DB_URL);
+
   return new Promise((resolve, reject) => {
     mongoose
       .connect(DB_URL, { useUnifiedTopology: true, useNewUrlParser: true })

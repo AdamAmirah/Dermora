@@ -10,6 +10,7 @@ import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/services/shared_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 
+import 'doctor_screens/doctorEntery.dart';
 import 'screens/auth/register.dart';
 
 Widget _defaultHome = const LoginScreen();
@@ -17,7 +18,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   bool _result = await SharedService.isLoggedIn();
   if (_result) {
-    _defaultHome = const EntryWidget();
+    var loginDetails = await SharedService.loginDetails();
+    if (loginDetails!.data.user.kind != "doctor") {
+      _defaultHome = const EntryWidget();
+    } else {
+      _defaultHome = DoctorEntryWidget(selectedIndex: 0);
+    }
   }
   runApp(MyApp());
 }
@@ -38,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomePageScreen(),
+        '/chat': (context) => const ChatScreen(),
       },
     );
   }

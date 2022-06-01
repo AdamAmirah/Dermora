@@ -2,39 +2,23 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../auth/models/Profile_model.dart';
-import './components/DoctorsDetails.dart';
-import './components/cardDetails.dart';
+import '../../screens/auth/models/Profile_model.dart';
+import '../../services/api_service.dart';
+import 'components/doctorDetails.dart';
 import 'components/body.dart';
 
-class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({Key? key}) : super(key: key);
+class DoctorsHomePageScreen extends StatefulWidget {
+  const DoctorsHomePageScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomePageScreen> createState() => _HomePageScreen();
+  State<DoctorsHomePageScreen> createState() => _DoctorsHomePageScreen();
 }
 
-class _HomePageScreen extends State<HomePageScreen> {
-  int _selectedIndex = 1;
-  Profile? userData;
-
-  @override
-  void initState() {
-    super.initState();
-    _get();
-  }
-
-  _get() async {
-    Profile? user1 = await APIService.getUserData();
-    setState(() {
-      userData = user1!;
-    });
-  }
-
+class _DoctorsHomePageScreen extends State<DoctorsHomePageScreen> {
   get screenWidth => null;
 
   @override
@@ -42,14 +26,14 @@ class _HomePageScreen extends State<HomePageScreen> {
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          buildAppBar(userData!),
+          buildAppBar(),
         ],
         body: Body(),
       ),
     );
   }
 
-  SliverAppBar buildAppBar(Profile userData) {
+  SliverAppBar buildAppBar() {
     return SliverAppBar(
       backgroundColor: Colors.white,
       // Color(0xFFCCD9FD),
@@ -69,7 +53,7 @@ class _HomePageScreen extends State<HomePageScreen> {
             padding: const EdgeInsets.only(left: 20),
             child: Column(children: [
               Text(
-                'Hello, ${userData.data.fullName}',
+                'Hello, Furqan',
                 style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 14.0,
@@ -98,7 +82,7 @@ class _HomePageScreen extends State<HomePageScreen> {
                 BoxShadow(blurRadius: 7, spreadRadius: 3, color: kSecBlue)
               ], shape: BoxShape.circle, color: kSecBlue.withOpacity(0.1)),
               child: Image.asset(
-                userData.data.image,
+                "assets/images/avatar.png",
                 fit: BoxFit.contain,
               ),
             ),

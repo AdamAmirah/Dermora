@@ -37,6 +37,8 @@ class Data {
     required this.image,
     required this.kind,
     required this.friends,
+    required this.friendRequests,
+    required this.sentRequests,
     required this.v,
     required this.phone,
   });
@@ -52,6 +54,8 @@ class Data {
   late final String image;
   late final String kind;
   late final List<Friends> friends;
+  late final List<FriendsRequests> friendRequests;
+  late final List<SentRequests> sentRequests;
   late final int v;
   late final String phone;
 
@@ -69,6 +73,12 @@ class Data {
     kind = json['kind'];
     friends =
         List.from(json['friends']).map((e) => Friends.fromJson(e)).toList();
+    friendRequests = List.from(json['friendRequests'])
+        .map((e) => FriendsRequests.fromJson(e))
+        .toList();
+    sentRequests = List.from(json['sentRequests'])
+        .map((e) => SentRequests.fromJson(e))
+        .toList();
     v = json['__v'];
     phone = json['phone'];
   }
@@ -87,6 +97,9 @@ class Data {
     _data['image'] = image;
     _data['kind'] = kind;
     _data['friends'] = friends.map((e) => e.toJson()).toList();
+    _data['friendsRequests'] = friendRequests.map((e) => e.toJson()).toList();
+    _data['sentRequests'] = sentRequests.map((e) => e.toJson()).toList();
+
     _data['__v'] = v;
     _data['phone'] = phone;
     return _data;
@@ -109,7 +122,7 @@ class Friends {
 
   Friends.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    id = json['_id'];
+    id = json['id'];
     chatId = json['chatId'];
     image = json['image'];
     status = json['status'];
@@ -118,11 +131,69 @@ class Friends {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['name'] = name;
-    _data['_id'] = id;
+    _data['id'] = id;
     _data['chatId'] = chatId;
     _data['image'] = image;
     _data['status'] = status;
 
+    return _data;
+  }
+}
+
+class FriendsRequests {
+  FriendsRequests({
+    required this.name,
+    required this.id,
+    required this.time,
+    required this.image,
+    required this.age,
+    required this.city,
+  });
+  late final String name;
+  late final String id;
+  late final String time;
+  late final String image;
+  late final String city;
+  late final int age;
+
+  FriendsRequests.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    id = json['id'];
+    time = json['time'];
+    image = json['image'];
+    city = json['city'];
+    age = json['age'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['name'] = name;
+    _data['id'] = id;
+    _data['time'] = time;
+    _data['image'] = image;
+    _data['age'] = age;
+    _data['city'] = city;
+
+    return _data;
+  }
+}
+
+class SentRequests {
+  SentRequests({
+    required this.name,
+    required this.id,
+  });
+  late final String name;
+  late final String id;
+  SentRequests.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['name'] = name;
+    _data['id'] = id;
     return _data;
   }
 }
@@ -209,7 +280,7 @@ class UserInfo {
   UserInfo.fromJson(Map<String, dynamic> json) {
     skinType = json['skinType'];
     skinConcerns = List.castFrom<dynamic, String>(json['skinConcerns']);
-    doctors = List.castFrom<dynamic, dynamic>(json['doctors']);
+    // doctors = List.castFrom<dynamic, dynamic>(json['doctors']);
   }
 
   Map<String, dynamic> toJson() {

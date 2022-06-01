@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:frontenddermora/doctor_screens/profile/shifts.dart';
 import 'package:frontenddermora/screens/primary_questions/components/reusableButton.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -20,7 +21,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<Concern> concerns = [];
-  late Profile userData;
+  Profile? userData;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _BodyState extends State<Body> {
       userData = user1!;
     });
     setState(() {
-      for (var element in userData.data.userInfo.skinConcerns) {
+      for (var element in userData!.data.userInfo.skinConcerns) {
         concerns.add(
           Concern(element, false),
         );
@@ -63,9 +64,14 @@ class _BodyState extends State<Body> {
 
     return Column(
       children: [
-        ProfileDetails(screenWidth: screenWidth, userData: userData),
-        ProfileData(screenWidth: screenWidth, list: list),
-        SkinConcerns(screenWidth, concerns)
+        ProfileDetails(screenWidth: screenWidth, userData: userData!),
+        userData!.data.kind == "user"
+            ? ProfileData(screenWidth: screenWidth, list: list)
+            : Text(""),
+        userData!.data.kind == "user"
+            ? SkinConcerns(screenWidth, concerns)
+            : Text(""),
+        userData!.data.kind == "doctor" ? Shifts() : Text("")
       ],
     );
   }
