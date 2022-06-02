@@ -8,6 +8,7 @@ import 'package:frontenddermora/screens/routine/skincare_routine.dart';
 import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../services/api_doctors.dart';
 import './DoctorsDetails.dart';
@@ -23,11 +24,37 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   List<Map> doctorsList = [];
   late DoctorModel availableDoctors;
-
+  late Socket socket;
   @override
   void initState() {
     super.initState();
+    initializeSocket();
+    socket.connect();
     _get();
+  }
+
+  void initializeSocket() {
+    socket = io("http://192.168.43.143:3000", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.on('connect', (data) {
+      print("client is connected to the socket");
+    });
+    socket.on('accepted', (data) {
+      print('accepted');
+      setState(() {
+        for (var ele in doctorsList) {
+          if (data["id"] == ele["id"]) {
+            ele["isRequestAccepted"] = true;
+            break;
+          }
+        }
+      });
+    });
+    socket.on('disconnect', (data) {
+      print('disconnect');
+    });
   }
 
   _get() async {
@@ -36,24 +63,40 @@ class _BodyState extends State<Body> {
 
     setState(() {
       availableDoctors = doctors!;
-
+      var res = false;
       for (var element in availableDoctors.data) {
+        userData!.data.friends.forEach((ele) {
+          if (ele.id == element.id) {
+            res = true;
+          }
+        });
         doctorsList.add({
-          "userId": userData!.data.id,
+          "userId": userData.data.id,
           "userImage": userData.data.image,
           "userName": userData.data.fullName,
           "id": element.id,
           "image": element.image,
           "name": element.fullName,
+          "myCity": userData.data.address.city,
+          "myAge": userData.data.age,
           "label": "Dr. ${element.fullName}",
           "Key":
               "Dermatologist   ${element.doctorInfo.workDetails.experience} Years Experience",
           "isRequestSent": false,
-          "isRequestAccepted": false,
+          "isRequestAccepted": res,
           "isRequestDenied": false,
         });
       }
+      socket.emit('joinNotificationRoom', doctorsList[0]["userId"]);
     });
+  }
+
+  @override
+  void dispose() {
+    socket
+        .disconnect(); // --> disconnects the Socket.IO client once the screen is disposed
+    socket.dispose();
+    super.dispose();
   }
 
   @override
@@ -124,9 +167,8 @@ class _BodyState extends State<Body> {
                         padding: EdgeInsets.symmetric(
                           horizontal: 30.0,
                         ),
-                        child: DoctorsDetails(
-                          list: doctorsList,
-                        ),
+                        child:
+                            DoctorsDetails(list: doctorsList, socket: socket),
                       ),
                     ],
                   ),

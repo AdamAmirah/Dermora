@@ -32,7 +32,6 @@ class DoctorsDetails extends StatefulWidget {
 
 class _DoctorsDetailsState extends State<DoctorsDetails> {
   late Socket socket;
-  List<Chat> data = [];
 
   @override
   void initState() {
@@ -209,6 +208,9 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                                           "image": widget.userData.data.image,
                                           "name": widget.userData.data.fullName,
                                         }));
+
+                                        socket.emit('requestAccepted',
+                                            {ele["friendId"], ele["id"]});
 
                                         Navigator.push(
                                           context,

@@ -6,21 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/services/chatting_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socket_io_client/socket_io_client.dart';
+
+import '../../../doctor_screens/doctorEntery.dart';
+import '../../entry.dart';
 
 class DoctorsDetails extends StatefulWidget {
-  DoctorsDetails({
-    Key? key,
-    required this.list,
-  }) : super(key: key);
+  DoctorsDetails(
+      {Key? key, required this.list, required, required this.socket, userData})
+      : super(key: key);
 
   final List<Map> list;
-
+  Socket socket;
   @override
   State<DoctorsDetails> createState() => _DoctorsDetailsState();
 }
 
 class _DoctorsDetailsState extends State<DoctorsDetails> {
   bool isAnotherDoctorBooked = false;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -94,41 +98,30 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                         style:
                             TextStyle(color: Color(0xFF8F8F8F), fontSize: 10),
                       ),
-                      trailing: ele["isRequestSent"]
-                          ? ElevatedButton(
-                              onPressed:
-                                  ele["isRequestAccepted"] ? () {} : null,
-                              style: ButtonStyle(
-                                backgroundColor: ele["isRequestAccepted"]
-                                    ? MaterialStateProperty.all(kSecBlue)
-                                    : ele["isRequestDenied"]
-                                        ? MaterialStateProperty.all(
-                                            Colors.transparent)
-                                        : MaterialStateProperty.all(
-                                            Colors.transparent),
-                              ),
-                              child: ele["isRequestAccepted"]
-                                  ? Text(
-                                      "Start Chatting",
-                                      style: TextStyle(
-                                          color: Colors.white, fontSize: 10),
-                                    )
-                                  : ele["isRequestDenied"]
-                                      ? Text(
-                                          "Request Denied",
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 10),
-                                        )
-                                      : Text(
-                                          "Wait..",
-                                          style: TextStyle(
-                                            color: Colors.grey[400],
-                                            fontSize: 10,
-                                          ),
-                                        ),
+                      trailing: ele["isRequestAccepted"]
+                          ? IconButton(
+                              iconSize: 20,
+                              color: kSecBlue,
+                              icon: Icon(Icons.chat_bubble_outline_rounded,
+                                  size: 20),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EntryWidget(
+                                            selectedIndex: 2,
+                                          )),
+                                );
+                              },
                             )
-                          : isAnotherDoctorBooked
-                              ? Text("")
+                          : ele["isRequestSent"]
+                              ? Text(
+                                  "Wait..",
+                                  style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 10,
+                                  ),
+                                )
                               : IconButton(
                                   icon: Icon(Icons.keyboard_arrow_right),
                                   iconSize: 30,
@@ -138,18 +131,15 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                                       ele["isRequestSent"] = true;
                                       isAnotherDoctorBooked = true;
                                     });
-                                    // print("sdfasafsd");
-                                    // String message =
-                                    //     await APIChatService.createChat(json.encode({
-                                    //   "userId": ele["userId"],
-                                    //   "userImage": ele["userImage"],
-                                    //   "userName": ele["userName"],
-                                    //   "id": ele["id"],
-                                    //   "image": ele["image"],
-                                    //   "name": ele["name"],
-                                    // }));
 
-                                    // print(message);
+                                    widget.socket.emit("sendFriendRequest", {
+                                      "name": ele["userName"],
+                                      "id": ele["userId"],
+                                      "userId": ele["id"],
+                                      "image": ele["userImage"],
+                                      "city": ele["myCity"],
+                                      "age": ele["myAge"],
+                                    });
                                   },
                                 ),
                     ),

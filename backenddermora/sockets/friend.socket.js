@@ -8,26 +8,30 @@ module.exports = (io) => {
     });
     socket.on("sendFriendRequest", (data) => {
       console.log(data);
-      // when a user sends a request to a doctor
+      var d = new Date();
 
-      sendFriendRequest(data) // update the db
+      sendFriendRequest({ ...data, time: d.toLocaleTimeString() }) // update the db
         .then(() => {
-          socket.emit("requestSent"); // emit that a request has been sent  and update the user button in flutter
+          var d = new Date();
           io.to(data.userId).emit("newFriendRequest", {
             name: data.name,
             id: data.id,
             image: data.image,
             city: data.city,
             age: data.age,
-            time: data.time,
+            time: d.toLocaleTimeString(),
           });
         })
         .catch((err) => {
           socket.emit("requestFailed");
         });
     });
-    socket.on("requestAccepted", (data) => {
-      io.to(data.userId).emit("requestAccepted");
+    socket.on("requestAccepted", (userId, id) => {
+      console.log("here iam in the server");
+      console.log(userId, id);
+      io.to(userId).emit("accepted", {
+        id: id,
+      });
     });
   });
 };

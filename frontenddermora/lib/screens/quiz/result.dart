@@ -111,7 +111,7 @@ class Result extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const EntryWidget()),
+                          builder: (context) => EntryWidget(selectedIndex: 0)),
                     );
                   },
                   child: Padding(

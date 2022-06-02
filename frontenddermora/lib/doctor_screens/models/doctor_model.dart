@@ -136,7 +136,6 @@ class DoctorInfo {
   DoctorInfo.fromJson(Map<String, dynamic> json) {
     workDetails = WorkDetails.fromJson(json['workDetails']);
     isAvailable = json['isAvailable'];
-    noOfPatients = json['noOfPatients'];
     patients = List.castFrom<dynamic, dynamic>(json['patients']);
     requests = List.castFrom<dynamic, dynamic>(json['requests']);
   }

@@ -239,7 +239,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        EntryWidget()),
+                                                        EntryWidget(
+                                                            selectedIndex: 0)),
                                                 (route) => false)
                                           }
                                       }

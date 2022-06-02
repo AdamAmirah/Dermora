@@ -20,7 +20,7 @@ void main() async {
   if (_result) {
     var loginDetails = await SharedService.loginDetails();
     if (loginDetails!.data.user.kind != "doctor") {
-      _defaultHome = const EntryWidget();
+      _defaultHome = EntryWidget(selectedIndex: 0);
     } else {
       _defaultHome = DoctorEntryWidget(selectedIndex: 0);
     }
