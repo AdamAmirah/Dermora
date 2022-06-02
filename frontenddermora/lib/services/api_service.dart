@@ -14,7 +14,6 @@ class APIService {
   static var client = http.Client();
 
   static Future<LoginResponseModel?> login(LoginRequestModel model) async {
-    print(jsonEncode(model.toJson()));
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
     };
@@ -33,8 +32,6 @@ class APIService {
   }
 
   static Future<bool> register(RegisterRequestModel model) async {
-    print(jsonEncode(model.toJson()));
-
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
     };

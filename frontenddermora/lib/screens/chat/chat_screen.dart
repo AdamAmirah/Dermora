@@ -14,8 +14,6 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  int _selectedIndex = 1;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

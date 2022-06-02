@@ -104,14 +104,18 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                               color: kSecBlue,
                               icon: Icon(Icons.chat_bubble_outline_rounded,
                                   size: 20),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => EntryWidget(
-                                            selectedIndex: 2,
-                                          )),
-                                );
+                              onPressed: () async {
+                                var message = await APIChatService.updateChat(
+                                    ele["chatId"]);
+                                if (message == "success") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EntryWidget(
+                                              selectedIndex: 2,
+                                            )),
+                                  );
+                                }
                               },
                             )
                           : ele["isRequestSent"]

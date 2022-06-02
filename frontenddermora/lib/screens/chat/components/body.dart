@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/chat/model/chat.dart';
 import 'package:frontenddermora/screens/messages/message_screen.dart';
 import 'package:frontenddermora/util/styles.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../config.dart';
 import '../../../services/api_service.dart';
@@ -58,83 +59,93 @@ class _BodyState extends State<Body> {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: screenWidth * 0.05, vertical: 50),
-          child: Row(
+    return userData == null
+        ? Padding(
+            padding: const EdgeInsets.only(top: 40),
+            child: Center(
+                child: LoadingAnimationWidget.staggeredDotsWave(
+              color: kSecBlue,
+              size: 50,
+            )),
+          )
+        : Column(
             children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.07),
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.05),
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                            hintText: "Search",
-                            border: InputBorder.none,
-                          ),
+              Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05, vertical: 50),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.07),
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Search",
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: screenWidth * 0.1,
+                            ),
+                            Icon(
+                              Icons.search_outlined,
+                              color: kSecBlue,
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        width: screenWidth * 0.1,
-                      ),
-                      Icon(
-                        Icons.search_outlined,
-                        color: kSecBlue,
-                      ),
-                    ],
+                    ),
+                    SizedBox(
+                      width: screenWidth * 0.05,
+                    ),
+                    CircleAvatar(
+                      backgroundImage: AssetImage(userData!.data.image),
+                      radius: 29,
+                    )
+                  ],
+                ),
+              ),
+              Expanded(
+                child: SmartRefresher(
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  controller: _refreshController,
+                  onRefresh: _onRefresh,
+                  child: ListView.builder(
+                    itemCount: chatsData.length,
+                    itemBuilder: (context, index) => Column(
+                      children: [
+                        ChatCard(
+                            chat: chatsData[index],
+                            press: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MessagesScreen(
+                                        chatsData: chatsData[index],
+                                        userData: userData!)),
+                              );
+                            }),
+                        Opacity(
+                          opacity: 0.9,
+                          child: Divider(),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
-              SizedBox(
-                width: screenWidth * 0.05,
-              ),
-              CircleAvatar(
-                backgroundImage: AssetImage(userData!.data.image),
-                radius: 29,
-              )
             ],
-          ),
-        ),
-        Expanded(
-          child: SmartRefresher(
-            enablePullDown: true,
-            enablePullUp: true,
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            child: ListView.builder(
-              itemCount: chatsData.length,
-              itemBuilder: (context, index) => Column(
-                children: [
-                  ChatCard(
-                      chat: chatsData[index],
-                      press: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MessagesScreen(
-                                  chatsData: chatsData[index],
-                                  userData: userData!)),
-                        );
-                      }),
-                  Opacity(
-                    opacity: 0.9,
-                    child: Divider(),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+          );
   }
 }

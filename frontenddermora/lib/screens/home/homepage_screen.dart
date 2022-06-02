@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../auth/models/Profile_model.dart';
 import './components/DoctorsDetails.dart';
@@ -40,12 +41,21 @@ class _HomePageScreen extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          buildAppBar(userData!),
-        ],
-        body: Body(),
-      ),
+      body: userData == null
+          ? Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                color: kSecBlue,
+                size: 50,
+              )),
+            )
+          : NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                buildAppBar(userData!),
+              ],
+              body: Body(),
+            ),
     );
   }
 

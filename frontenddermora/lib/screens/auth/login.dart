@@ -220,7 +220,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     setState(() {
                                       isAPIProcess = false;
                                     }),
-                                    print("hi2"),
                                     if (response != null)
                                       {
                                         if (response.data.user.kind == "doctor")

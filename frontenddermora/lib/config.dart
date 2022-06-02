@@ -9,4 +9,6 @@ class Config {
   static const String articlesAPI = "/articles";
   static const String availableDoctorsAPI = "/availableDoctors";
   static const String createChatAPI = "/createChat";
+  static const String updateChatAPI = "/updateChat";
+  static const String updateChatStatusAPI = "/updateChatStatus";
 }

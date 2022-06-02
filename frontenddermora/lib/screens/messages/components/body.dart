@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
 import 'package:frontenddermora/screens/chat/model/chat.dart';
+import 'package:frontenddermora/screens/chat/model/chatInfo_response_model.dart';
 import 'package:frontenddermora/screens/chat/model/chat_response_model.dart';
 import 'package:frontenddermora/screens/messages/components/chat_textField.dart';
 import 'package:frontenddermora/screens/messages/components/message.dart';
@@ -17,11 +18,16 @@ import '../../../services/api_service.dart';
 import '../../../services/chatting_service.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key, required this.userData, required this.chatsData})
-      : super(key: key);
+  const Body({
+    Key? key,
+    required this.userData,
+    required this.chatsData,
+    required this.closeChat,
+  }) : super(key: key);
 
   final Profile userData;
   final Chat chatsData;
+  final bool closeChat;
   @override
   State<Body> createState() => _BodyState();
 }
@@ -85,6 +91,7 @@ class _BodyState extends State<Body> {
   _get() async {
     ChatResponseModel? chatData =
         await APIChatService.getChat(widget.chatsData.chatId);
+
     setState(() {
       for (var element in chatData!.messages) {
         Users senderImage =
@@ -137,11 +144,13 @@ class _BodyState extends State<Body> {
             ),
           ),
         ),
-        ChatTextFiled(
-            screenWidth: screenWidth,
-            socket: socket,
-            chatsData: widget.chatsData,
-            userData: widget.userData),
+        widget.closeChat
+            ? Text("")
+            : ChatTextFiled(
+                screenWidth: screenWidth,
+                socket: socket,
+                chatsData: widget.chatsData,
+                userData: widget.userData),
       ],
     );
   }

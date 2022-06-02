@@ -50,7 +50,6 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
       print("client is connected to the socket");
     });
     socket.on('newFriendRequest', (data) {
-      print(data);
       setState(() {
         widget.list.add({
           "friendId": data["id"],

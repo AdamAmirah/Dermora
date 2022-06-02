@@ -46,7 +46,6 @@ class ServerMessage {
   late final String friendId;
 
   ServerMessage.fromJson(Map<String, dynamic> json) {
-    print(json);
     content = json['content'];
     chatId = json['chatId'];
     timeStamp = json['timeStamp'];

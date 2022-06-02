@@ -5,10 +5,29 @@ const User = require("./user.model").User;
 
 const chatSchema = mongoose.Schema({
   users: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
+  startTime: Date,
+  endTime: Date,
+  isStarted: Boolean,
+  isClosed: Boolean,
 });
 
 const Chat = mongoose.model("chat", chatSchema);
 exports.Chat = Chat;
+
+exports.getChatInfo = async (chatId) => {
+  try {
+    await mongoose.connect(DB_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+    let chat = await Chat.findById(chatId);
+    mongoose.disconnect();
+    return chat;
+  } catch (error) {
+    mongoose.disconnect();
+    throw new Error(error);
+  }
+};
 
 exports.getChat = async (chatId) => {
   try {
@@ -80,9 +99,12 @@ exports.createChat = async (data) => {
       { $pull: { sentRequests: { id: data.id } } }
     );
     // data here includes the user id and friend id and other details
-    console.log(data);
     let newChat = new Chat({
       users: [data.userId, data.id],
+      startTime: "",
+      endTime: "",
+      isStarted: false,
+      isClosed: false,
     });
     let chatDoc = await newChat.save();
 
@@ -116,6 +138,66 @@ exports.createChat = async (data) => {
         },
       }
     );
+    mongoose.disconnect();
+    return;
+  } catch (error) {
+    mongoose.disconnect();
+    throw new Error(error);
+  }
+};
+
+exports.updateChat = async (chatId) => {
+  try {
+    await mongoose.connect(DB_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+
+    var d = new Date();
+
+    await Chat.findByIdAndUpdate(
+      { _id: chatId },
+      {
+        $set: {
+          startTime: Date(d.getTime()),
+          endTime: d.setMinutes(d.getMinutes() + 5),
+          isStarted: true,
+        },
+      }
+    );
+
+    mongoose.disconnect();
+    return;
+  } catch (error) {
+    mongoose.disconnect();
+    throw new Error(error);
+  }
+};
+
+exports.updateChatStatus = async (chatId, userId) => {
+  try {
+    await mongoose.connect(DB_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+
+    await Chat.findByIdAndUpdate(
+      { _id: chatId },
+      {
+        $set: {
+          isClosed: true,
+        },
+      }
+    );
+    await User.updateOne(
+      { _id: userId, "friends.chatId": chatId },
+      {
+        $set: {
+          "friends.$.status": false,
+        },
+      }
+    );
+
     mongoose.disconnect();
     return;
   } catch (error) {

@@ -7,7 +7,6 @@ module.exports = (io) => {
     });
     socket.on("sendMessage", (msg) => {
       newNessage(msg).then(() => {
-        console.log("his theree");
         io.to(msg.chatId).emit("newMessage", msg);
       });
     });

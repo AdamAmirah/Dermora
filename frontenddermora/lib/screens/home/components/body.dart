@@ -64,12 +64,19 @@ class _BodyState extends State<Body> {
     setState(() {
       availableDoctors = doctors!;
       var res = false;
+      var chatId;
       for (var element in availableDoctors.data) {
-        userData!.data.friends.forEach((ele) {
+        var notIncluded = true;
+        for (var ele in userData!.data.friends) {
           if (ele.id == element.id) {
             res = true;
+            chatId = ele.chatId;
+            if (!ele.status) {
+              notIncluded = false;
+            }
           }
-        });
+        }
+        if (!notIncluded) continue;
         doctorsList.add({
           "userId": userData.data.id,
           "userImage": userData.data.image,
@@ -85,6 +92,7 @@ class _BodyState extends State<Body> {
           "isRequestSent": false,
           "isRequestAccepted": res,
           "isRequestDenied": false,
+          "chatId": chatId
         });
       }
       socket.emit('joinNotificationRoom', doctorsList[0]["userId"]);

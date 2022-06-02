@@ -223,14 +223,12 @@ exports.createUser = (email, password, name) => {
 
 exports.login = (email, password) => {
   console.log("welcome");
-  console.log(DB_URL);
 
   return new Promise((resolve, reject) => {
     mongoose
       .connect(DB_URL, { useUnifiedTopology: true, useNewUrlParser: true })
       .then(() => User.findOne({ email: email }))
       .then((user) => {
-        console.log(user);
         if (!user) {
           mongoose.disconnect();
           console.log("this email does not exist");
@@ -244,7 +242,6 @@ exports.login = (email, password) => {
             } else {
               mongoose.disconnect();
               const token = auth.generateAccessToken(email);
-              console.log(user);
               resolve({ user, token });
             }
           });

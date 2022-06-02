@@ -284,7 +284,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       setState(() {
                                         isAPIProcess = false;
                                       }),
-                                      print("hi2"),
                                       if (response)
                                         {
                                           FormHelper.showSimpleAlertDialog(

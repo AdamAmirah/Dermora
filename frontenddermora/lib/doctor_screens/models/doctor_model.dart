@@ -55,7 +55,6 @@ class Data {
   late final int v;
 
   Data.fromJson(Map<String, dynamic> json) {
-    print(json);
     address = Address.fromJson(json['address']);
     doctorInfo = DoctorInfo.fromJson(json['doctorInfo']);
     userInfo = UserInfo.fromJson(json['userInfo']);
@@ -164,7 +163,6 @@ class WorkDetails {
   late final String experience;
 
   WorkDetails.fromJson(Map<String, dynamic> json) {
-    print(json);
     clinicName = json['clinicName'];
     address = json['address'];
     jobTitle = json['jobTitle'];

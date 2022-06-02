@@ -12,7 +12,6 @@ exports.getChat = (req, res, next) => {
     .then((messages) => {
       if (messages.length === 0) {
         chatModel.getChat(chatId).then((chat) => {
-          //console.log(chat)
           let friendData = chat.users.find((user) => user._id != userId);
           res.status(200).send({
             userId: userId,
@@ -35,12 +34,61 @@ exports.getChat = (req, res, next) => {
       }
     });
 };
+exports.getChatInfo = (req, res, next) => {
+  let chatId = req.params.id;
+
+  chatModel
+    .getChatInfo(chatId)
+    .then((info) => {
+      res.status(200).send({
+        data: info,
+        message: "Success",
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err,
+      });
+    });
+};
 
 exports.createChat = (req, res, next) => {
   console.log("creating a chat");
 
   chatModel
     .createChat(req.body)
+    .then(() => {
+      res.status(200).send({
+        message: "Success",
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err,
+      });
+    });
+};
+
+exports.updateChat = (req, res, next) => {
+  console.log("updating a chat");
+  chatModel
+    .updateChat(req.body.chatId)
+    .then(() => {
+      res.status(200).send({
+        message: "Success",
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err,
+      });
+    });
+};
+
+exports.updateChatStatus = (req, res, next) => {
+  console.log("updating a chat");
+  chatModel
+    .updateChatStatus(req.body.chatId, req.body.userId)
     .then(() => {
       res.status(200).send({
         message: "Success",

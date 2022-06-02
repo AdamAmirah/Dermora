@@ -2,10 +2,8 @@ const userModel = require("../models/user.model");
 const validationResult = require("express-validator").validationResult;
 
 exports.getUser = (req, res, next) => {
-  console.log("getting user");
   userId = req.params.id;
   userModel.getUser(userId).then((result) => {
-    console.log("result");
     res.status(200).send({
       message: "Success",
       data: result,

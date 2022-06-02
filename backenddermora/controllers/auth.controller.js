@@ -2,7 +2,6 @@ const userModel = require("../models/user.model");
 const validationResult = require("express-validator").validationResult;
 
 exports.signUp = (req, res, next) => {
-  console.log(req.body);
   if (validationResult(req).isEmpty()) {
     userModel
       .createUser(
@@ -38,7 +37,6 @@ exports.login = (req, res, next) => {
         next(err);
       });
   } else {
-    console.log(validationResult(req).array());
     return res.status(500).send(validationResult(req).array());
   }
 };

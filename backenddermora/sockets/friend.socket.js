@@ -7,7 +7,6 @@ module.exports = (io) => {
       console.log("join", id);
     });
     socket.on("sendFriendRequest", (data) => {
-      console.log(data);
       var d = new Date();
 
       sendFriendRequest({ ...data, time: d.toLocaleTimeString() }) // update the db
@@ -28,7 +27,6 @@ module.exports = (io) => {
     });
     socket.on("requestAccepted", (userId, id) => {
       console.log("here iam in the server");
-      console.log(userId, id);
       io.to(userId).emit("accepted", {
         id: id,
       });
