@@ -2,10 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontenddermora/doctor_screens/models/doctor_model.dart';
+import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
 import 'package:frontenddermora/screens/routine/skincare_routine.dart';
+import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
+import '../../../services/api_doctors.dart';
 import './DoctorsDetails.dart';
 import './cardDetails.dart';
 
@@ -17,23 +22,90 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  List<Map> list = [
-    {
-      "image": "assets/images/doctor_1.png",
-      "label": "Dr. Mohamed Ahmed ",
-      "Key": "Dermatologist   4 Years Experience"
-    },
-    {
-      "image": "assets/images/doctor_2.png",
-      "label": "Dr. Amirah Egeh ",
-      "Key": "Dermatologist   6 Years Experience"
-    },
-    {
-      "image": "assets/images/doctor_3.png",
-      "label": "Dr. Ali Dale Morse",
-      "Key": "Dermatologist   9 Years Experience",
-    },
-  ];
+  List<Map> doctorsList = [];
+  late DoctorModel availableDoctors;
+  late Socket socket;
+  @override
+  void initState() {
+    super.initState();
+    initializeSocket();
+    socket.connect();
+    _get();
+  }
+
+  void initializeSocket() {
+    socket = io("http://192.168.43.143:3000", <String, dynamic>{
+      "transports": ["websocket"],
+      "autoConnect": false,
+    });
+    socket.on('connect', (data) {
+      print("client is connected to the socket");
+    });
+    socket.on('accepted', (data) {
+      print('accepted');
+      setState(() {
+        for (var ele in doctorsList) {
+          if (data["id"] == ele["id"]) {
+            ele["isRequestAccepted"] = true;
+            break;
+          }
+        }
+      });
+    });
+    socket.on('disconnect', (data) {
+      print('disconnect');
+    });
+  }
+
+  _get() async {
+    DoctorModel? doctors = await APIDoctors.getAvailableDoctors();
+    Profile? userData = await APIService.getUserData();
+
+    setState(() {
+      availableDoctors = doctors!;
+      var res = false;
+      var chatId;
+      for (var element in availableDoctors.data) {
+        var notIncluded = true;
+        for (var ele in userData!.data.friends) {
+          if (ele.id == element.id) {
+            res = true;
+            chatId = ele.chatId;
+            if (!ele.status) {
+              notIncluded = false;
+            }
+          }
+        }
+        if (!notIncluded) continue;
+        doctorsList.add({
+          "userId": userData.data.id,
+          "userImage": userData.data.image,
+          "userName": userData.data.fullName,
+          "id": element.id,
+          "image": element.image,
+          "name": element.fullName,
+          "myCity": userData.data.address.city,
+          "myAge": userData.data.age,
+          "label": "Dr. ${element.fullName}",
+          "Key":
+              "Dermatologist   ${element.doctorInfo.workDetails.experience} Years Experience",
+          "isRequestSent": false,
+          "isRequestAccepted": res,
+          "isRequestDenied": false,
+          "chatId": chatId
+        });
+      }
+      socket.emit('joinNotificationRoom', doctorsList[0]["userId"]);
+    });
+  }
+
+  @override
+  void dispose() {
+    socket
+        .disconnect(); // --> disconnects the Socket.IO client once the screen is disposed
+    socket.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +175,8 @@ class _BodyState extends State<Body> {
                         padding: EdgeInsets.symmetric(
                           horizontal: 30.0,
                         ),
-                        child: DoctorsDetails(
-                          list: list,
-                        ),
+                        child:
+                            DoctorsDetails(list: doctorsList, socket: socket),
                       ),
                     ],
                   ),

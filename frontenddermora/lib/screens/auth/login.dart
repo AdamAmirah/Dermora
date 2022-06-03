@@ -10,6 +10,7 @@ import 'package:frontenddermora/util/styles.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../../config.dart';
+import '../../doctor_screens/doctorEntery.dart';
 import '../entry.dart';
 import './register.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -219,15 +220,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                     setState(() {
                                       isAPIProcess = false;
                                     }),
-                                    print("hi2"),
-                                    if (response)
+                                    if (response != null)
                                       {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    EntryWidget()),
-                                            (route) => false)
+                                        if (response.data.user.kind == "doctor")
+                                          {
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        DoctorEntryWidget(
+                                                            selectedIndex: 0)),
+                                                (route) => false)
+                                          }
+                                        else
+                                          {
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EntryWidget(
+                                                            selectedIndex: 0)),
+                                                (route) => false)
+                                          }
                                       }
                                     else
                                       {

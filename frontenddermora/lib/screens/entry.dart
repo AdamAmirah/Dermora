@@ -7,29 +7,30 @@ import 'package:frontenddermora/screens/profile/profile_screen.dart';
 import 'package:frontenddermora/services/shared_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../services/api_service.dart';
 import '../util/styles.dart';
 
 class EntryWidget extends StatefulWidget {
-  const EntryWidget({Key? key}) : super(key: key);
-
+  EntryWidget({Key? key, required this.selectedIndex}) : super(key: key);
+  late int selectedIndex;
   @override
   State<EntryWidget> createState() => _EntryWidgetState();
 }
 
 class _EntryWidgetState extends State<EntryWidget> {
-  int _selectedIndex = 0;
   final screens = [
     HomePageScreen(),
     Text("cam"),
     ChatScreen(),
     ProfileScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         children: screens,
-        index: _selectedIndex,
+        index: widget.selectedIndex,
       ),
       bottomNavigationBar: buildNavigationBar(),
     );
@@ -100,14 +101,14 @@ class _EntryWidgetState extends State<EntryWidget> {
 
   BottomNavigationBar buildNavigationBar() {
     return BottomNavigationBar(
-      currentIndex: _selectedIndex,
+      currentIndex: widget.selectedIndex,
       onTap: (value) => {
         if (value == 4)
           {SharedService.logout(context)}
         else
           {
             setState(() {
-              _selectedIndex = value;
+              widget.selectedIndex = value;
             })
           }
       },

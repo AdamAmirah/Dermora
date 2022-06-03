@@ -30,7 +30,7 @@ class ChatCard extends StatelessWidget {
                   backgroundImage: AssetImage(chat.image),
                   radius: 29,
                 ),
-                if (chat.isActive)
+                if (chat.status)
                   Positioned(
                     right: 0,
                     bottom: 0,
@@ -65,21 +65,17 @@ class ChatCard extends StatelessWidget {
                     SizedBox(
                       height: screenWidth * 0.03,
                     ),
-                    Opacity(
-                      opacity: 0.64,
-                      child: Text(
-                        chat.lastMessage,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )
                   ],
                 ),
               ),
             ),
             Opacity(
               opacity: 0.64,
-              child: Text(chat.time),
+              child: Text(
+                chat.status ? "On Going" : "Closed",
+                style:
+                    TextStyle(color: chat.status ? Colors.green : Colors.red),
+              ),
             )
           ],
         ),

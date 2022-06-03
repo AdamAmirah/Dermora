@@ -1,16 +1,29 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:frontenddermora/services/chatting_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
-class DoctorsDetails extends StatelessWidget {
-  const DoctorsDetails({
-    Key? key,
-    required this.list,
-  }) : super(key: key);
+import '../../../doctor_screens/doctorEntery.dart';
+import '../../entry.dart';
+
+class DoctorsDetails extends StatefulWidget {
+  DoctorsDetails(
+      {Key? key, required this.list, required, required this.socket, userData})
+      : super(key: key);
 
   final List<Map> list;
+  Socket socket;
+  @override
+  State<DoctorsDetails> createState() => _DoctorsDetailsState();
+}
+
+class _DoctorsDetailsState extends State<DoctorsDetails> {
+  bool isAnotherDoctorBooked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +32,7 @@ class DoctorsDetails extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          for (var ele in list)
+          for (var ele in widget.list)
             Container(
               padding: const EdgeInsets.all(0),
               margin: EdgeInsets.symmetric(vertical: 8),
@@ -85,11 +98,54 @@ class DoctorsDetails extends StatelessWidget {
                         style:
                             TextStyle(color: Color(0xFF8F8F8F), fontSize: 10),
                       ),
-                      trailing: Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 30,
-                        color: Theme.of(context).primaryColor,
-                      ),
+                      trailing: ele["isRequestAccepted"]
+                          ? IconButton(
+                              iconSize: 20,
+                              color: kSecBlue,
+                              icon: Icon(Icons.chat_bubble_outline_rounded,
+                                  size: 20),
+                              onPressed: () async {
+                                var message = await APIChatService.updateChat(
+                                    ele["chatId"]);
+                                if (message == "success") {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EntryWidget(
+                                              selectedIndex: 2,
+                                            )),
+                                  );
+                                }
+                              },
+                            )
+                          : ele["isRequestSent"]
+                              ? Text(
+                                  "Wait..",
+                                  style: TextStyle(
+                                    color: Colors.grey[400],
+                                    fontSize: 10,
+                                  ),
+                                )
+                              : IconButton(
+                                  icon: Icon(Icons.keyboard_arrow_right),
+                                  iconSize: 30,
+                                  color: Theme.of(context).primaryColor,
+                                  onPressed: () async {
+                                    setState(() {
+                                      ele["isRequestSent"] = true;
+                                      isAnotherDoctorBooked = true;
+                                    });
+
+                                    widget.socket.emit("sendFriendRequest", {
+                                      "name": ele["userName"],
+                                      "id": ele["userId"],
+                                      "userId": ele["id"],
+                                      "image": ele["userImage"],
+                                      "city": ele["myCity"],
+                                      "age": ele["myAge"],
+                                    });
+                                  },
+                                ),
                     ),
                   )
                 ],

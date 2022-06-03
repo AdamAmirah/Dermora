@@ -5,7 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../auth/models/Profile_model.dart';
 import './components/DoctorsDetails.dart';
 import './components/cardDetails.dart';
 import 'components/body.dart';
@@ -19,39 +21,45 @@ class HomePageScreen extends StatefulWidget {
 
 class _HomePageScreen extends State<HomePageScreen> {
   int _selectedIndex = 1;
+  Profile? userData;
 
-  List<Map> list2 = [
-    {
-      "image": "assets/images/doctor_1.png",
-      "label": "Dr. Mohamed Ahmed ",
-      "Key": "Dermatologist   4 Years Experience"
-    },
-    {
-      "image": "assets/images/doctor_2.png",
-      "label": "Dr. Amirah Egeh ",
-      "Key": "Dermatologist   6 Years Experience"
-    },
-    {
-      "image": "assets/images/doctor_3.png",
-      "label": "Dr. Ali Dale Morse",
-      "Key": "Dermatologist   9 Years Experience",
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _get();
+  }
+
+  _get() async {
+    Profile? user1 = await APIService.getUserData();
+    setState(() {
+      userData = user1!;
+    });
+  }
+
   get screenWidth => null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          buildAppBar(),
-        ],
-        body: Body(),
-      ),
+      body: userData == null
+          ? Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                color: kSecBlue,
+                size: 50,
+              )),
+            )
+          : NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                buildAppBar(userData!),
+              ],
+              body: Body(),
+            ),
     );
   }
 
-  SliverAppBar buildAppBar() {
+  SliverAppBar buildAppBar(Profile userData) {
     return SliverAppBar(
       backgroundColor: Colors.white,
       // Color(0xFFCCD9FD),
@@ -71,7 +79,7 @@ class _HomePageScreen extends State<HomePageScreen> {
             padding: const EdgeInsets.only(left: 20),
             child: Column(children: [
               Text(
-                'Hello, Furqan',
+                'Hello, ${userData.data.fullName}',
                 style: GoogleFonts.poppins(
                   color: Colors.black,
                   fontSize: 14.0,
@@ -100,7 +108,7 @@ class _HomePageScreen extends State<HomePageScreen> {
                 BoxShadow(blurRadius: 7, spreadRadius: 3, color: kSecBlue)
               ], shape: BoxShape.circle, color: kSecBlue.withOpacity(0.1)),
               child: Image.asset(
-                "assets/images/avatar.png",
+                userData.data.image,
                 fit: BoxFit.contain,
               ),
             ),

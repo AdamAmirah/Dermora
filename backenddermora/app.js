@@ -9,6 +9,15 @@ const app = express();
 app.use(express.json());
 
 const authRouter = require("./routes/auth.route");
+const userRouter = require("./routes/user.route");
+const doctorRouter = require("./routes/doctor.route");
+const chatRouter = require("./routes/chat.route");
+
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+var cors = require("cors");
+const res = require("express/lib/response");
+app.use(cors());
 
 auth.authenticateToken.unless = unless;
 
@@ -21,11 +30,18 @@ app.use(
   })
 );
 
+require("./sockets/chat.socket")(io);
+require("./sockets/friend.socket")(io);
+
 app.use(errors.errorHandler);
 app.use("/", authRouter);
+app.use("/", userRouter);
+app.use("/", doctorRouter);
+app.use("/", chatRouter);
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, (err) => {
-  console.log("Listening from port 3000");
+server.listen(port, function (err) {
+  if (err) throw err;
+  console.log("Listening on port %d", port);
 });

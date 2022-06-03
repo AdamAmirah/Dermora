@@ -1,4 +1,5 @@
 import 'dart:convert';
+// import 'package:mongo_dart/mongo_dart.dart';
 
 LoginResponseModel loginResponseModel(String str) =>
     LoginResponseModel.fromJson(json.decode(str));
@@ -52,53 +53,136 @@ class User {
     required this.fullName,
     required this.password,
     required this.image,
+    required this.age,
+    required this.sex,
+    required this.phone,
     required this.kind,
     required this.address,
     required this.doctorInfo,
     required this.userInfo,
     required this.friends,
+    required this.friendRequests,
+    required this.sentRequests,
     required this.v,
   });
   late final String id;
   late final String email;
   late final String fullName;
   late final String password;
+  late final int age;
+  late final String sex;
   late final String image;
+  late final Address address;
   late final String kind;
-  late final List<dynamic> address;
-  late final List<dynamic> doctorInfo;
-  late final List<dynamic> userInfo;
+  late final UserInfo userInfo;
   late final List<dynamic> friends;
+  late final List<dynamic> friendRequests;
+  late final List<dynamic> sentRequests;
+  late final String phone;
+  late final DoctorInfo doctorInfo;
   late final int v;
 
   User.fromJson(Map<String, dynamic> json) {
-    id = json['_id'];
+    // print(json);
+    // print("from here");
     email = json['email'];
+    id = json['_id'];
     fullName = json['fullName'];
     password = json['password'];
+    age = json['age'];
+    sex = json['sex'];
     image = json['image'];
+    address = Address.fromJson(json['address']);
     kind = json['kind'];
-    address = List.castFrom<dynamic, dynamic>(json['address']);
-    doctorInfo = List.castFrom<dynamic, dynamic>(json['doctorInfo']);
-    userInfo = List.castFrom<dynamic, dynamic>(json['userInfo']);
+    userInfo = UserInfo.fromJson(json['userInfo']);
     friends = List.castFrom<dynamic, dynamic>(json['friends']);
+    friendRequests = List.castFrom<dynamic, dynamic>(json['friendRequests']);
+    sentRequests = List.castFrom<dynamic, dynamic>(json['sentRequests']);
+    phone = json['phone'];
+    doctorInfo = DoctorInfo.fromJson(json['doctorInfo']);
     v = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['_id'] = id;
     _data['email'] = email;
+    _data['_id'] = id;
     _data['fullName'] = fullName;
     _data['password'] = password;
+    _data['age'] = age;
+    _data['sex'] = sex;
     _data['image'] = image;
+    _data['address'] = address.toJson();
     _data['kind'] = kind;
-    _data['address'] = address;
-    _data['doctorInfo'] = doctorInfo;
-    _data['userInfo'] = userInfo;
+    _data['userInfo'] = userInfo.toJson();
     _data['friends'] = friends;
+    _data['friendRequests'] = friendRequests;
+    _data['sentRequests'] = sentRequests;
+    _data['phone'] = phone;
+    _data['doctorInfo'] = doctorInfo.toJson();
     _data['__v'] = v;
 
+    return _data;
+  }
+}
+
+class Address {
+  Address({
+    required this.country,
+    required this.city,
+    required this.street,
+    required this.postCode,
+  });
+  late final String country;
+  late final String city;
+  late final String street;
+  late final int postCode;
+
+  Address.fromJson(Map<String, dynamic> json) {
+    country = json['country'];
+    city = json['city'];
+    street = json['street'];
+    postCode = json['postCode'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['country'] = country;
+    _data['city'] = city;
+    _data['street'] = street;
+    _data['postCode'] = postCode;
+    return _data;
+  }
+}
+
+class UserInfo {
+  UserInfo({
+    required this.skinType,
+    required this.skinConcerns,
+  });
+  late final String skinType;
+  late final List<String> skinConcerns;
+
+  UserInfo.fromJson(Map<String, dynamic> json) {
+    skinType = json['skinType'];
+    skinConcerns = List.castFrom<dynamic, String>(json['skinConcerns']);
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['skinType'] = skinType;
+    _data['skinConcerns'] = skinConcerns;
+    return _data;
+  }
+}
+
+class DoctorInfo {
+  DoctorInfo();
+
+  DoctorInfo.fromJson(Map json);
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
     return _data;
   }
 }
