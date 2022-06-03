@@ -208,8 +208,10 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                                           "name": widget.userData.data.fullName,
                                         }));
 
-                                        socket.emit('requestAccepted',
-                                            {ele["friendId"], ele["id"]});
+                                        socket.emit('requestAccepted', {
+                                          ele["friendId"],
+                                          widget.userData.data.id
+                                        });
 
                                         Navigator.push(
                                           context,

@@ -180,19 +180,19 @@ class FriendsRequests {
 
 class SentRequests {
   SentRequests({
-    required this.name,
+    required this.userId,
     required this.id,
   });
-  late final String name;
+  late final String userId;
   late final String id;
   SentRequests.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    id = json['id'];
+    id = json['_id'];
+    userId = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['name'] = name;
+    _data['name'] = userId;
     _data['id'] = id;
     return _data;
   }
