@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontenddermora/doctor_screens/models/doctor_model.dart';
 import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
-import 'package:frontenddermora/screens/routine/skincare_routine.dart';
+import 'package:frontenddermora/screens/routine/components/edit_routine.dart';
 import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../services/api_doctors.dart';
+import '../../routine/routine_screen.dart';
 import './DoctorsDetails.dart';
 import './cardDetails.dart';
 
