@@ -12,6 +12,7 @@ const authRouter = require("./routes/auth.route");
 const userRouter = require("./routes/user.route");
 const doctorRouter = require("./routes/doctor.route");
 const chatRouter = require("./routes/chat.route");
+const routineRouter = require("./routes/routine.route");
 
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
@@ -38,6 +39,7 @@ app.use("/", authRouter);
 app.use("/", userRouter);
 app.use("/", doctorRouter);
 app.use("/", chatRouter);
+app.use("/", routineRouter);
 
 const port = process.env.PORT || 3000;
 
