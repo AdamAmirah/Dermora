@@ -108,7 +108,9 @@ class _HomePageScreen extends State<HomePageScreen> {
                 BoxShadow(blurRadius: 7, spreadRadius: 3, color: kSecBlue)
               ], shape: BoxShape.circle, color: kSecBlue.withOpacity(0.1)),
               child: Image.asset(
-                userData.data.image,
+                userData.data.image == ""
+                    ? "assets/images/avatar.png"
+                    : userData.data.image,
                 fit: BoxFit.contain,
               ),
             ),
