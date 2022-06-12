@@ -47,6 +47,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   empty_widget: ^0.0.5
   loading_animation_widget: ^1.2.0+1
+  shared_preferences: ^2.0.15
 dev_dependencies:
   flutter_test:
     sdk: flutter

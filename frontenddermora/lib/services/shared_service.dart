@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:frontenddermora/screens/auth/models/login_response_model.dart';
 
 class SharedService {
+  int? isFirst;
   static Future<bool> isLoggedIn() async {
     var isKeyExist =
         await APICacheManager().isAPICacheKeyExist("login_details");

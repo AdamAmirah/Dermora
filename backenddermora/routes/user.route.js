@@ -22,4 +22,9 @@ router.post(
   bodyParser.urlencoded({ extended: true }),
   userController.updateConcerns
 );
+router.post(
+  "/user/updateIsFirst/:id",
+  bodyParser.urlencoded({ extended: true }),
+  userController.updateIsFirst
+);
 module.exports = router;

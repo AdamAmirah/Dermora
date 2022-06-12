@@ -296,7 +296,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         LoginScreen()),
-                                                (route) => false);
+                                                ModalRoute.withName("/login"));
                                           })
                                         }
                                       else
@@ -452,8 +452,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildSigninBtn() {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            ModalRoute.withName("/login"));
       },
       child: RichText(
         text: TextSpan(

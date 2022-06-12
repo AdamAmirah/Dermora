@@ -234,13 +234,30 @@ class _LoginScreenState extends State<LoginScreen> {
                                           }
                                         else
                                           {
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EntryWidget(
-                                                            selectedIndex: 0)),
-                                                (route) => false)
+                                            if (response.data.user.isFirst)
+                                              {
+                                                APIService.updateIsFirst()
+                                                    .then((res) => {
+                                                          Navigator.pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          PrimaryQuestionsScreen()),
+                                                              (route) => false)
+                                                        })
+                                              }
+                                            else
+                                              {
+                                                Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            EntryWidget(
+                                                                selectedIndex:
+                                                                    0)),
+                                                    (route) => false)
+                                              }
                                           }
                                       }
                                     else
@@ -371,8 +388,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignupBtn() {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => RegisterScreen()),
+            ModalRoute.withName("/register"));
       },
       child: RichText(
         text: TextSpan(

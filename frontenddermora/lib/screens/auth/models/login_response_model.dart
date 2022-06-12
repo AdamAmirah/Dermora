@@ -50,6 +50,7 @@ class User {
   User({
     required this.id,
     required this.email,
+    required this.isFirst,
     required this.fullName,
     required this.password,
     required this.image,
@@ -67,6 +68,7 @@ class User {
   });
   late final String id;
   late final String email;
+  late final bool isFirst;
   late final String fullName;
   late final String password;
   late final int age;
@@ -87,6 +89,7 @@ class User {
     // print("from here");
     email = json['email'];
     id = json['_id'];
+    isFirst = json['isFirst'];
     fullName = json['fullName'];
     password = json['password'];
     age = json['age'];
@@ -107,6 +110,7 @@ class User {
     final _data = <String, dynamic>{};
     _data['email'] = email;
     _data['_id'] = id;
+    _data['isFirst'] = isFirst;
     _data['fullName'] = fullName;
     _data['password'] = password;
     _data['age'] = age;

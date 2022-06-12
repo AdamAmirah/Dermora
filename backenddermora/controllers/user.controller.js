@@ -54,3 +54,13 @@ exports.updateConcerns = (req, res, next) => {
     res.send(result);
   });
 };
+
+exports.updateIsFirst = (req, res, next) => {
+  console.log("updating is First");
+  let id = req.params.id;
+  userModel.updateIsFirst(id).then(() => {
+    res.status(200).send({
+      message: "Success",
+    });
+  });
+};

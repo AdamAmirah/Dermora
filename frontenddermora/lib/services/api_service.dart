@@ -89,4 +89,25 @@ class APIService {
       return null;
     }
   }
+
+  static Future<bool> updateIsFirst() async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'basic ${loginDetails!.data.token}',
+    };
+
+    var url = Uri.http(
+        Config.apiURL, "user/updateIsFirst/${loginDetails.data.user.id}");
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

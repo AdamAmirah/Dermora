@@ -7,6 +7,7 @@ const Routine = require("./routine.model").Routine;
 const userSchema = mongoose.Schema(
   {
     email: String,
+    isFirst: { type: Boolean, default: true },
     fullName: String,
     password: String,
     phone: String,
@@ -268,4 +269,25 @@ exports.login = (email, password) => {
         reject(err);
       });
   });
+};
+
+exports.updateIsFirst = async (id) => {
+  console.log(id);
+  try {
+    await mongoose.connect(DB_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+    await User.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          isFirst: false,
+        },
+      }
+    );
+  } catch (err) {
+    mongoose.disconnect();
+    throw new Error(error);
+  }
 };
