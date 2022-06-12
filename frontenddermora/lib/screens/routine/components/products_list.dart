@@ -1,37 +1,140 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:empty_widget/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/home/homepage_screen.dart';
 import 'package:frontenddermora/screens/routine/components/single_product.dart';
 import 'package:frontenddermora/screens/routine/components/edit_routine.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import '../../../services/api_routine.dart';
+import '../../../services/chatting_service.dart';
+import '../models/routine_response_model.dart';
 
 class AddedProductsScreen extends StatefulWidget {
-  const AddedProductsScreen({Key? key}) : super(key: key);
+  const AddedProductsScreen({Key? key, required this.kind}) : super(key: key);
 
+  final String kind;
   @override
   State<AddedProductsScreen> createState() => _AddedProductsScreenState();
 }
 
 class _AddedProductsScreenState extends State<AddedProductsScreen> {
+  List<Map<String, dynamic>> list = [];
+  RoutineResponseModel? routineData;
   @override
-  void reomveItem(ele, label, index) => {
+  void initState() {
+    _get();
+    super.initState();
+  }
+
+  _get() async {
+    RoutineResponseModel? routine = await ProductsApi.getRoutine();
+    List<Map<String, dynamic>> list2 = [];
+    if (widget.kind == "morning") {
+      for (ListProducts product in routine!.data.morningRoutine.products) {
+        var flag = 1;
+        for (int i = 0; i < list2.length; i++) {
+          if (product.kind == list2[i]["label"]) {
+            flag = 0;
+            list2[i][product.kind].add({
+              "image": product.image,
+              "label": product.label,
+              "kind": product.kind,
+            });
+          }
+        }
+        if (flag == 1) {
+          list2.add({
+            "label": product.kind,
+            product.kind: [
+              {
+                "image": product.image,
+                "label": product.label,
+                "kind": product.kind,
+              }
+            ],
+          });
+        }
+      }
+    } else {
+      for (ListProducts product in routine!.data.nightRoutine.products) {
+        var flag = 1;
+        for (int i = 0; i < list2.length; i++) {
+          if (product.kind == list2[i]["label"]) {
+            flag = 0;
+            list2[i][product.kind].add({
+              "image": product.image,
+              "label": product.label,
+              "kind": product.kind,
+            });
+          }
+        }
+        if (flag == 1) {
+          list2.add({
+            "label": product.kind,
+            product.kind: [
+              {
+                "image": product.image,
+                "label": product.label,
+                "kind": product.kind,
+              }
+            ],
+          });
+        }
+      }
+    }
+    setState(() {
+      routineData = routine;
+      list = list2;
+    });
+  }
+
+  var data = [];
+
+  void reomveItem(ele, label, index) async => {
         setState(() {
           list[index][label].remove(ele);
-        })
-        //TODO
-        ////update the db
+        }),
+        for (var element in list)
+          {
+            for (var i in element[element["label"]]) data.add(i),
+          },
+        await ProductsApi.addProductToRoutine(data, widget.kind),
+        data.clear(),
       };
-
-  void addItem(product, label) => {
+  var response;
+  void addItem(product, label) async => {
+        print(product),
         setState(() {
+          var flag = 1;
           for (int i = 0; i < list.length; i++) {
-            if (list[i]["label"]! == label) {
-              list[i][label]!.add(product);
+            if (product["kind"] == list[i]["label"]) {
+              flag = 0;
+              list[i][product["kind"]]!.add(product);
             }
           }
+          if (flag == 1) {
+            list.add({
+              "label": product["kind"],
+              product["kind"]: [
+                {
+                  "image": product["image"],
+                  "label": product["label"],
+                  "kind": product["kind"],
+                }
+              ],
+            });
+          }
         }),
+        for (var element in list)
+          {
+            for (var i in element[element["label"]]) data.add(i),
+          },
+        response = await ProductsApi.addProductToRoutine(data, widget.kind),
+        data.clear(),
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -40,7 +143,9 @@ class _AddedProductsScreenState extends State<AddedProductsScreen> {
                 Radius.circular(10.0),
               ),
             ),
-            title: Text("Success"),
+            title: response == "no"
+                ? Text("Something went wrong")
+                : Text("Success"),
             titleTextStyle: TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.black, fontSize: 20),
             actionsOverflowButtonSpacing: 20,
@@ -57,90 +162,16 @@ class _AddedProductsScreenState extends State<AddedProductsScreen> {
             content: Text("Saved successfully"),
           ),
         ),
-        //TODO
-        ////update the db
       };
 
-  List<Map<String, dynamic>> list = [
-    {
-      'label': "Cleanser",
-      'Cleanser': [
-        {"image": "assets/images/cleanser.png", "label": "CeraVe Sa Cleanser"},
-        {"image": "assets/images/cleanser.png", "label": "CeraVe Sa Cleanser"},
-        {"image": "assets/images/cleanser.png", "label": "CeraVe Sa Cleanser"}
-      ],
-    },
-    {
-      'label': "Toner",
-      "Toner": [
-        {
-          "image": "assets/images/toner.png",
-          "label": "AHA/BHA Clarifying Treatment Toner"
-        },
-        {
-          "image": "assets/images/toner.png",
-          "label": "AHA/BHA Clarifying Treatment Toner"
-        },
-        {
-          "image": "assets/images/toner.png",
-          "label": "AHA/BHA Clarifying Treatment Toner"
-        },
-      ],
-    },
-    {
-      'label': "Treatment",
-      "Treatment": [
-        {
-          "image": "assets/images/treatment.png",
-          "label": "Niacinamide 10% + Zinc 1%"
-        },
-        {
-          "image": "assets/images/treatment.png",
-          "label": "Niacinamide 10% + Zinc 1%"
-        },
-        {
-          "image": "assets/images/treatment.png",
-          "label": "Niacinamide 10% + Zinc 1%"
-        },
-      ],
-    },
-    {
-      'label': "Moisturizer",
-      "Moisturizer": [
-        {
-          "image": "assets/images/Moisturizer.png",
-          "label": "CeraVe Daily Moisturizing Lotion"
-        },
-        {
-          "image": "assets/images/Moisturizer.png",
-          "label": "CeraVe Daily Moisturizing Lotion"
-        },
-        {
-          "image": "assets/images/Moisturizer.png",
-          "label": "CeraVe Daily Moisturizing Lotion"
-        },
-      ],
-    },
-    {
-      'label': "Sunscreen",
-      "Sunscreen": [
-        {
-          "image": "assets/images/sunscreen.png",
-          "label": "CeraVe Sa Cleanser",
-        },
-        {
-          "image": "assets/images/sunscreen.png",
-          "label": "CeraVe Sa Cleanser",
-        },
-        {
-          "image": "assets/images/sunscreen.png",
-          "label": "CeraVe Sa Cleanser",
-        },
-      ],
-    }
-  ];
-
   bool value = true;
+  @override
+  void dispose() {
+    setState(() {
+      list = [];
+    });
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +207,7 @@ class _AddedProductsScreenState extends State<AddedProductsScreen> {
                           icon: Icon(Icons.arrow_back, color: Colors.white)),
                       Expanded(child: Container()),
                       //SizedBox(width: 20),
-                      Text('Mornig Routine',
+                      Text('Morning Routine',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             color: Color(0xFFFFFFFF),
@@ -224,53 +255,84 @@ class _AddedProductsScreenState extends State<AddedProductsScreen> {
                       BorderRadius.only(topLeft: Radius.circular(70))),
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(
-                          left: 30, right: 10, bottom: 30),
-                      child: Row(
-                        children: [
-                          Text("5 Steps",
-                              style: GoogleFonts.poppins(
-                                color: kBlack,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 18.0,
-                              )),
-                        ],
-                      ),
-                    ),
-                    for (int i = 0; i < list.length; i++)
-                      SingleProduct(
-                          label: list[i]["label"],
-                          products: list[i][list[i]["label"]],
-                          index: i,
-                          remove: reomveItem),
-                    Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      width: 270,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            offset: Offset(4, 4),
-                            blurRadius: 10,
-                            color: Color(0xFFB8BFCE).withOpacity(.2),
-                          ),
-                          BoxShadow(
-                            offset: Offset(-3, 0),
-                            blurRadius: 15,
-                            color: Color(0xFFB8BFCE).withOpacity(.1),
+                child: routineData == null
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: Center(
+                            child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: kSecBlue,
+                          size: 50,
+                        )),
+                      )
+                    : list.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.only(top: 40),
+                            child: EmptyWidget(
+                              hideBackgroundAnimation: true,
+                              image: null,
+                              packageImage: PackageImage.Image_1,
+                              title: 'No Products',
+                              subTitle: 'Add your routine products now!',
+                              titleTextStyle: TextStyle(
+                                fontSize: 22,
+                                color: kSecBlue,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              subtitleTextStyle: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xffabb8d6),
+                              ),
+                            ),
                           )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                        : Column(
+                            children: [
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Container(
+                                padding: const EdgeInsets.only(
+                                    left: 30, right: 10, bottom: 30),
+                                child: Row(
+                                  children: [
+                                    Text("5 Steps",
+                                        style: GoogleFonts.poppins(
+                                          color: kBlack,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 18.0,
+                                        )),
+                                  ],
+                                ),
+                              ),
+                              for (int i = 0; i < list.length; i++)
+                                SingleProduct(
+                                    label: list[i]["label"].toString(),
+                                    products: list[i][list[i]["label"]],
+                                    index: i,
+                                    remove: reomveItem),
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                width: 270,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                      offset: Offset(4, 4),
+                                      blurRadius: 10,
+                                      color: Color(0xFFB8BFCE).withOpacity(.2),
+                                    ),
+                                    BoxShadow(
+                                      offset: Offset(-3, 0),
+                                      blurRadius: 15,
+                                      color: Color(0xFFB8BFCE).withOpacity(.1),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
               ),
             ))
           ],

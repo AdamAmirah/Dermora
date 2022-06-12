@@ -35,7 +35,7 @@ class _BodyState extends State<Body> {
   }
 
   void initializeSocket() {
-    socket = io("http://192.168.43.143:3000", <String, dynamic>{
+    socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -277,7 +277,8 @@ class _BodyState extends State<Body> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RoutineScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const RoutineScreen(kind: "morning")),
               );
             },
           )),
@@ -349,7 +350,8 @@ class _BodyState extends State<Body> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RoutineScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const RoutineScreen(kind: "night")),
               );
             },
           )),

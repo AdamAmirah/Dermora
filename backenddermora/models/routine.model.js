@@ -6,17 +6,19 @@ const auth = require("../helpers/auth");
 
 const routineSchema = mongoose.Schema(
   {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+
     morningRoutine: {
       time: String,
       products: {
-        type: [{ image: String, label: String, type: String }],
+        type: [{ image: String, label: String, kind: String }],
         default: [],
       },
     },
     nightRoutine: {
       time: String,
       products: {
-        type: [{ image: String, label: String, type: String }],
+        type: [{ image: String, label: String, kind: String }],
         default: [],
       },
     },
@@ -27,7 +29,7 @@ const routineSchema = mongoose.Schema(
 const Routine = mongoose.model("routine", routineSchema);
 exports.Routine = Routine;
 
-exports.getRoutine = (time) => {
+exports.getRoutine = (userId) => {
   return new Promise((resolve, reject) => {
     mongoose
       .connect(DB_URL, {
@@ -35,16 +37,8 @@ exports.getRoutine = (time) => {
         useNewUrlParser: true,
       })
       .then(() => {
-        if (time == "morning") {
-          let routine = Routine.find({}, "morningRoutine");
-          let list = [];
-          for (product of routine.products) {
-            console.log(product);
-          }
-          return routine;
-        } else {
-          return Routine.find({}, "nightRoutine");
-        }
+        let routine = Routine.findOne({ user: userId });
+        return routine;
       })
       .then((res) => {
         // mongoose.disconnect();
@@ -57,32 +51,34 @@ exports.getRoutine = (time) => {
   });
 };
 
-// exports.addProductToRoutine = async (data, time) => {
-//   try {
-//     await mongoose.connect(DB_URL, {
-//       useUnifiedTopology: true,
-//       useNewUrlParser: true,
-//     });
-
-//     if (time == "morning") {
-//       let newRoutine = new Routine({
-//         morningRoutine: {
-//           time: ,
-//           products: data,
-//         },
-//       });
-//       await newRoutine.save();
-//     } else {
-//       let newRoutine = new Routine({
-//         nightRoutine: {
-//           time: data.time,
-//           products: data.,
-//         },
-//       });
-//       await newRoutine.save();
-//     }
-//   } catch (error) {
-//     mongoose.disconnect();
-//     throw new Error(error);
-//   }
-// };
+exports.addProductToRoutine = async (data, time, userId) => {
+  try {
+    await mongoose.connect(DB_URL, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+    if (time == "morning") {
+      await Routine.findOneAndUpdate(
+        { user: userId },
+        {
+          $set: {
+            "morningRoutine.products": data,
+          },
+        }
+      );
+    } else if (time == "night") {
+      console.log(data);
+      await Routine.findOneAndUpdate(
+        { user: userId },
+        {
+          $set: {
+            "nightRoutine.products": data,
+          },
+        }
+      );
+    }
+  } catch (error) {
+    mongoose.disconnect();
+    throw new Error(error);
+  }
+};

@@ -14,7 +14,7 @@ class SingleProduct extends StatefulWidget {
     required this.index,
   }) : super(key: key);
 
-  final label;
+  final String label;
   final products;
   int index;
   void Function(dynamic ele, dynamic label, dynamic index) remove;
@@ -35,7 +35,9 @@ class _SingleProductState extends State<SingleProduct> {
                 SizedBox(
                   width: 48,
                 ),
-                Text(widget.label,
+                Text(
+                    widget.label.substring(0, 1).toUpperCase() +
+                        widget.label.substring(1).toLowerCase(),
                     style: GoogleFonts.poppins(
                       color: kBlack,
                       fontWeight: FontWeight.w600,
@@ -47,12 +49,6 @@ class _SingleProductState extends State<SingleProduct> {
             SizedBox(
               height: 15,
             ),
-            widget.products.isEmpty
-                ? Text(
-                    "No product",
-                    style: TextStyle(color: Colors.grey[600]),
-                  )
-                : Text(""),
             for (var ele in widget.products)
               Padding(
                 padding: const EdgeInsets.only(top: 10),
@@ -84,7 +80,7 @@ class _SingleProductState extends State<SingleProduct> {
                           )
                         ],
                       ),
-                      child: Image.asset(
+                      child: Image.network(
                         ele["image"],
                         height: 50,
                         width: 50,

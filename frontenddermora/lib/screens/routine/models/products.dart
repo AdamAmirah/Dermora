@@ -39,7 +39,7 @@ class ProductsModel {
   late final int totalProducts;
 
   ProductsModel.fromJson(Map<String, dynamic> json) {
-    keyword = json['keyword'];
+    keyword = json['keyword']!;
     products =
         List.from(json['products']).map((e) => Products.fromJson(e)).toList();
     totalProducts = json['totalProducts'];
