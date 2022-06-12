@@ -49,7 +49,7 @@ class _BodyState extends State<Body> {
             curve: Curves.easeIn,
           )
         });
-    socket = io("http://192.168.43.143:3000", <String, dynamic>{
+    socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -89,6 +89,7 @@ class _BodyState extends State<Body> {
   }
 
   _get() async {
+    print(widget.chatsData.chatId);
     ChatResponseModel? chatData =
         await APIChatService.getChat(widget.chatsData.chatId);
 
@@ -108,6 +109,7 @@ class _BodyState extends State<Body> {
             friendId: chatData.friendData.id,
           ),
         );
+        print(chatMessages[0]);
       }
     });
   }

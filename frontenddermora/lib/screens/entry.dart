@@ -168,7 +168,7 @@ class _EntryWidgetState extends State<EntryWidget> {
             Icons.logout,
             color: kSecBlue,
           ),
-          label: "Profile",
+          label: "Logout",
         ),
       ],
     );

@@ -58,7 +58,10 @@ class _PrimaryQuestionsScreen extends State<PrimaryQuestionsScreen> {
                     hintStyle: TextStyle(color: Colors.grey, fontSize: 18),
                     fillColor: Color(0xFF5974FF),
                     enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFF5974FF))),
+                      borderSide: BorderSide(
+                        color: Color(0xFF5974FF),
+                      ),
+                    ),
                   ),
                 ),
               ),

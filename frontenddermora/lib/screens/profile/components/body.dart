@@ -51,15 +51,15 @@ class _BodyState extends State<Body> {
     List<Map> list = [
       {
         "image": "assets/images/moon.png",
-        "amount": "0",
+        "amount": "1",
         "label": "Evening logs"
       },
       {
         "image": "assets/images/sun.png",
-        "amount": "0",
+        "amount": "2",
         "label": "Morning logs"
       },
-      {"image": "assets/images/cream.png", "amount": "0", "label": "Routines"},
+      {"image": "assets/images/cream.png", "amount": "4", "label": "Routines"},
     ];
 
     return Column(

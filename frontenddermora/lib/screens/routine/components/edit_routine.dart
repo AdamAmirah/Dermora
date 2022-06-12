@@ -1,16 +1,20 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:frontenddermora/screens/routine/Added_products.dart';
+import 'package:frontenddermora/screens/routine/components/products_list.dart';
+import 'package:frontenddermora/screens/routine/components/search_product.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RoutineScreen extends StatefulWidget {
-  const RoutineScreen({Key? key}) : super(key: key);
+class EditRoutineListScreen extends StatefulWidget {
+  EditRoutineListScreen({Key? key, required this.addItem}) : super(key: key);
 
+  void Function(dynamic product, String label) addItem;
   @override
-  State<RoutineScreen> createState() => _RoutineScreenState();
+  State<EditRoutineListScreen> createState() => _EditRoutineListScreenState();
 }
 
-class _RoutineScreenState extends State<RoutineScreen> {
+class _EditRoutineListScreenState extends State<EditRoutineListScreen> {
   List<Map> list = [
     {
       "label": "Cleanser ",
@@ -61,7 +65,7 @@ class _RoutineScreenState extends State<RoutineScreen> {
 
                       Expanded(child: Container()),
                       //SizedBox(width: 20),
-                      Text('Mornig Routine',
+                      Text('Edit Routine',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             color: Color(0xFFFFFFFF),
@@ -69,27 +73,6 @@ class _RoutineScreenState extends State<RoutineScreen> {
                             fontSize: 18.0,
                           )),
                       Expanded(child: Container()),
-
-                      FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        color: Colors.white,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const AddedProductsScreen()),
-                          );
-                        },
-                        child: Text("Create",
-                            style: GoogleFonts.poppins(
-                              color: kSecBlue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.0,
-                            )),
-                      ),
                     ]),
                   ],
                 )),
@@ -132,7 +115,6 @@ class _RoutineScreenState extends State<RoutineScreen> {
                                   SizedBox(
                                     width: 40,
                                   ),
-                                  Icon(Icons.delete_outline_rounded, size: 35),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -159,10 +141,22 @@ class _RoutineScreenState extends State<RoutineScreen> {
                                         )
                                       ],
                                     ),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                    ),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SearchScreen(
+                                                        label: ele["label"],
+                                                        addItem:
+                                                            widget.addItem)),
+                                          );
+                                        },
+                                        icon: Icon(
+                                          Icons.add,
+                                          color: Colors.white,
+                                        )),
                                   ),
                                   SizedBox(
                                     width: 40,
@@ -176,81 +170,6 @@ class _RoutineScreenState extends State<RoutineScreen> {
                               )
                             ],
                           )),
-                    Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      width: 270,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            offset: Offset(4, 4),
-                            blurRadius: 10,
-                            color: Color(0xFFB8BFCE).withOpacity(.2),
-                          ),
-                          BoxShadow(
-                            offset: Offset(-3, 0),
-                            blurRadius: 15,
-                            color: Color(0xFFB8BFCE).withOpacity(.1),
-                          )
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () => {},
-                                icon: const Icon(
-                                  Icons.add,
-                                ),
-                                color: Color(0xF04967FF),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text("Add new steps",
-                                  style: GoogleFonts.poppins(
-                                    color: Color(0xF04967FF),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14.0,
-                                  )),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Remind me to do routine",
-                            style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.0,
-                            )),
-                        Switch.adaptive(
-                          thumbColor: MaterialStateProperty.all(Colors.white),
-                          trackColor: MaterialStateProperty.all(Colors.grey),
-
-                          // activeColor: Colors.blueAccent,
-                          // activeTrackColor: Colors.blue.withOpacity(0.4),
-                          // inactiveThumbColor: Colors.orange,
-                          // inactiveTrackColor: Colors.black87,
-                          splashRadius: 50,
-                          value: value,
-                          onChanged: (value) =>
-                              setState(() => this.value = value),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
                   ],
                 ),
               ),

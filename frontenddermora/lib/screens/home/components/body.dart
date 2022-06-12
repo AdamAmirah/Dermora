@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:frontenddermora/doctor_screens/models/doctor_model.dart';
 import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
-import 'package:frontenddermora/screens/routine/skincare_routine.dart';
+import 'package:frontenddermora/screens/routine/components/edit_routine.dart';
 import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../services/api_doctors.dart';
+import '../../routine/routine_screen.dart';
 import './DoctorsDetails.dart';
 import './cardDetails.dart';
 
@@ -34,7 +35,7 @@ class _BodyState extends State<Body> {
   }
 
   void initializeSocket() {
-    socket = io("http://192.168.43.143:3000", <String, dynamic>{
+    socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -276,7 +277,8 @@ class _BodyState extends State<Body> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RoutineScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const RoutineScreen(kind: "morning")),
               );
             },
           )),
@@ -348,7 +350,8 @@ class _BodyState extends State<Body> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const RoutineScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const RoutineScreen(kind: "night")),
               );
             },
           )),

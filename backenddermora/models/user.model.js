@@ -3,12 +3,13 @@ const dbConfig = require("../config");
 const DB_URL = "mongodb://localhost:27017/dermora";
 const bcrypt = require("bcrypt");
 const auth = require("../helpers/auth");
-
+const Routine = require("./routine.model").Routine;
 const userSchema = mongoose.Schema(
   {
     email: String,
     fullName: String,
     password: String,
+    phone: String,
     age: { type: Number, default: 0 },
     sex: { type: String, default: "" },
     image: { type: String, default: "" },
@@ -209,6 +210,20 @@ exports.createUser = (email, password, name) => {
           userInfo: { skinType: "", skinConcerns: [], doctors: [] },
         });
         return user.save();
+      })
+      .then((user) => {
+        let newRoutine = new Routine({
+          user: user._id,
+          morningRoutine: {
+            time: "",
+            products: [],
+          },
+          nightRoutine: {
+            time: "",
+            products: [],
+          },
+        });
+        return newRoutine.save();
       })
       .then(() => {
         mongoose.disconnect();
