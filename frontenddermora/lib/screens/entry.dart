@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/chat/chat_screen.dart';
 import 'package:frontenddermora/screens/home/homepage_screen.dart';
 import 'package:frontenddermora/screens/profile/profile_screen.dart';
-import 'package:frontenddermora/screens/self_scaning/self_scanning_screen.dart';
+import 'package:frontenddermora/screens/self_scanning/self_scanning_screen.dart';
 import 'package:frontenddermora/services/shared_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
