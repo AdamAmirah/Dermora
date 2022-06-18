@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import '../config.dart';
 import '../screens/auth/models/Profile_model.dart';
 import '../screens/auth/models/register_request_model.dart';
+import '../screens/primary_questions/models/concerns.dart';
 
 class APIService {
   static var client = http.Client();
@@ -103,6 +104,54 @@ class APIService {
     var response = await client.post(
       url,
       headers: requestHeaders,
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> updateAgeSex(age, sex) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'basic ${loginDetails!.data.token}',
+    };
+    var data = {"age": age, "sex": sex, "id": loginDetails.data.user.id};
+
+    var url = Uri.http(Config.apiURL, "user/updateAgeSex/");
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(data),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<bool> updateConcerns(List<Concern> concerns) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'basic ${loginDetails!.data.token}',
+    };
+    String json =
+        jsonEncode(concerns.map((i) => i.toJson()).toList()).toString();
+
+    var url = Uri.http(Config.apiURL, "user/updateConcerns/");
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode({
+        "concerns": concerns.map((i) => i.toJson()).toList(),
+        "id": loginDetails.data.user.id
+      }),
     );
     if (response.statusCode == 200) {
       return true;

@@ -151,7 +151,7 @@ exports.updateAgeSex = (age, sex, id) => {
       })
       .then((res) => {
         mongoose.disconnect();
-        resolve(res);
+        resolve();
       })
       .catch((err) => {
         mongoose.disconnect();

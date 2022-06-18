@@ -37,19 +37,23 @@ exports.updateProfile = async (req, res, next) => {
   }
 };
 exports.updateAgeSex = (req, res, next) => {
-  console.log("updating sex and age");
-  userModel
-    .updateAgeSex(req.body.age, req.body.sex, req.body.id)
-    .then((result) => {
-      console.log(result);
-      res.send(result);
+  console.log("updating sex and age", req.body);
+  userModel.updateAgeSex(req.body.age, req.body.sex, req.body.id).then(() => {
+    res.status(200).send({
+      message: "Success",
     });
+  });
 };
 
 exports.updateConcerns = (req, res, next) => {
   console.log("updating concerns");
-  console.log(req.body.concerns);
-  userModel.updateConcerns(req.body.concerns, req.body.id).then((result) => {
+  let concenrsName = [];
+  for (concern of req.body.concerns) {
+    concenrsName.push(concern.name);
+  }
+  console.log(concenrsName);
+
+  userModel.updateConcerns(concenrsName, req.body.id).then((result) => {
     console.log(result);
     res.send(result);
   });

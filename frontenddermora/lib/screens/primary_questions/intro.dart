@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/primary_questions/components/GenderSelector.dart';
 import 'package:frontenddermora/screens/primary_questions/skin_concerns.dart';
+import 'package:frontenddermora/services/api_service.dart';
+import 'package:frontenddermora/services/chatting_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import '../primary_questions/components/GenderSelector.dart';
@@ -88,9 +90,9 @@ class _PrimaryQuestionsScreen extends State<PrimaryQuestionsScreen> {
               ),
               error
                   ? Container(
-                      padding: EdgeInsets.only(top: 50, bottom: 50),
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
                       child: Text(
-                        "Error",
+                        "These Fields are Required",
                         style: TextStyle(color: Colors.red),
                       ),
                     )
@@ -128,24 +130,49 @@ class _PrimaryQuestionsScreen extends State<PrimaryQuestionsScreen> {
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         if ((genders[0].isSelected || genders[1].isSelected) &&
                             TextController.text.trim() != "") {
-                          Text("it is clicked");
-                          print("clicked");
                           var gender =
-                              genders[0].isSelected ? "female" : "male";
+                              genders[0].isSelected ? "male" : "female";
                           var age = TextController.text;
-                          print(age);
-                          print(gender);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const SkinConcerns()),
-                          // );
-                        } else {
-                          print("error");
 
+                          var response =
+                              await APIService.updateAgeSex(age, gender);
+                          if (response) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SkinConcerns()),
+                                (route) => false);
+                          } else {
+                            AlertDialog(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10.0),
+                                ),
+                              ),
+                              title: Text("Something went wrong"),
+                              titleTextStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 20),
+                              actionsOverflowButtonSpacing: 20,
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text("Close"),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(kSecBlue)),
+                                ),
+                              ],
+                              content: Text("Please Try Again"),
+                            );
+                          }
+                        } else {
                           setState(() {
                             error = true;
                           });
