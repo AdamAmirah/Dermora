@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/quiz/quiz.dart';
 import 'package:frontenddermora/screens/quiz/result.dart';
 import 'package:frontenddermora/util/styles.dart';
+import 'dart:math';
 
 class MainQuiz extends StatefulWidget {
   const MainQuiz({Key? key}) : super(key: key);
@@ -11,79 +12,72 @@ class MainQuiz extends StatefulWidget {
 }
 
 class _MainQuizState extends State<MainQuiz> {
-  final _questions = const [
+  num dry = 0;
+  num oily = 0;
+  num comb = 0;
+  num normal = 0;
+
+  final _questions = [
     {
       'questionText': 'Which most closely describes the look of your pores?',
       'answers': [
-        {'text': 'Large and visible all over', 'score': -2},
-        {'text': 'Medium sized all over', 'score': -2},
-        {'text': 'Small, not easily noticed all over.', 'score': 10},
+        {'text': 'Large and visible all over', 'score': 2},
+        {'text': 'Medium sized all over', 'score': 1},
+        {'text': 'Small, not easily noticed all over.', 'score': 4},
         {
           'text': 'Large or medium sized and only visible in T zone',
-          'score': -2
+          'score': 3
         },
       ],
     },
     {
-      'questionText': 'How does your skin look and feel when you wake up?',
+      'questionText': 'Texture of your skin?',
       'answers': [
-        {'text': 'My skin is screaming for moisture.', 'score': -2},
-        {'text': 'My face is oily and shiny all over.', 'score': -2},
+        {'text': 'Skin needs a moisture.', 'score': 1},
+        {'text': 'My face is oily and shiny all over.', 'score': 2},
         {
           'text': 'My eyes are puffy and my skin feels somewhat dry.',
-          'score': -2
+          'score': 4
         },
         {
           'text': 'My forehead is very oily but my cheeks feel dry.',
-          'score': 10
+          'score': 3
         },
         {
           'text': 'My skin is calm with a light layer of oil all over.',
-          'score': 10
+          'score': 3
         },
-        {'text': 'My skin is oily and broken out.', 'score': 10},
+        {'text': 'My skin is oily and broken out.', 'score': 2},
       ],
     },
     {
       'questionText': 'What Do You Feel When You Touch Your Skin?',
       'answers': [
-        {'text': 'Oily in some places dry in others', 'score': -2},
-        {'text': 'Rough and scaly', 'score': 10},
-        {'text': 'Healthy and smooth', 'score': -2},
-        {'text': 'Slick and greasy', 'score': -2},
+        {'text': 'Oily in some places dry in others', 'score': 3},
+        {'text': 'Rough and scaly', 'score': 1},
+        {'text': 'Healthy and smooth', 'score': 4},
+        {'text': 'Slick and greasy', 'score': 2},
       ],
     },
     {
       'questionText': 'How Does Your Skin Feel After You Wash Your Face?',
       'answers': [
-        {'text': 'Clean until the oil soon returns', 'score': 10},
-        {'text': 'Itchy and a bit dry', 'score': -2},
-        {'text': 'Clean, healthy, and even', 'score': -2},
-        {'text': 'Clean in the T zone but dry on the cheeks', 'score': -2},
+        {'text': 'Clean until the oil soon returns', 'score': 2},
+        {'text': 'Itchy and a bit dry', 'score': 1},
+        {'text': 'Clean, healthy, and even', 'score': 4},
+        {'text': 'Clean in the T zone but dry on the cheeks', 'score': 3},
       ],
     },
     {
-      'questionText': 'How often do you break out?',
+      'questionText': 'How often do you have pimples?',
       'answers': [
         {
-          'text': 'I never break out.',
-          'score': -2,
+          'text': 'Very seldom',
+          'score': 1,
         },
-        {'text': 'I break out constantly and all over my face.', 'score': 10},
-        {
-          'text':
-              'I break out a few times a year due to weather changes or stress.',
-          'score': 10
-        },
-        {'text': 'I never break out.', 'score': 10},
-        {
-          'text': 'I break out a couple times a month around my T-zone.',
-          'score': 10
-        },
-        {
-          'text': 'I break out often around my cheeks and forehead.',
-          'score': 10
-        },
+        {'text': 'Never', 'score': 4},
+        {'text': 'Sometimes.', 'score': 3},
+        {'text': 'Very often', 'score': 2},
       ],
     },
     {
@@ -91,18 +85,19 @@ class _MainQuizState extends State<MainQuiz> {
       'answers': [
         {
           'text': 'Yes – I have discoloration and sun spots all over my face.',
-          'score': -2,
+          'score': 2,
         },
         {
           'text': 'Yes – I have some sun spots around my nose and cheeks.',
-          'score': 10
+          'score': 3
         },
-        {'text': 'No – I have no sun damage.', 'score': 10},
+        {'text': 'No – I have no sun damage.', 'score': 4},
       ],
     },
   ];
   var _questionIndex = 0;
-  var _totalScore = 0;
+  num _totalScore = 0;
+  String resultText = "";
 
   void _resetQuiz() {
     setState(() {
@@ -111,17 +106,35 @@ class _MainQuizState extends State<MainQuiz> {
     });
   }
 
-  void _answerQuestion(int score) {
-    _totalScore += score;
+  void _answerQuestion(num score) {
+    if (score == 1) dry++;
+    if (score == 2) oily++;
+    if (score == 3) comb++;
+    if (score == 4) normal++;
 
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
-    print(_questionIndex);
     if (_questionIndex < _questions.length) {
       print('We have more questions!');
     } else {
-      print('No more questions!');
+      var res = [dry, oily, comb, normal].reduce((max));
+      setState(() {
+        _totalScore = (res * 100 / 7);
+      });
+      var txt = "";
+      if (res == dry) {
+        txt = "Dry";
+      } else if (res == comb) {
+        txt = "Combination";
+      } else if (res == normal) {
+        txt = "Normal";
+      } else if (res == oily) {
+        txt = "Oily";
+      }
+      setState(() {
+        resultText = txt;
+      });
     }
   }
 
@@ -148,7 +161,7 @@ class _MainQuizState extends State<MainQuiz> {
                   questionIndex: _questionIndex,
                   questions: _questions,
                 ) //Quiz
-              : Result(_totalScore, _resetQuiz),
+              : Result(_totalScore, resultText, _resetQuiz),
         ),
       ), //Padding      )
     );
