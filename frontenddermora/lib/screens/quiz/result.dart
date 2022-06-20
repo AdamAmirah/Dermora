@@ -2,33 +2,21 @@
 
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/entry.dart';
-import 'package:frontenddermora/screens/home/homepage_screen.dart';
 import 'package:frontenddermora/util/styles.dart';
 
 class Result extends StatelessWidget {
-  final int resultScore;
+  final num resultScore;
   final void Function() resetHandler;
+  final String resultText;
 
-  Result(this.resultScore, this.resetHandler);
+  Result(this.resultScore, this.resultText, this.resetHandler);
 
 //Remark Logic
   String get resultPhrase {
-    String resultText;
-    // if (resultScore >= 41) {
-    resultText = 'Your Skin Type is ...';
-    //   print(resultScore);
-    // } else if (resultScore >= 31) {
-    //   resultText = 'Pretty likeable!';
-    //   print(resultScore);
-    // } else if (resultScore >= 21) {
-    //   resultText = 'You need to work more!';
-    // } else if (resultScore >= 1) {
-    //   resultText = 'You need to work hard!';
-    // } else {
-    //   resultText = 'This is a poor score!';
-    //   print(resultScore);
-    // }
-    return resultText;
+    var startingText =
+        'Your Skin Type is ${resultScore.toStringAsFixed(2)}% ... ';
+
+    return startingText;
   }
 
   @override
@@ -52,24 +40,19 @@ class Result extends StatelessWidget {
             flex: 1,
           ),
           Expanded(
-            child: Text(
-              "Furqan Said",
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Text(
+                resultPhrase,
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
             ),
             flex: 1,
           ),
           Expanded(
             child: Text(
-              resultPhrase,
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            flex: 1,
-          ),
-          Expanded(
-            child: Text(
-              'Dry Skin',
+              '$resultText Skin',
               style: TextStyle(
                   fontSize: 36, fontWeight: FontWeight.bold, color: kSecBlue),
               textAlign: TextAlign.center,
