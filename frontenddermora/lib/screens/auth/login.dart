@@ -236,15 +236,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                           {
                                             if (response.data.user.isFirst)
                                               {
-                                                // APIService.updateIsFirst()
-                                                //     .then((res) => {
-                                                Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            PrimaryQuestionsScreen()),
-                                                    (route) => false)
-                                                // })
+                                                APIService.updateIsFirst()
+                                                    .then((res) => {
+                                                          Navigator.pushAndRemoveUntil(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          PrimaryQuestionsScreen()),
+                                                              (route) => false)
+                                                        })
                                               }
                                             else
                                               {
