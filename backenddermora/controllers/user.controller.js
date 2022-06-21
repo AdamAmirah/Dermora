@@ -45,6 +45,14 @@ exports.updateAgeSex = (req, res, next) => {
       res.send(result);
     });
 };
+exports.updateSkin = (req, res, next) => {
+  console.log("updating skin type");
+  userModel.updateSkinType(req.body.skin, req.body.id).then(() => {
+    res.status(200).send({
+      message: "Success",
+    });
+  });
+};
 
 exports.updateConcerns = (req, res, next) => {
   console.log("updating concerns");

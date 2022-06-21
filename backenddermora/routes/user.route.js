@@ -18,6 +18,12 @@ router.post(
 );
 
 router.post(
+  "/user/updateSkin",
+  bodyParser.urlencoded({ extended: true }),
+  userController.updateSkin
+);
+
+router.post(
   "/user/updateConcerns",
   bodyParser.urlencoded({ extended: true }),
   userController.updateConcerns

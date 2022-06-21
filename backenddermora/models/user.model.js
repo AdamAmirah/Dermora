@@ -159,6 +159,29 @@ exports.updateAgeSex = (age, sex, id) => {
       });
   });
 };
+exports.updateSkinType = (type, id) => {
+  return new Promise((resolve, reject) => {
+    mongoose
+      .connect(DB_URL, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      })
+      .then(() => {
+        return User.updateOne(
+          { _id: id },
+          { $set: { "userInfo.skinType": type } }
+        );
+      })
+      .then((res) => {
+        mongoose.disconnect();
+        resolve(res);
+      })
+      .catch((err) => {
+        mongoose.disconnect();
+        reject(err);
+      });
+  });
+};
 exports.updateConcerns = (concerns, id) => {
   return new Promise((resolve, reject) => {
     mongoose
@@ -167,7 +190,7 @@ exports.updateConcerns = (concerns, id) => {
         useNewUrlParser: true,
       })
       .then(() => {
-        return User.update(
+        return User.updateOne(
           { _id: id },
           { $set: { "userInfo.skinConcerns": concerns } }
         );
