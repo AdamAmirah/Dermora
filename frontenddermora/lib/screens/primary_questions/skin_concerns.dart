@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/primary_questions/models/concerns.dart';
 import 'package:frontenddermora/screens/primary_questions/components/reusableButton.dart';
 import 'package:frontenddermora/screens/quiz/intro.dart';
+import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -77,6 +78,8 @@ List<StaggeredTile> _staggeredTiles = <StaggeredTile>[
 class _SkinConcernsState extends State<SkinConcerns> {
   List<Widget> _tiles = <Widget>[];
   List<Concern> concerns = <Concern>[];
+  List<Concern> chosenConcerns = <Concern>[];
+
   @override
   void initState() {
     super.initState();
@@ -189,12 +192,49 @@ class _SkinConcernsState extends State<SkinConcerns> {
                         shadowColor:
                             MaterialStateProperty.all(Colors.transparent),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const MainQuiz()),
-                        );
+                      onPressed: () async {
+                        for (var concern in concerns) {
+                          if (concern.isSelected) {
+                            setState(() {
+                              chosenConcerns.add(concern);
+                            });
+                          }
+                        }
+                        var response =
+                            await APIService.updateConcerns(chosenConcerns);
+                        if (response) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainQuiz()),
+                          );
+                        } else {
+                          AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10.0),
+                              ),
+                            ),
+                            title: Text("Something went wrong"),
+                            titleTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 20),
+                            actionsOverflowButtonSpacing: 20,
+                            actions: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text("Close"),
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(kSecBlue)),
+                              ),
+                            ],
+                            content: Text("Please Try Again"),
+                          );
+                        }
                       },
                       child: const Padding(
                         padding: EdgeInsets.only(
