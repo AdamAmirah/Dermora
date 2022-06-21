@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/quiz/quiz.dart';
 import 'package:frontenddermora/screens/quiz/result.dart';
+import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'dart:math';
 
@@ -106,7 +107,7 @@ class _MainQuizState extends State<MainQuiz> {
     });
   }
 
-  void _answerQuestion(num score) {
+  void _answerQuestion(num score) async {
     if (score == 1) dry++;
     if (score == 2) oily++;
     if (score == 3) comb++;
@@ -135,6 +136,8 @@ class _MainQuizState extends State<MainQuiz> {
       setState(() {
         resultText = txt;
       });
+
+      await APIService.updateSkinType(resultText);
     }
   }
 

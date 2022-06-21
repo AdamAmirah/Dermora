@@ -134,6 +134,28 @@ class APIService {
     }
   }
 
+  static Future<bool> updateSkinType(type) async {
+    var loginDetails = await SharedService.loginDetails();
+
+    Map<String, String> requestHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'basic ${loginDetails!.data.token}',
+    };
+    var data = {"skin": type, "id": loginDetails.data.user.id};
+
+    var url = Uri.http(Config.apiURL, "user/updateSkin/");
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: jsonEncode(data),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static Future<bool> updateConcerns(List<Concern> concerns) async {
     var loginDetails = await SharedService.loginDetails();
 

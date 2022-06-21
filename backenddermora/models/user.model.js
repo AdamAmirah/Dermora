@@ -174,7 +174,7 @@ exports.updateSkinType = (type, id) => {
       })
       .then((res) => {
         mongoose.disconnect();
-        resolve(res);
+        resolve();
       })
       .catch((err) => {
         mongoose.disconnect();
