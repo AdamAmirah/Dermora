@@ -72,7 +72,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                     child: Column(
                       children: [
                         Image.asset(
-                          widget.userData.data.image,
+                          widget.userData.data.image == ""
+                              ? "assets/images/profile.png"
+                              : widget.userData.data.image,
                           width: widget.screenWidth * 0.3,
                           fit: BoxFit.contain,
                         ),
