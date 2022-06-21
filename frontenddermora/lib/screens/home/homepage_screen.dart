@@ -109,7 +109,7 @@ class _HomePageScreen extends State<HomePageScreen> {
               ], shape: BoxShape.circle, color: kSecBlue.withOpacity(0.1)),
               child: Image.asset(
                 userData.data.image == ""
-                    ? "assets/images/avatar.png"
+                    ? "assets/images/profile.png"
                     : userData.data.image,
                 fit: BoxFit.contain,
               ),
