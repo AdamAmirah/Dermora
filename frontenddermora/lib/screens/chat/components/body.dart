@@ -109,7 +109,10 @@ class _BodyState extends State<Body> {
                       width: screenWidth * 0.05,
                     ),
                     CircleAvatar(
-                      backgroundImage: AssetImage(userData!.data.image),
+                      backgroundImage: userData!.data.image == ""
+                          ? AssetImage("assets/images/profile.png")
+                          : AssetImage(userData!.data.image),
+                      backgroundColor: kSecBlue.withOpacity(0.4),
                       radius: 29,
                     )
                   ],

@@ -157,10 +157,10 @@ class WorkDetails {
     required this.jobTitle,
     required this.experience,
   });
-  late final String clinicName;
-  late final String address;
-  late final String jobTitle;
-  late final String experience;
+  late final String? clinicName;
+  late final String? address;
+  late final String? jobTitle;
+  late final String? experience;
 
   WorkDetails.fromJson(Map<String, dynamic> json) {
     clinicName = json['clinicName'];

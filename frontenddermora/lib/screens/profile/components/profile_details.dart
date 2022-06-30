@@ -44,10 +44,12 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             ? "Unknown"
             : widget.userData.data.address.city));
     demoProfile.add(ProfileData(
-        label: "Skin Type",
-        text: widget.userData.data.userInfo.skinType == ""
-            ? "Unknown"
-            : widget.userData.data.userInfo.skinType));
+        label: widget.userData.data.kind == "doctor" ? "" : "Skin Type",
+        text: widget.userData.data.kind == "doctor"
+            ? ""
+            : widget.userData.data.userInfo.skinType == ""
+                ? "Unknown"
+                : widget.userData.data.userInfo.skinType));
   }
 
   @override

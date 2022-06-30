@@ -69,14 +69,14 @@ class ChatCard extends StatelessWidget {
                 ),
               ),
             ),
-            Opacity(
-              opacity: 0.64,
-              child: Text(
-                chat.status ? "On Going" : "Closed",
-                style:
-                    TextStyle(color: chat.status ? Colors.green : Colors.red),
-              ),
-            )
+            // Opacity(
+            //   opacity: 0.64,
+            //   child: Text(
+            //     chat.status ? "On Going" : "Closed",
+            //     style:
+            //         TextStyle(color: chat.status ? Colors.green : Colors.red),
+            //   ),
+            // )
           ],
         ),
       ),

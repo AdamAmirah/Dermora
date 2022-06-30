@@ -8,6 +8,7 @@ import 'package:frontenddermora/screens/routine/components/edit_routine.dart';
 import 'package:frontenddermora/services/api_service.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../services/api_doctors.dart';
@@ -24,7 +25,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   List<Map> doctorsList = [];
-  late DoctorModel availableDoctors;
+  DoctorModel? availableDoctors;
   late Socket socket;
   @override
   void initState() {
@@ -35,7 +36,7 @@ class _BodyState extends State<Body> {
   }
 
   void initializeSocket() {
-    socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
+    socket = io("http://192.168.43.143:3000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -66,10 +67,11 @@ class _BodyState extends State<Body> {
       availableDoctors = doctors!;
       var res = false;
       var chatId;
-      for (var element in availableDoctors.data) {
+      for (var element in availableDoctors!.data) {
         var notIncluded = true;
         for (var ele in userData!.data.friends) {
           if (ele.id == element.id) {
+            print("hi");
             res = true;
             chatId = ele.chatId;
             if (!ele.status) {
@@ -176,8 +178,17 @@ class _BodyState extends State<Body> {
                         padding: EdgeInsets.symmetric(
                           horizontal: 30.0,
                         ),
-                        child:
-                            DoctorsDetails(list: doctorsList, socket: socket),
+                        child: availableDoctors != null
+                            ? DoctorsDetails(list: doctorsList, socket: socket)
+                            : Padding(
+                                padding: const EdgeInsets.only(top: 40),
+                                child: Center(
+                                    child: LoadingAnimationWidget
+                                        .staggeredDotsWave(
+                                  color: kSecBlue,
+                                  size: 25,
+                                )),
+                              ),
                       ),
                     ],
                   ),

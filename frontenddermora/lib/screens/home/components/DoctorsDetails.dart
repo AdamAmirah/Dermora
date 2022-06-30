@@ -105,8 +105,10 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                               icon: Icon(Icons.chat_bubble_outline_rounded,
                                   size: 20),
                               onPressed: () async {
+                                print(ele["chatId"]);
                                 var message = await APIChatService.updateChat(
                                     ele["chatId"]);
+                                print(message);
                                 if (message == "success") {
                                   Navigator.push(
                                     context,

@@ -125,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderFocusColor: kSecBlue.withOpacity(0.2),
                         borderColor: Colors.white,
                         prefixIconColor: Color(0xff7B6F72),
-                        textColor: Colors.red,
+                        textColor: kSecBlue,
                         borderRadius: 15,
                         hintFontSize: 15,
                         showPrefixIcon: true,
@@ -153,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderFocusColor: kSecBlue.withOpacity(0.2),
                           borderColor: Colors.white,
                           prefixIconColor: Color(0xff7B6F72),
-                          textColor: Colors.red,
+                          textColor: kSecBlue,
                           borderRadius: 15,
                           hintFontSize: 15,
                           showPrefixIcon: true,
@@ -182,7 +182,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderFocusColor: kSecBlue.withOpacity(0.2),
                           borderColor: Colors.white,
                           prefixIconColor: Color(0xff7B6F72),
-                          textColor: Colors.red,
+                          textColor: kSecBlue,
                           borderRadius: 15,
                           hintFontSize: 15,
                           showPrefixIcon: true,
@@ -211,7 +211,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderFocusColor: kSecBlue.withOpacity(0.2),
                           borderColor: Colors.white,
                           prefixIconColor: Color(0xff7B6F72),
-                          textColor: Colors.red,
+                          textColor: kSecBlue,
                           borderRadius: 15,
                           hintFontSize: 15,
                           showPrefixIcon: true,
@@ -274,10 +274,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 });
                                 RegisterRequestModel model =
                                     RegisterRequestModel(
-                                  firstName: "amirah",
-                                  lastName: "adam",
-                                  email: "amirah@gmail.com",
-                                  password: "amirah12",
+                                  firstName: fName!,
+                                  lastName: lName!,
+                                  email: email!,
+                                  password: password!,
                                 );
 
                                 APIService.register(model).then((response) => {

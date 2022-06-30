@@ -23,10 +23,8 @@ class ProductsApi {
     final response = await http.get(uri, headers: _headers);
     if (response.statusCode == 200) {
       ProductsModel res = convertProducts(response.body);
-      print(res.keyword);
       return res.products;
     } else {
-      print(response.body);
       throw Exception();
     }
   }
@@ -43,7 +41,6 @@ class ProductsApi {
       AllProductsModel res = convertAllProducts(response.body);
       return res.products;
     } else {
-      print(response.body);
       throw Exception();
     }
   }
@@ -75,7 +72,6 @@ class ProductsApi {
       'Content-Type': 'application/json',
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
-    print(data);
     var url = Uri.http(Config.apiURL, 'addProduct');
     var response = await client.post(
       url,

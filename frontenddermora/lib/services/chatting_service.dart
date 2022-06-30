@@ -14,6 +14,8 @@ import '../screens/messages/models/messages.dart';
 class APIChatService {
   static var client = http.Client();
   static Future<ChatInfo?> getChatInfo(chatId) async {
+    print("#################3");
+    print(chatId);
     var loginDetails = await SharedService.loginDetails();
 
     Map<String, String> requestHeaders = {
@@ -46,8 +48,10 @@ class APIChatService {
       url,
       headers: requestHeaders,
     );
+    print(response.body);
+    print(response.statusCode);
+
     if (response.statusCode == 200) {
-      //shared'
       return ChatModelConverter(response.body);
     } else {
       return null;
@@ -77,6 +81,7 @@ class APIChatService {
   }
 
   static Future<String> updateChat(chatId) async {
+    print(chatId);
     var loginDetails = await SharedService.loginDetails();
 
     Map<String, String> requestHeaders = {
@@ -90,6 +95,7 @@ class APIChatService {
       headers: requestHeaders,
       body: json.encode({"chatId": chatId}),
     );
+    print(response.body);
     if (response.statusCode == 200) {
       return "success";
     } else {

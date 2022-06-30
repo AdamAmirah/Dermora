@@ -25,39 +25,22 @@ class MessagesScreen extends StatefulWidget {
 
 class _MessagesScreenState extends State<MessagesScreen> {
   ChatInfo? chatInfo;
-  String remainingTime = "Chat Did not start yet";
+  String remainingTime = "";
   bool closeChat = false;
+
   @override
   void initState() {
     _get();
     if (chatInfo != null && !chatInfo!.data.isClosed) {
       Timer.periodic(const Duration(seconds: 10), (Timer timer) {
-        // _get();
         var end = DateTime.parse(chatInfo!.data.endTime);
         var start = DateTime.parse(chatInfo!.data.startTime);
         var now = DateTime.now();
-
-        if (chatInfo!.data.isStarted) {
-          var dif = end.difference(now);
-          setState(() {
-            remainingTime = dif.inMinutes.toString();
-          });
-        }
-        if (now.isAfter(end)) {
-          timer.cancel();
-          setState(() {
-            _updateStatus();
-            remainingTime = "Time is up";
-            closeChat = true;
-          });
-        }
+        calculateDiffrence(end, now); // calculate the time difference
+        endTimer(timer, end, now); // decide if the timer should stop or not
       });
     }
     super.initState();
-  }
-
-  _updateStatus() async {
-    var cData = await APIChatService.updateChatStatus(widget.chatsData.chatId);
   }
 
   _get() async {
@@ -65,21 +48,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
     var end = DateTime.parse(cData!.data.endTime);
     var start = DateTime.parse(cData.data.startTime);
     var now = DateTime.now();
-
     setState(() {
       chatInfo = cData;
     });
-    if (cData.data.isStarted) {
-      var dif = end.difference(now);
-      setState(() {
-        if (!cData.data.isClosed)
-          remainingTime = dif.inMinutes.toString();
-        else
-          remainingTime = "";
-
-        closeChat = cData.data.isClosed;
-      });
-    }
+    changeChatStatus(end, now); // update according to the api
+    updateTimeDifference(end, now); // update according to the api
   }
 
   @override
@@ -114,7 +87,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundImage: AssetImage(widget.chatsData.image),
+              backgroundImage: widget.chatsData.image == ""
+                  ? AssetImage("assets/images/profile.png")
+                  : AssetImage(widget.chatsData.image),
               radius: 20,
             ),
             SizedBox(
@@ -152,5 +127,60 @@ class _MessagesScreenState extends State<MessagesScreen> {
         ),
       ),
     );
+  }
+
+  calculateDiffrence(end, now) {
+    if (chatInfo!.data.isStarted) {
+      var dif = end.difference(now);
+      setState(() {
+        remainingTime = dif.inMinutes.toString();
+      });
+    }
+  }
+
+  endTimer(timer, end, now) {
+    if (now.isAfter(end)) {
+      print("done");
+      timer.cancel();
+      setState(() {
+        print("done");
+        _updateStatus();
+        remainingTime = "Time is up";
+        closeChat = true;
+      });
+    }
+  }
+
+  _updateStatus() async {
+    var res = await APIChatService.updateChatStatus(widget.chatsData.chatId);
+  }
+
+  changeChatStatus(end, now) {
+    if (now.isAfter(end) && !chatInfo!.data.isClosed) {
+      print("changing from _get############# ");
+      setState(() {
+        remainingTime = "Time is up";
+        closeChat = true;
+        _updateStatus();
+      });
+      print(remainingTime);
+    }
+  }
+
+  updateTimeDifference(end, now) {
+    if (chatInfo!.data.isStarted) {
+      var dif = end.difference(now);
+      if (!chatInfo!.data.isClosed)
+        setState(() {
+          remainingTime = dif.inMinutes.toString();
+        });
+      else
+        setState(() {
+          remainingTime = "";
+        });
+      setState(() {
+        closeChat = chatInfo!.data.isClosed;
+      });
+    }
   }
 }

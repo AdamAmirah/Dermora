@@ -107,7 +107,6 @@ class _AddedProductsScreenState extends State<AddedProductsScreen> {
       };
   var response;
   void addItem(product, label) async => {
-        print(product),
         setState(() {
           var flag = 1;
           for (int i = 0; i < list.length; i++) {
@@ -207,7 +206,10 @@ class _AddedProductsScreenState extends State<AddedProductsScreen> {
                           icon: Icon(Icons.arrow_back, color: Colors.white)),
                       Expanded(child: Container()),
                       //SizedBox(width: 20),
-                      Text('Morning Routine',
+                      Text(
+                          widget.kind == "morning"
+                              ? 'Morning Routine'
+                              : 'Night Routine',
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             color: Color(0xFFFFFFFF),

@@ -42,7 +42,8 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
   }
 
   void initializeSocket() {
-    socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
+    // socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
+    socket = io("http://192.168.43.143:3000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -150,7 +151,9 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Image.asset(
-                                    ele["image"],
+                                    ele["image"] == ""
+                                        ? "assets/images/profile.png"
+                                        : ele["image"],
                                     height: 50,
                                     width: 50,
                                     fit: BoxFit.contain,

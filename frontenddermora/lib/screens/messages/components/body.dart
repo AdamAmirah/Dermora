@@ -49,7 +49,7 @@ class _BodyState extends State<Body> {
             curve: Curves.easeIn,
           )
         });
-    socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
+    socket = io("http://192.168.43.143:3000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
@@ -125,6 +125,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.closeChat);
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
     return Column(
