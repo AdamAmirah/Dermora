@@ -225,9 +225,10 @@ exports.createUser = (email, password, name) => {
           email: email,
           password: hashedPassword,
           fullName: name,
+          phone: "+601111254182",
           address: {
-            country: "",
-            city: "",
+            country: "Malaysia",
+            city: "Kuala Lumpur",
             street: "",
             postCode: 0,
           },

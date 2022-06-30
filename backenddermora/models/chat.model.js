@@ -21,10 +21,12 @@ exports.getChatInfo = async (chatId) => {
       useNewUrlParser: true,
     });
     let chat = await Chat.findById(chatId);
-    mongoose.disconnect();
+    // mongoose.disconnect();
     return chat;
   } catch (error) {
-    mongoose.disconnect();
+    console.log(error);
+
+    // mongoose.disconnect();
     throw new Error(error);
   }
 };
@@ -36,10 +38,10 @@ exports.getChat = async (chatId) => {
       useNewUrlParser: true,
     });
     let chat = await Chat.findById(chatId).populate("users");
-    mongoose.disconnect();
     return chat;
   } catch (error) {
-    mongoose.disconnect();
+    console.log(error);
+    // mongoose.disconnect();
     throw new Error(error);
   }
 };

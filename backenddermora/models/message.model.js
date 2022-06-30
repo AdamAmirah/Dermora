@@ -28,10 +28,11 @@ exports.getMessages = async (chatId) => {
         select: "username image",
       },
     });
-    mongoose.disconnect();
+    // mongoose.disconnect();
     return messages;
   } catch (error) {
-    mongoose.disconnect();
+    console.log(error);
+    // mongoose.disconnect();
     throw new Error(error);
   }
 };
