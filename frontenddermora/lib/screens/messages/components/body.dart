@@ -49,7 +49,8 @@ class _BodyState extends State<Body> {
             curve: Curves.easeIn,
           )
         });
-    socket = io("http://192.168.43.143:3000", <String, dynamic>{
+    socket = io("https://dermora.herokuapp.com/", <String, dynamic>{
+      // socket = io("http://192.168.43.143:3000", <String, dynamic>{
       "transports": ["websocket"],
       "autoConnect": false,
     });
