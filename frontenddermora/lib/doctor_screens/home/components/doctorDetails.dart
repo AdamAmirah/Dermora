@@ -192,7 +192,7 @@ class _DoctorsDetailsState extends State<DoctorsDetails> {
                               ),
                               Flexible(
                                 child: Padding(
-                                    padding: const EdgeInsets.only(left: 70),
+                                    padding: const EdgeInsets.only(left: 10),
                                     child: IconButton(
                                       iconSize: 20,
                                       color: kSecBlue,

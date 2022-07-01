@@ -1,3 +1,5 @@
-Acne
+Acne 
 Eczema
 Psoriasis
+Normal
+Non-skin
