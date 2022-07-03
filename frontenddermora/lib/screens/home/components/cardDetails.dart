@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../services/api_service.dart';
 
@@ -23,28 +24,23 @@ class BannerCard extends StatelessWidget {
           CardDetails(
             image: "assets/images/image_banner_1.png",
             title: "Follow the latest blog on healthy food options",
-            press: () {},
+            url:
+                "https://www.theremedykitchen.co.uk/blogs/news/skin-health-and-nutrition",
           ),
           CardDetails(
             image: "assets/images/image_banner_2.png",
             title: "Did you know that kiwis have more vitamin C than oranges?",
-            press: () {},
+            url: "https://www.medicalnewstoday.com/articles/271232",
           ),
           CardDetails(
             image: "assets/images/image_banner_3.png",
             title: "7 facial yoga exercises or poses",
-            press: () {},
+            url:
+                "https://www.pinkvilla.com/fashion/beauty/skincare-7-facial-yoga-exercises-you-need-include-your-daily-skincare-routine-healthy-glowing-skin-512304",
           ),
         ],
       ),
     );
-    // }
-    //     return const Center(
-    //       child: CircularProgressIndicator(),
-    //     );
-    //   },
-    //   future: APIService.getArticles(),
-    // );
   }
 }
 
@@ -53,12 +49,10 @@ class CardDetails extends StatelessWidget {
     Key? key,
     required this.image,
     required this.title,
-    required this.press,
+    required this.url,
   }) : super(key: key);
 
-  final String image, title;
-
-  final Function press;
+  final String image, title, url;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +112,15 @@ class CardDetails extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   color: Colors.white,
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (await canLaunch(url)) {
+                      await launch(
+                        url,
+                        forceSafariVC: true,
+                        enableJavaScript: true,
+                      );
+                    }
+                  },
                   child: const Text(
                     "Read More",
                     style: TextStyle(color: kSecBlue),

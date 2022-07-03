@@ -66,13 +66,13 @@ class _BodyState extends State<Body> {
 
     setState(() {
       availableDoctors = doctors!;
-      var res = false;
       var chatId;
       for (var element in availableDoctors!.data) {
+        var res = false;
         var notIncluded = true;
         for (var ele in userData!.data.friends) {
           if (ele.id == element.id) {
-            print("hi");
+            print("hi i got here twice");
             res = true;
             chatId = ele.chatId;
             if (!ele.status) {

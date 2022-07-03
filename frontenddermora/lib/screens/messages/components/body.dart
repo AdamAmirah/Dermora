@@ -1,21 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
 import 'package:frontenddermora/screens/chat/model/chat.dart';
-import 'package:frontenddermora/screens/chat/model/chatInfo_response_model.dart';
 import 'package:frontenddermora/screens/chat/model/chat_response_model.dart';
 import 'package:frontenddermora/screens/messages/components/chat_textField.dart';
 import 'package:frontenddermora/screens/messages/components/message.dart';
 import 'package:frontenddermora/screens/messages/models/messages.dart';
-import 'package:frontenddermora/util/styles.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:socket_io_client/socket_io_client.dart';
-
-import '../../../services/api_service.dart';
-import '../../../services/chatting_service.dart';
 
 class Body extends StatefulWidget {
   const Body({
@@ -23,11 +15,13 @@ class Body extends StatefulWidget {
     required this.userData,
     required this.chatsData,
     required this.closeChat,
+    required this.messagesData,
   }) : super(key: key);
 
   final Profile userData;
   final Chat chatsData;
   final bool closeChat;
+  final ChatResponseModel messagesData;
   @override
   State<Body> createState() => _BodyState();
 }
@@ -90,24 +84,20 @@ class _BodyState extends State<Body> {
   }
 
   _get() async {
-    print(widget.chatsData.chatId);
-    ChatResponseModel? chatData =
-        await APIChatService.getChat(widget.chatsData.chatId);
-
     setState(() {
-      for (var element in chatData!.messages) {
-        Users senderImage =
-            element.chat.users.singleWhere((e) => e.id == element.sender);
+      for (var element in widget.messagesData.messages) {
+        Users senderImage = widget.messagesData.chat.users
+            .singleWhere((e) => e.id == element.sender);
 
         chatMessages.add(
           ChatMessage(
             content: element.content,
-            chatId: element.chat.id,
+            chatId: widget.messagesData.chat.id,
             timeStamp: element.timestamp,
             sender: element.sender,
             isSender: element.sender == widget.userData.data.id,
             senderImage: senderImage.image,
-            friendId: chatData.friendData.id,
+            friendId: widget.messagesData.friendData.id,
           ),
         );
         print(chatMessages[0]);

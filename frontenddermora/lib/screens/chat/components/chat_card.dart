@@ -27,25 +27,28 @@ class ChatCard extends StatelessWidget {
             Stack(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage(chat.image),
+                  backgroundImage: chat.image == ""
+                      ? AssetImage("assets/images/profile.png")
+                      : AssetImage(chat.image),
                   radius: 29,
+                  backgroundColor: kSecBlue.withOpacity(0.4),
                 ),
-                if (chat.status)
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: 16,
-                      width: 16,
-                      decoration: BoxDecoration(
-                          color: kSecBlue,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 3,
-                          )),
-                    ),
-                  )
+                // if (chat.status)
+                //   Positioned(
+                //     right: 0,
+                //     bottom: 0,
+                //     child: Container(
+                //       height: 16,
+                //       width: 16,
+                //       decoration: BoxDecoration(
+                //           color: kSecBlue,
+                //           shape: BoxShape.circle,
+                //           border: Border.all(
+                //             color: Colors.white,
+                //             width: 3,
+                //           )),
+                //     ),
+                //   )
               ],
             ),
             Expanded(
@@ -69,14 +72,6 @@ class ChatCard extends StatelessWidget {
                 ),
               ),
             ),
-            // Opacity(
-            //   opacity: 0.64,
-            //   child: Text(
-            //     chat.status ? "On Going" : "Closed",
-            //     style:
-            //         TextStyle(color: chat.status ? Colors.green : Colors.red),
-            //   ),
-            // )
           ],
         ),
       ),

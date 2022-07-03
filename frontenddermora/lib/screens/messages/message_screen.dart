@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontenddermora/screens/auth/models/Profile_model.dart';
 import 'package:frontenddermora/screens/chat/model/chat.dart';
+import 'package:frontenddermora/screens/chat/model/chat_response_model.dart';
 import 'package:frontenddermora/util/styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
@@ -13,46 +14,50 @@ import 'components/body.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen(
-      {Key? key, required this.userData, required this.chatsData})
+      {Key? key,
+      required this.userData,
+      required this.chatsData,
+      required this.messagesData})
       : super(key: key);
 
   final Profile userData;
   final Chat chatsData;
+  final ChatResponseModel messagesData;
 
   @override
   State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
 class _MessagesScreenState extends State<MessagesScreen> {
-  ChatInfo? chatInfo;
   String remainingTime = "";
   bool closeChat = false;
+  late Timer _timer;
+  // Timer(const Duration(seconds: 5), () => print('Timer finished'));
 
   @override
   void initState() {
-    _get();
-    if (chatInfo != null && !chatInfo!.data.isClosed) {
-      Timer.periodic(const Duration(seconds: 10), (Timer timer) {
-        var end = DateTime.parse(chatInfo!.data.endTime);
-        var start = DateTime.parse(chatInfo!.data.startTime);
-        var now = DateTime.now();
-        calculateDiffrence(end, now); // calculate the time difference
-        endTimer(timer, end, now); // decide if the timer should stop or not
-      });
-    }
     super.initState();
+
+    if (widget.messagesData.chat.endTime != null) {
+      var end = DateTime.parse(widget.messagesData.chat.endTime!);
+      var now = DateTime.now();
+      changeChatStatus(end, now); // update according to the api
+      if (!widget.messagesData.chat.isClosed) {
+        updateTimeDifference(end, now);
+        _timer = Timer.periodic(const Duration(seconds: 10), (Timer timer) {
+          var end = DateTime.parse(widget.messagesData.chat.endTime!);
+          var now = DateTime.now();
+          endTimer(timer, end, now); // decide if the timer should stop or not
+          calculateDiffrence(end, now); // calculate the time difference
+        });
+      }
+    }
   }
 
-  _get() async {
-    ChatInfo? cData = await APIChatService.getChatInfo(widget.chatsData.chatId);
-    var end = DateTime.parse(cData!.data.endTime);
-    var start = DateTime.parse(cData.data.startTime);
-    var now = DateTime.now();
-    setState(() {
-      chatInfo = cData;
-    });
-    changeChatStatus(end, now); // update according to the api
-    updateTimeDifference(end, now); // update according to the api
+  @override
+  void dispose() {
+    super.dispose();
+    _timer.cancel();
   }
 
   @override
@@ -62,6 +67,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       body: Body(
           chatsData: widget.chatsData,
           userData: widget.userData,
+          messagesData: widget.messagesData,
           closeChat: closeChat),
     );
   }
@@ -79,7 +85,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
         padding: EdgeInsets.only(top: screenWidth * 0.1),
         child: IconButton(
           icon: const Icon(Icons.arrow_back, color: kSecBlue),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context).pop(true),
         ),
       ),
       title: Padding(
@@ -99,14 +105,16 @@ class _MessagesScreenState extends State<MessagesScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Dr  ${widget.chatsData.name}",
+                  "${widget.chatsData.name}",
                   style: GoogleFonts.abhayaLibre(
                       color: Colors.black, fontSize: 20),
                 ),
                 Row(
                   children: [
                     Text(
-                      closeChat ? "" : "Time Remaining: ",
+                      widget.messagesData.chat.isClosed
+                          ? ""
+                          : "Time Remaining: ",
                       style: GoogleFonts.abhayaLibre(
                         color: Colors.black,
                         fontSize: 16,
@@ -129,8 +137,34 @@ class _MessagesScreenState extends State<MessagesScreen> {
     );
   }
 
+  changeChatStatus(end, now) {
+    print("changing status from the function");
+    if (now.isAfter(end) && widget.messagesData.chat.isClosed) {
+      setState(() {
+        remainingTime = "Time is up";
+        closeChat = true;
+        _updateStatus();
+      });
+      print(remainingTime);
+    }
+  }
+
+  _updateStatus() async {
+    var res = await APIChatService.updateChatStatus(widget.chatsData.chatId);
+  }
+
+  updateTimeDifference(end, now) {
+    if (widget.messagesData.chat.isStarted) {
+      var dif = end.difference(now);
+      if (!widget.messagesData.chat.isClosed)
+        setState(() {
+          remainingTime = dif.inMinutes.toString();
+        });
+    }
+  }
+
   calculateDiffrence(end, now) {
-    if (chatInfo!.data.isStarted) {
+    if (widget.messagesData.chat.isStarted) {
       var dif = end.difference(now);
       setState(() {
         remainingTime = dif.inMinutes.toString();
@@ -143,43 +177,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
       print("done");
       timer.cancel();
       setState(() {
-        print("done");
         _updateStatus();
         remainingTime = "Time is up";
         closeChat = true;
-      });
-    }
-  }
-
-  _updateStatus() async {
-    var res = await APIChatService.updateChatStatus(widget.chatsData.chatId);
-  }
-
-  changeChatStatus(end, now) {
-    if (now.isAfter(end) && !chatInfo!.data.isClosed) {
-      print("changing from _get############# ");
-      setState(() {
-        remainingTime = "Time is up";
-        closeChat = true;
-        _updateStatus();
-      });
-      print(remainingTime);
-    }
-  }
-
-  updateTimeDifference(end, now) {
-    if (chatInfo!.data.isStarted) {
-      var dif = end.difference(now);
-      if (!chatInfo!.data.isClosed)
-        setState(() {
-          remainingTime = dif.inMinutes.toString();
-        });
-      else
-        setState(() {
-          remainingTime = "";
-        });
-      setState(() {
-        closeChat = chatInfo!.data.isClosed;
       });
     }
   }

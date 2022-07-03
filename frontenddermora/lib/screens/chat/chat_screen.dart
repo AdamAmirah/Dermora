@@ -31,8 +31,10 @@ class _ChatScreenState extends State<ChatScreen> {
       automaticallyImplyLeading: false,
       elevation: 0,
       centerTitle: true,
+      toolbarHeight: 70,
       title: Padding(
-        padding: EdgeInsets.only(top: screenWidth * 0.1),
+        padding:
+            EdgeInsets.only(top: screenWidth * 0.1, bottom: screenWidth * 0.1),
         child: Text(
           "Chat Room",
           style: GoogleFonts.roboto(
