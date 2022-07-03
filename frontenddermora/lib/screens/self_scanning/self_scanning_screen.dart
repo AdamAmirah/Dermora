@@ -155,8 +155,7 @@ class _SelfScanningScreenState extends State<SelfScanningScreen> {
                                     ),
                                     // ignore: unnecessary_null_comparison
                                     _output != null
-                                        ? Text(
-                                            'Your skin condition might be: ${_output[0]['label']}',
+                                        ? Text(' ${_output[0]['label']}',
                                             style: GoogleFonts.poppins(
                                               color: Colors.black,
                                               fontSize: 14.0,
