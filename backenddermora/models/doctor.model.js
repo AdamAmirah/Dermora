@@ -1,6 +1,6 @@
 const User = require("./user.model").User;
 const mongoose = require("mongoose");
-const dbConfig = require("../config");
+const dbConfig = require("../config2");
 const DB_URL = dbConfig.db;
 
 exports.getAvailableDoctors = () => {

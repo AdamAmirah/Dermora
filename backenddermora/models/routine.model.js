@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const dbConfig = require("../config");
+const dbConfig = require("../config2");
 const DB_URL = dbConfig.db;
 const bcrypt = require("bcrypt");
 const auth = require("../helpers/auth");
