@@ -1,7 +1,7 @@
 const User = require("./user.model").User;
 const mongoose = require("mongoose");
 const dbConfig = require("../config");
-const DB_URL = "mongodb://localhost:27017/dermora";
+const DB_URL = dbConfig.db;
 
 exports.getAvailableDoctors = () => {
   return new Promise((resolve, reject) => {

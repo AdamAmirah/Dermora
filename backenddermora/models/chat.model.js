@@ -168,10 +168,10 @@ exports.updateChat = async (chatId) => {
       }
     );
 
-    mongoose.disconnect();
+    // mongoose.disconnect();
     return;
   } catch (error) {
-    mongoose.disconnect();
+    // mongoose.disconnect();
     throw new Error(error);
   }
 };

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const dbConfig = require("../config");
-const DB_URL = "mongodb://localhost:27017/dermora";
+const DB_URL = dbConfig.db;
 const bcrypt = require("bcrypt");
 const auth = require("../helpers/auth");
 

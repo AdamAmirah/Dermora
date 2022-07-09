@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const dbConfig = require("../config");
-const DB_URL = "mongodb://localhost:27017/dermora";
+const DB_URL = dbConfig.db;
 
 const messageSchema = mongoose.Schema({
   chat: { type: mongoose.Schema.Types.ObjectId, ref: "chat" },
@@ -12,6 +12,7 @@ const messageSchema = mongoose.Schema({
 const Message = mongoose.model("message", messageSchema);
 
 exports.getMessages = async (chatId) => {
+  console.log(chatId);
   try {
     await mongoose.connect(DB_URL, {
       useUnifiedTopology: true,
@@ -19,14 +20,6 @@ exports.getMessages = async (chatId) => {
     });
     let messages = await Message.find({ chat: chatId }, null, {
       sort: { timestamp: 1 },
-    }).populate({
-      path: "chat", //field
-      model: "chat",
-      populate: {
-        path: "users",
-        model: "user",
-        select: "username image",
-      },
     });
     // mongoose.disconnect();
     return messages;

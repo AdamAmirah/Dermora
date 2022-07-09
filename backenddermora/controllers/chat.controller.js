@@ -10,28 +10,34 @@ exports.getChat = (req, res, next) => {
     .getMessages(chatId)
 
     .then((messages) => {
-      if (messages.length === 0) {
-        chatModel.getChat(chatId).then((chat) => {
-          let friendData = chat.users.find((user) => user._id != userId);
-          res.status(200).send({
-            userId: userId,
-            messages: messages,
-            friendData: friendData,
-            chatId: chatId,
-          });
-        });
-      } else {
-        let friendData = messages[0].chat.users.find(
-          (user) => user._id != userId
-        );
-
+      // if (messages.length === 0) {
+      chatModel.getChat(chatId).then((chat) => {
+        let friendData = chat.users.find((user) => user._id != userId);
+        console.log(chat);
         res.status(200).send({
           userId: userId,
           messages: messages,
+          chats: chat,
           friendData: friendData,
           chatId: chatId,
         });
-      }
+      });
+      // } else {
+      //   let friendData = messages[0].chat.users.find(
+      //     (user) => user._id != userId
+      //   );
+
+      //   res.status(200).send({
+      //     userId: userId,
+      //     messages: messages,
+      //     friendData: friendData,
+      //     chatId: chatId,
+      //     startTime: chat.startTime,
+      //     endTime: chat.endTime,
+      //     isClosed: chat.isClosed,
+      //     isStarted: chat.isStarted,
+      //   });
+      // }
     });
 };
 exports.getChatInfo = (req, res, next) => {
