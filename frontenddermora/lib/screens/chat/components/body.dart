@@ -52,7 +52,6 @@ class _BodyState extends State<Body> {
     for (var element in user!.data.friends) {
       ChatResponseModel? messages =
           await APIChatService.getChat(element.chatId);
-
       setState(() {
         loadingMessages = messages;
         messagesData.add(messages!);
@@ -142,7 +141,7 @@ class _BodyState extends State<Body> {
                         size: 50,
                       )),
                     )
-                  : chatsData.isEmpty
+                  : userData!.data.friends.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(top: 40),
                           child: EmptyWidget(
