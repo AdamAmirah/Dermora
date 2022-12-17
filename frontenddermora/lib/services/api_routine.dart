@@ -53,7 +53,7 @@ class ProductsApi {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(Config.apiURL, 'routine/${loginDetails.data.user.id}');
+    var url = Uri.https(Config.apiURL, 'routine/${loginDetails.data.user.id}');
     var response = await client.get(
       url,
       headers: requestHeaders,
@@ -72,7 +72,7 @@ class ProductsApi {
       'Content-Type': 'application/json',
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
-    var url = Uri.http(Config.apiURL, 'addProduct');
+    var url = Uri.https(Config.apiURL, 'addProduct');
     var response = await client.post(
       url,
       headers: requestHeaders,

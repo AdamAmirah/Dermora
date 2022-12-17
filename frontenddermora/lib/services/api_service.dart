@@ -18,7 +18,7 @@ class APIService {
     Map<String, String> requestHeaders = {
       'Content-Type': 'application/json',
     };
-    var url = Uri.http(Config.apiURL, Config.loginAPI);
+    var url = Uri.https(Config.apiURL, Config.loginAPI);
     var response = await client.post(
       url,
       // headers: requestHeaders,
@@ -37,7 +37,7 @@ class APIService {
       'Content-Type': 'application/json',
     };
 
-    var url = Uri.http(Config.apiURL, Config.registerAPI);
+    var url = Uri.https(Config.apiURL, Config.registerAPI);
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -58,7 +58,7 @@ class APIService {
       'Content-Type': 'application/json',
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
-    var url = Uri.http(Config.apiURL, Config.articlesAPI);
+    var url = Uri.https(Config.apiURL, Config.articlesAPI);
     var response = await client.get(
       url,
       headers: requestHeaders,
@@ -78,7 +78,7 @@ class APIService {
       'Content-Type': 'application/json',
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
-    var url = Uri.http(Config.apiURL, '/user/${loginDetails.data.user.id}');
+    var url = Uri.https(Config.apiURL, '/user/${loginDetails.data.user.id}');
     var response = await client.get(
       url,
       headers: requestHeaders,
@@ -99,7 +99,7 @@ class APIService {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(
+    var url = Uri.https(
         Config.apiURL, "user/updateIsFirst/${loginDetails.data.user.id}");
     var response = await client.post(
       url,
@@ -121,7 +121,7 @@ class APIService {
     };
     var data = {"age": age, "sex": sex, "id": loginDetails.data.user.id};
 
-    var url = Uri.http(Config.apiURL, "user/updateAgeSex/");
+    var url = Uri.https(Config.apiURL, "user/updateAgeSex/");
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -143,7 +143,7 @@ class APIService {
     };
     var data = {"skin": type, "id": loginDetails.data.user.id};
 
-    var url = Uri.http(Config.apiURL, "user/updateSkin/");
+    var url = Uri.https(Config.apiURL, "user/updateSkin/");
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -166,7 +166,7 @@ class APIService {
     String json =
         jsonEncode(concerns.map((i) => i.toJson()).toList()).toString();
 
-    var url = Uri.http(Config.apiURL, "user/updateConcerns/");
+    var url = Uri.https(Config.apiURL, "user/updateConcerns/");
     var response = await client.post(
       url,
       headers: requestHeaders,

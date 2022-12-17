@@ -16,7 +16,7 @@ class APIDoctors {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.availableDoctorsAPI);
+    var url = Uri.https(Config.apiURL, Config.availableDoctorsAPI);
     var response = await client.get(
       url,
       headers: requestHeaders,

@@ -23,7 +23,7 @@ class APIChatService {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(Config.apiURL, 'chatInfo/$chatId');
+    var url = Uri.https(Config.apiURL, 'chatInfo/$chatId');
     var response = await client.get(
       url,
       headers: requestHeaders,
@@ -43,7 +43,7 @@ class APIChatService {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(Config.apiURL, 'chat/${chatId}');
+    var url = Uri.https(Config.apiURL, 'chat/${chatId}');
     var response = await client.get(
       url,
       headers: requestHeaders,
@@ -66,7 +66,7 @@ class APIChatService {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.createChatAPI);
+    var url = Uri.https(Config.apiURL, Config.createChatAPI);
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -89,7 +89,7 @@ class APIChatService {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.updateChatAPI);
+    var url = Uri.https(Config.apiURL, Config.updateChatAPI);
     var response = await client.post(
       url,
       headers: requestHeaders,
@@ -111,7 +111,7 @@ class APIChatService {
       'Authorization': 'basic ${loginDetails!.data.token}',
     };
 
-    var url = Uri.http(Config.apiURL, Config.updateChatStatusAPI);
+    var url = Uri.https(Config.apiURL, Config.updateChatStatusAPI);
     var response = await client.post(
       url,
       headers: requestHeaders,
