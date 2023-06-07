@@ -1,4 +1,6 @@
 # Dermora
+[![My Skills](https://skills.thijs.gg/icons?i=flutter,javascript,nodejs,expressjs,mongodb&theme=dark)](https://skills.thijs.gg)
+
 Dermora is a system that will assist users in learning about their skin and getting aware of their skin problems. With the help of Artificial Intelligence and image classification methods.
 
 This mobile application is meant to help its users in following their skincare routines daily while also allowing them to have real-time chats with dermatologists.
